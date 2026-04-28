@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+
+<title>Pricing · ZopDev</title>
+<meta name="description" content="ZopNight pricing, per cloud account, not per seat. Starter free, Pro $299/account/mo, Enterprise custom. Transparent, outcome-based pricing."/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="tokens.css"/>
+<link rel="stylesheet" href="homepage-chrome.css"/>
+
+<style>
+/* no-italic-site-wide */ em,i,cite,dfn,var,address,blockquote{font-style:normal}
+/* ======================================================================
+   Pricing page, page-specific styles
+   ====================================================================== */
+
+.page{ padding:0; }
+.page > section{ padding:var(--sec-pad) 0; border-bottom:1px solid var(--line); }
+.page > section:last-child{ border-bottom:0; }
+
+.crumb{
+  padding:var(--sp-7) 0 var(--sp-4);
+  max-width:var(--max); margin:0 auto;
+  padding-left:var(--gutter); padding-right:var(--gutter);
+  font-family:var(--mono); font-size:var(--t-11); color:var(--ink-4);
+  letter-spacing:var(--ls-meta-tight); text-transform:uppercase;
+}
+.crumb a{ color:var(--ink-3); }
+.crumb a:hover{ color:var(--ink); }
+.crumb .sep{ color:var(--ink-5); margin:0 var(--sp-2); }
+
+.page-head{
+  padding:var(--sp-10) 0 var(--sp-12);
+  max-width:var(--max); margin:0 auto;
+  padding-left:var(--gutter); padding-right:var(--gutter);
+  border-bottom:1px solid var(--line);
+}
+.page-head .meta{
+  font-family:var(--mono); font-size:var(--t-11);
+  color:var(--zop-orange); letter-spacing:var(--ls-meta);
+  text-transform:uppercase; margin-bottom:var(--sp-4);
+  display:inline-flex; align-items:center; gap:var(--sp-2);
+}
+.page-head .meta::before{ content:''; width:10px; height:10px; background:var(--zop-orange); }
+.page-head h1{
+  font-size:clamp(40px, 5.5vw, 80px);
+  font-weight:var(--fw-bold); letter-spacing:var(--ls-display);
+  line-height:var(--lh-display);
+  max-width:1000px; margin:0 0 var(--sp-5);
+}
+.page-head h1 em{ font-style:normal; color:var(--zop-orange); }
+.page-head p.lede{
+  font-size:var(--t-20); color:var(--ink-3);
+  max-width:720px; line-height:1.45; margin:0;
+}
+.page-head p.lede strong{ color:var(--ink); font-weight:var(--fw-medium); }
+
+.inner{
+  max-width:var(--max); margin:0 auto;
+  padding-left:var(--gutter); padding-right:var(--gutter);
+}
+
+.sec-meta{
+  font-family:var(--mono); font-size:var(--t-10); letter-spacing:var(--ls-meta);
+  text-transform:uppercase; color:var(--zop-orange);
+  display:inline-flex; align-items:center; gap:var(--sp-2);
+  margin-bottom:var(--sp-4);
+}
+.sec-meta::before{ content:''; width:8px; height:8px; background:var(--zop-orange); flex-shrink:0; }
+
+.sec-h{ margin-bottom:var(--sp-10); }
+.sec-h h2{ font-size:clamp(28px,3.2vw,44px); font-weight:var(--fw-bold); letter-spacing:var(--ls-display); line-height:1.1; margin:var(--sp-2) 0 var(--sp-3); }
+.sec-h p{ font-size:var(--t-15); color:var(--ink-3); line-height:var(--lh-body); max-width:720px; margin:0; }
+
+/* ---- §01 PRICING TIERS ---- */
+.tiers-grid{
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:0;
+  border:1px solid var(--line);
+}
+.tier{
+  padding:var(--sp-10) var(--sp-8);
+  display:flex; flex-direction:column; gap:var(--sp-5);
+  border-right:1px solid var(--line);
+  position:relative;
+}
+.tier:last-child{ border-right:0; }
+.tier.featured{
+  border:2px solid var(--zop-orange);
+  margin:-1px;
+  box-shadow:6px 6px 0 0 var(--zop-orange);
+  background:var(--bg-1);
+  z-index:1;
+}
+.tier-pop{
+  position:absolute; top:-14px; left:var(--sp-8);
+  font-family:var(--mono); font-size:var(--t-10); letter-spacing:var(--ls-meta);
+  text-transform:uppercase; background:var(--zop-orange); color:var(--bg-0);
+  padding:3px 12px; font-weight:var(--fw-bold);
+}
+.tier-name{
+  font-family:var(--mono); font-size:var(--t-11); letter-spacing:var(--ls-meta);
+  text-transform:uppercase; color:var(--ink-4);
+}
+.tier-price{
+  display:flex; align-items:baseline; gap:var(--sp-2);
+}
+.tier-price .amount{
+  font-size:var(--t-52); font-weight:var(--fw-bold);
+  letter-spacing:var(--ls-display); line-height:1;
+  color:var(--ink); font-variant-numeric:tabular-nums;
+}
+.tier-price .currency{
+  font-family:var(--mono); font-size:var(--t-22); color:var(--ink-3);
+}
+.tier-price .period{
+  font-family:var(--mono); font-size:var(--t-12); color:var(--ink-4);
+  letter-spacing:var(--ls-meta-tight);
+}
+.tier-tagline{ font-size:var(--t-14); color:var(--ink-3); line-height:var(--lh-body); margin:0; }
+.tier-cta{ margin-top:auto; }
+.tier-features{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:var(--sp-3); }
+.tier-features li{
+  display:flex; align-items:flex-start; gap:var(--sp-3);
+  font-size:var(--t-14); color:var(--ink-3); line-height:var(--lh-body);
+}
+.tier-features li::before{
+  content:''; width:14px; height:14px; flex-shrink:0; margin-top:3px;
+  background:var(--zop-green);
+}
+.tier.featured .tier-features li::before{ background:var(--zop-orange); }
+.tier-divider{
+  height:1px; background:var(--line); width:100%;
+}
+.tier-label{
+  font-family:var(--mono); font-size:var(--t-11); color:var(--ink-5);
+  letter-spacing:var(--ls-meta-tight); text-transform:uppercase;
+}
+
+/* ---- §02 FEATURE MATRIX ---- */
+.matrix-wrap{ overflow-x:auto; }
+.matrix{
+  width:100%; border-collapse:collapse; border:1px solid var(--line);
+  min-width:700px;
+}
+.matrix th{
+  padding:var(--sp-4) var(--sp-6); text-align:left;
+  font-family:var(--mono); font-size:var(--t-11); letter-spacing:var(--ls-meta);
+  text-transform:uppercase; color:var(--ink-4);
+  border-bottom:2px solid var(--line); background:var(--bg-1);
+}
+.matrix th.col-plan{ text-align:center; color:var(--ink-3); }
+.matrix th.col-featured{ color:var(--zop-orange); }
+.matrix td{
+  padding:var(--sp-4) var(--sp-6); font-size:var(--t-14);
+  border-bottom:1px solid var(--line); color:var(--ink-3);
+  vertical-align:middle;
+}
+.matrix td.col-plan{ text-align:center; }
+.matrix td.feat-name{ color:var(--ink); font-weight:var(--fw-medium); }
+.matrix tbody tr:nth-child(odd) td{ background:var(--bg-1); }
+.matrix tbody tr:hover td{ background:var(--bg-2); }
+.check{ color:var(--zop-green); font-size:var(--t-15); font-weight:var(--fw-bold); }
+.check-o{ color:var(--zop-orange); font-size:var(--t-15); font-weight:var(--fw-bold); }
+.dash{ color:var(--ink-5); font-size:var(--t-15); }
+.matrix-group td{
+  background:var(--bg-2) !important; padding:var(--sp-2) var(--sp-6);
+  font-family:var(--mono); font-size:var(--t-10); letter-spacing:var(--ls-meta);
+  text-transform:uppercase; color:var(--ink-5); border-top:1px solid var(--line);
+}
+
+/* ---- §03 CALCULATOR ---- */
+.calc-card{
+  border:1px solid var(--line); background:var(--bg-1); padding:var(--sp-10);
+  max-width:900px;
+}
+.calc-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-10); }
+.calc-inputs{ display:flex; flex-direction:column; gap:var(--sp-7); }
+.calc-field{ display:flex; flex-direction:column; gap:var(--sp-3); }
+.calc-label{
+  font-family:var(--mono); font-size:var(--t-11); color:var(--ink-4);
+  letter-spacing:var(--ls-meta); text-transform:uppercase;
+}
+.calc-slider{
+  width:100%; accent-color:var(--zop-orange); height:4px; cursor:pointer;
+}
+.calc-val-row{ display:flex; justify-content:space-between; align-items:baseline; }
+.calc-val{
+  font-family:var(--mono); font-size:var(--t-17); font-weight:var(--fw-bold);
+  color:var(--ink);
+}
+.calc-range{ font-family:var(--mono); font-size:var(--t-11); color:var(--ink-5); }
+.calc-input{
+  background:var(--bg-2); border:1px solid var(--line);
+  color:var(--ink); font-family:var(--mono); font-size:var(--t-15);
+  padding:var(--sp-3) var(--sp-4); width:100%;
+  outline:none; transition:border-color var(--dur-fast) var(--ease-out);
+}
+.calc-input:focus{ border-color:var(--zop-orange); }
+.calc-results{ display:flex; flex-direction:column; gap:var(--sp-5); }
+.calc-row{
+  padding:var(--sp-5) var(--sp-6); border:1px solid var(--line);
+  background:var(--bg-0); display:flex; flex-direction:column; gap:var(--sp-1);
+}
+.calc-row.highlight{ border-color:var(--zop-green); background:rgba(127,178,54,0.06); }
+.calc-row.highlight .calc-row-val{ color:var(--zop-green); }
+.calc-row-label{
+  font-family:var(--mono); font-size:var(--t-11); color:var(--ink-4);
+  letter-spacing:var(--ls-meta); text-transform:uppercase;
+}
+.calc-row-val{
+  font-size:var(--t-36); font-weight:var(--fw-bold);
+  letter-spacing:var(--ls-display); line-height:1;
+  font-variant-numeric:tabular-nums; color:var(--ink);
+}
+.calc-row-sub{ font-size:var(--t-12); color:var(--ink-4); }
+.calc-cta{ margin-top:var(--sp-2); }
+
+/* ---- §04 FAQ ---- */
+.faq-list{ display:flex; flex-direction:column; border:1px solid var(--line); }
+.faq-list details{ border-bottom:1px solid var(--line); }
+.faq-list details:last-child{ border-bottom:0; }
+.faq-list summary{
+  padding:var(--sp-7) var(--sp-8);
+  font-size:var(--t-17); font-weight:var(--fw-semibold);
+  cursor:pointer; list-style:none;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:var(--sp-4); user-select:none;
+  transition:background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.faq-list summary::-webkit-details-marker{ display:none; }
+.faq-list summary:hover{ background:var(--bg-1); }
+.faq-list details[open] summary{ color:var(--zop-orange); background:var(--bg-1); }
+.faq-chevron{
+  width:20px; height:20px; flex-shrink:0;
+  border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+  font-size:var(--t-13); color:var(--ink-4); transition:transform var(--dur-fast) var(--ease-out);
+  font-family:var(--mono);
+}
+.faq-list details[open] .faq-chevron{ transform:rotate(45deg); color:var(--zop-orange); border-color:var(--zop-orange); }
+.faq-body{
+  padding:0 var(--sp-8) var(--sp-7);
+  font-size:var(--t-15); color:var(--ink-3); line-height:var(--lh-body);
+  max-width:820px;
+}
+.faq-body p{ margin:0 0 var(--sp-3); }
+.faq-body p:last-child{ margin-bottom:0; }
+.faq-body strong{ color:var(--ink); }
+.faq-body a{ color:var(--zop-orange); }
+
+/* ---- §05 TRUSTED BY ---- */
+.logo-bar{
+  display:flex; flex-wrap:wrap; gap:var(--sp-5); align-items:center;
+  margin-bottom:var(--sp-12);
+}
+.logo-co{
+  border:1px solid var(--line); padding:var(--sp-3) var(--sp-6);
+  font-family:var(--mono); font-size:var(--t-12);
+  letter-spacing:var(--ls-meta-tight); color:var(--ink-4);
+  text-transform:uppercase;
+  transition:border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.logo-co:hover{ border-color:var(--line-b); color:var(--ink-3); }
+.pricing-final{
+  border-top:1px solid var(--line); padding-top:var(--sp-10);
+  display:flex; align-items:center; justify-content:space-between; gap:var(--sp-8); flex-wrap:wrap;
+}
+.pricing-final p{ font-size:var(--t-20); font-weight:var(--fw-semibold); letter-spacing:var(--ls-heading); margin:0; }
+
+@media(max-width:960px){
+  .tiers-grid{ grid-template-columns:1fr; }
+  .tier{ border-right:0; border-bottom:1px solid var(--line); }
+  .tier:last-child{ border-bottom:0; }
+  .tier.featured{ margin:0; }
+  .calc-grid{ grid-template-columns:1fr; }
+  .pricing-final{ flex-direction:column; align-items:flex-start; }
+}
+@media(max-width:560px){
+  .page > section{ padding:var(--sec-pad-sm) 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- SVG defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="mark-zopdev" viewBox="0 0 32 32">
+      <rect x="0" y="0" width="16" height="16" fill="var(--logo-blue, #2A4494)"/>
+      <rect x="16" y="0" width="16" height="16" fill="#F58549"/>
+      <rect x="16" y="16" width="16" height="16" fill="#7FB236"/>
+    </symbol>
+    <symbol id="mark-zopnight" viewBox="0 0 32 32">
+      <rect x="0" y="0" width="32" height="32" fill="var(--logo-blue, #2A4494)"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopday" viewBox="0 0 32 32">
+      <rect x="0" y="0" width="32" height="32" fill="#F58549"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopcloud" viewBox="0 0 32 32">
+      <rect x="0" y="0" width="10" height="10" fill="var(--logo-blue, #2A4494)"/>
+      <rect x="11" y="0" width="10" height="10" fill="#F58549"/>
+      <rect x="22" y="11" width="10" height="10" fill="#7FB236"/>
+      <rect x="11" y="11" width="10" height="10" fill="#0A0A0A"/>
+      <rect x="0" y="22" width="10" height="10" fill="#7FB236"/>
+      <rect x="11" y="22" width="10" height="10" fill="var(--logo-blue, #2A4494)"/>
+    </symbol>
+    <symbol id="logo-zopdev" viewBox="0 0 715 276">
+      <path d="M7.452 229V201.784L63.504 137.308V134.716H9.072V115.6H85.86V142.816L29.808 207.292V209.884H86.184V229H7.452ZM136.786 231.268C128.794 231.268 121.612 229.648 115.24 226.408C108.868 223.168 103.846 218.47 100.174 212.314C96.5022 206.158 94.6662 198.76 94.6662 190.12V187.528C94.6662 178.888 96.5022 171.49 100.174 165.334C103.846 159.178 108.868 154.48 115.24 151.24C121.612 148 128.794 146.38 136.786 146.38C144.778 146.38 151.96 148 158.332 151.24C164.704 154.48 169.726 159.178 173.398 165.334C177.07 171.49 178.906 178.888 178.906 187.528V190.12C178.906 198.76 177.07 206.158 173.398 212.314C169.726 218.47 164.704 223.168 158.332 226.408C151.96 229.648 144.778 231.268 136.786 231.268ZM136.786 213.124C143.05 213.124 148.234 211.126 152.338 207.13C156.442 203.026 158.494 197.194 158.494 189.634V188.014C158.494 180.454 156.442 174.676 152.338 170.68C148.342 166.576 143.158 164.524 136.786 164.524C130.522 164.524 125.338 166.576 121.234 170.68C117.13 174.676 115.078 180.454 115.078 188.014V189.634C115.078 197.194 117.13 203.026 121.234 207.13C125.338 211.126 130.522 213.124 136.786 213.124ZM192.888 261.4V148.648H212.976V158.368H215.892C217.728 155.236 220.59 152.482 224.478 150.106C228.366 147.622 233.928 146.38 241.164 146.38C247.644 146.38 253.638 148 259.146 151.24C264.654 154.372 269.082 159.016 272.43 165.172C275.778 171.328 277.452 178.78 277.452 187.528V190.12C277.452 198.868 275.778 206.32 272.43 212.476C269.082 218.632 264.654 223.33 259.146 226.57C253.638 229.702 247.644 231.268 241.164 231.268C236.304 231.268 232.2 230.674 228.852 229.486C225.612 228.406 222.966 227.002 220.914 225.274C218.97 223.438 217.404 221.602 216.216 219.766H213.3V261.4H192.888ZM235.008 213.448C241.38 213.448 246.618 211.45 250.722 207.454C254.934 203.35 257.04 197.41 257.04 189.634V188.014C257.04 180.238 254.934 174.352 250.722 170.356C246.51 166.252 241.272 164.2 235.008 164.2C228.744 164.2 223.506 166.252 219.294 170.356C215.082 174.352 212.976 180.238 212.976 188.014V189.634C212.976 197.41 215.082 203.35 219.294 207.454C223.506 211.45 228.744 213.448 235.008 213.448ZM287.446 229V210.208H302.35V134.392H287.446V115.6H334.102C349.33 115.6 360.886 119.488 368.77 127.264C376.762 134.932 380.758 146.38 380.758 161.608V182.992C380.758 198.22 376.762 209.722 368.77 217.498C360.886 225.166 349.33 229 334.102 229H287.446ZM323.734 209.56H334.426C343.066 209.56 349.384 207.292 353.38 202.756C357.376 198.22 359.374 191.848 359.374 183.64V160.96C359.374 152.644 357.376 146.272 353.38 141.844C349.384 137.308 343.066 135.04 334.426 135.04H323.734V209.56ZM430.981 231.268C422.989 231.268 415.915 229.594 409.759 226.246C403.711 222.79 398.959 217.984 395.503 211.828C392.155 205.564 390.481 198.22 390.481 189.796V187.852C390.481 179.428 392.155 172.138 395.503 165.982C398.851 159.718 403.549 154.912 409.597 151.564C415.645 148.108 422.665 146.38 430.657 146.38C438.541 146.38 445.399 148.162 451.231 151.726C457.063 155.182 461.599 160.042 464.839 166.306C468.079 172.462 469.699 179.644 469.699 187.852V194.818H411.217C411.433 200.326 413.485 204.808 417.373 208.264C421.261 211.72 426.013 213.448 431.629 213.448C437.353 213.448 441.565 212.206 444.265 209.722C446.965 207.238 449.017 204.484 450.421 201.46L467.107 210.208C465.595 213.016 463.381 216.094 460.465 219.442C457.657 222.682 453.877 225.49 449.125 227.866C444.373 230.134 438.325 231.268 430.981 231.268ZM411.379 179.59H448.963C448.531 174.946 446.641 171.22 443.293 168.412C440.053 165.604 435.787 164.2 430.495 164.2C424.987 164.2 420.613 165.604 417.373 168.412C414.133 171.22 412.135 174.946 411.379 179.59ZM497.482 229L471.886 148.648H493.594L512.224 214.096H515.14L533.77 148.648H555.478L529.882 229H497.482Z" fill="currentColor"/>
+      <rect x="537" width="89" height="89" fill="var(--logo-blue, #2A4494)"/>
+      <rect x="626" width="89" height="89" fill="#F58549"/>
+      <rect x="626" y="89" width="89" height="89" fill="#7FB236"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar" id="ann-bar">
+  <div class="ann-inner">
+    <a href="developers/mcp.html" class="ann-chip">
+      <span class="ann-dot"></span>
+      <strong>MCP Server</strong>, live in Claude &amp; Codex
+      <span class="ann-arrow">→</span>
+    </a>
+    <a href="changelog.html" class="ann-link">Changelog →</a>
+    <button class="ann-close" id="ann-close" aria-label="Dismiss announcement">&times;</button>
+  </div>
+</div>
+
+<!-- LIVE-OPS STRIP -->
+<!-- ============================================================
+     LIVE STATUS STRIP. Cloud-ops signal strip
+     ============================================================ -->
+<div class="live-strip" aria-live="polite">
+  <!-- Anchored pill: live market-open indicator + uptime & UTC clock. Stays
+       put on the right while the ticker runs under it. -->
+  <div class="ls-anchor">
+    <span class="ls-live"><span class="ls-livedot"></span>LIVE</span>
+    <span class="ls-sep"></span>
+    <span class="ls-kpi"><em>UPT</em><b>99.98%</b></span>
+    <span class="ls-sep"></span>
+    <span class="ls-kpi"><em>UTC</em><b id="live-clock">--:--:--</b></span>
+  </div>
+
+  <!-- Marquee track: two identical rails side-by-side create a seamless loop.
+       Each item reads as a plain-English headline with a change indicator. -->
+  <div class="ls-track" role="presentation" aria-hidden="true">
+    <div class="ls-rail">
+      <span class="lt-row"><b id="live-saved">$48,210</b> saved this month <span class="lt-chg up">▲ $812 today</span></span>
+      <span class="lt-row"><b id="live-resources">10,401</b> cloud resources monitored <span class="lt-chg up">▲ 42 new</span></span>
+      <span class="lt-row"><b id="live-remediations">17</b> issues fixed today <span class="lt-chg up">▲ 3 in last hour</span></span>
+      <span class="lt-row"><b>847</b> idle instances reclaimed <span class="lt-chg up">▲ 31 this week</span></span>
+      <span class="lt-row"><b>99.98%</b> uptime across <b>47</b> regions</span>
+      <span class="lt-row"><b>3</b> anomalies open <span class="lt-chg dn">▼ 1 auto-resolved</span></span>
+      <span class="lt-row"><b>142</b> schedules running <span class="lt-chg up">▲ 12 this week</span></span>
+      <span class="lt-row"><b>$2.8M</b> monthly run-rate <span class="lt-chg dn">▼ 8% vs last month</span></span>
+      <span class="lt-row"><b>67%</b> average utilization <span class="lt-chg up">▲ 2 pts</span></span>
+      <span class="lt-row"><b>4m 12s</b> mean time to remediate <span class="lt-chg dn">▼ 22s faster</span></span>
+      <span class="lt-row"><b>0</b> incidents · <b>5-day</b> clean streak</span>
+      <span class="lt-row"><b>23%</b> savings rate <span class="lt-chg up">▲ 5 pts QoQ</span></span>
+    </div>
+    <div class="ls-rail" aria-hidden="true">
+      <span class="lt-row"><b>$48,210</b> saved this month <span class="lt-chg up">▲ $812 today</span></span>
+      <span class="lt-row"><b>10,401</b> cloud resources monitored <span class="lt-chg up">▲ 42 new</span></span>
+      <span class="lt-row"><b>17</b> issues fixed today <span class="lt-chg up">▲ 3 in last hour</span></span>
+      <span class="lt-row"><b>847</b> idle instances reclaimed <span class="lt-chg up">▲ 31 this week</span></span>
+      <span class="lt-row"><b>99.98%</b> uptime across <b>47</b> regions</span>
+      <span class="lt-row"><b>3</b> anomalies open <span class="lt-chg dn">▼ 1 auto-resolved</span></span>
+      <span class="lt-row"><b>142</b> schedules running <span class="lt-chg up">▲ 12 this week</span></span>
+      <span class="lt-row"><b>$2.8M</b> monthly run-rate <span class="lt-chg dn">▼ 8% vs last month</span></span>
+      <span class="lt-row"><b>67%</b> average utilization <span class="lt-chg up">▲ 2 pts</span></span>
+      <span class="lt-row"><b>4m 12s</b> mean time to remediate <span class="lt-chg dn">▼ 22s faster</span></span>
+      <span class="lt-row"><b>0</b> incidents · <b>5-day</b> clean streak</span>
+      <span class="lt-row"><b>23%</b> savings rate <span class="lt-chg up">▲ 5 pts QoQ</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="logo-lockup sm" aria-label="ZopDev">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <div class="nav-item" data-menu="product">
+        <a href="/product.html">Product <span class="nav-caret" aria-hidden="true"></span></a>
+      </div>
+      <div class="nav-item" data-menu="solutions">
+        <a href="/solutions.html">Solutions <span class="nav-caret" aria-hidden="true"></span></a>
+      </div>
+      <a href="/customers.html">Customers</a>
+      <a href="/pricing.html" aria-current="page" style="color:var(--zop-orange)">Pricing</a>
+      <div class="nav-item" data-menu="resources">
+        <a href="/resources.html">Resources <span class="nav-caret" aria-hidden="true"></span></a>
+      </div>
+      <div class="nav-item" data-menu="developers">
+        <a href="/developers.html">Developers <span class="nav-caret" aria-hidden="true"></span></a>
+      </div>
+    </div>
+
+    <!-- Shared dropdown overlay. Content crossfades, panel slides left/right -->
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true">
+      <div class="nav-panes" id="nav-panes">
+
+        <!-- ═══════ PRODUCT · bento layout ═══════ -->
+        <div class="nav-pane" data-pane="product">
+          <div class="np-bento">
+            <a class="np-hero" href="/product/zopnight.html">
+              <span class="np-badge live">live</span>
+              <div class="np-hero-icon">
+                <svg width="44" height="44" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#2A4494"/><circle cx="16" cy="16" r="8" fill="#FFFFFF"/></svg>
+              </div>
+              <div>
+                <div class="np-hero-title">ZopNight</div>
+                <p class="np-hero-desc">Cloud cost optimization on autopilot. 24/7 discovery and remediation across AWS, Azure, and GCP.</p>
+              </div>
+              <span class="np-hero-cta">Explore ZopNight</span>
+            </a>
+            <a class="np-cell" href="/product/zopday.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#F58549"/><circle cx="16" cy="16" r="8" fill="#FFFFFF"/></svg>
+              </div>
+              <h3 class="np-cell-title">ZopDay</h3>
+              <p class="np-cell-desc">Deployment orchestration and release management</p>
+            </a>
+            <a class="np-cell" href="/product/zopcloud.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#2A4494"/><rect x="12" y="8" width="8" height="6" fill="#FFFFFF"/><rect x="6" y="14" width="20" height="10" fill="#FFFFFF"/></svg>
+              </div>
+              <h3 class="np-cell-title">ZopCloud</h3>
+              <p class="np-cell-desc">Multi-cloud resource graph and topology view</p>
+            </a>
+            <a class="np-cell" href="/integrations.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="2" fill="#F58549"/><circle cx="4" cy="4" r="1.5" fill="#2A4494"/><circle cx="16" cy="4" r="1.5" fill="#7FB236"/><circle cx="4" cy="16" r="1.5" fill="#7FB236"/><circle cx="16" cy="16" r="1.5" fill="#2A4494"/><path d="M10 10 L4 4 M10 10 L16 4 M10 10 L4 16 M10 10 L16 16" stroke="currentColor" stroke-width="0.5" opacity="0.3"/></svg>
+              </div>
+              <h3 class="np-cell-title">Integrations</h3>
+              <p class="np-cell-desc">47 tools wired into the loop</p>
+            </a>
+            <a class="np-cell" href="/pricing.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h14M7 13h2M11 13h2" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="np-cell-title">Pricing</h3>
+              <p class="np-cell-desc">Per-account pricing. No seat traps.</p>
+            </a>
+          </div>
+          <div class="np-promo-row">
+            <span><strong>Live in Claude &amp; Codex</strong> · run ZopNight from your MCP client</span>
+            <a href="/developers/mcp.html">Try MCP →</a>
+          </div>
+        </div>
+
+        <!-- ═══════ SOLUTIONS · bento layout ═══════ -->
+        <div class="nav-pane" data-pane="solutions">
+          <div class="np-bento">
+            <a class="np-hero" href="/solutions/finops.html">
+              <span class="np-badge">featured</span>
+              <div class="np-hero-icon">
+                <svg width="44" height="44" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#7FB236"/><path d="M10 12h12M10 16h8M10 20h10" stroke="#0a0a0c" stroke-width="1.5"/></svg>
+              </div>
+              <div>
+                <div class="np-hero-title">For FinOps teams</div>
+                <p class="np-hero-desc">Attribution. Showback. Boardroom-ready exports. Every dollar of cloud traced to the team that drove it.</p>
+              </div>
+              <span class="np-hero-cta">See the FinOps flow</span>
+            </a>
+            <a class="np-cell" href="/solutions/engineering.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 14l4-4 3 3 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </div>
+              <h3 class="np-cell-title">Engineering</h3>
+              <p class="np-cell-desc">Cut cost without adding DevOps work</p>
+            </a>
+            <a class="np-cell" href="/solutions/platform.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M10 3v2M10 15v2M3 10h2M15 10h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </div>
+              <h3 class="np-cell-title">Platform</h3>
+              <p class="np-cell-desc">Governance and policy at scale</p>
+            </a>
+            <a class="np-cell" href="/solutions/cfo.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M6 4v12M10 7v9M14 10v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+              </div>
+              <h3 class="np-cell-title">CFOs</h3>
+              <p class="np-cell-desc">One number the CFO trusts</p>
+            </a>
+            <a class="np-cell" href="/solutions/aws.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 12c3 2 9 2 12 0M5 14c2 1 8 1 10 0" stroke="currentColor" stroke-width="1.5"/><path d="M6 8h2M10 8h2M14 8h2" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="np-cell-title">AWS · Azure · GCP</h3>
+              <p class="np-cell-desc">All three clouds, one console</p>
+            </a>
+          </div>
+          <div class="np-promo-row">
+            <span><strong>Average customer outcome</strong> · 42% monthly cloud spend reduction in 30 days</span>
+            <a href="/customers.html">See customers →</a>
+          </div>
+        </div>
+
+        <!-- ═══════ RESOURCES · bento layout ═══════ -->
+        <div class="nav-pane" data-pane="resources">
+          <div class="np-bento">
+            <a class="np-hero" href="/resources/benchmarks.html">
+              <span class="np-badge new">new</span>
+              <div class="np-hero-icon">
+                <svg width="44" height="44" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#0a0a0c"/><rect x="6" y="18" width="4" height="10" fill="#F58549"/><rect x="12" y="12" width="4" height="16" fill="#F58549" opacity=".75"/><rect x="18" y="8" width="4" height="20" fill="#F58549" opacity=".55"/><rect x="24" y="14" width="4" height="14" fill="#F58549" opacity=".4"/></svg>
+              </div>
+              <div>
+                <div class="np-hero-title">State of Cloud Waste 2026</div>
+                <p class="np-hero-desc">Our annual report. 4,200 accounts analyzed. The waste patterns we found and how to fix them.</p>
+              </div>
+              <span class="np-hero-cta">Read the report</span>
+            </a>
+            <a class="np-cell" href="/resources/blog.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 4h12v12H4z" stroke="currentColor" stroke-width="1.5"/><path d="M7 8h6M7 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </div>
+              <h3 class="np-cell-title">Blog</h3>
+              <p class="np-cell-desc">Engineering + cost optimization notes</p>
+            </a>
+            <a class="np-cell" href="/customers.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 16c0-3 3-5 7-5s7 2 7 5" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="np-cell-title">Case studies</h3>
+              <p class="np-cell-desc">42-67% cuts, real teams</p>
+            </a>
+            <a class="np-cell" href="/changelog.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </div>
+              <h3 class="np-cell-title">Changelog</h3>
+              <p class="np-cell-desc">What shipped this week</p>
+            </a>
+            <a class="np-cell" href="/resources/glossary.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 3h10v14H4z" stroke="currentColor" stroke-width="1.5"/><path d="M7 7h5M7 10h5M7 13h3" stroke="currentColor" stroke-width="1.3"/></svg>
+              </div>
+              <h3 class="np-cell-title">Glossary</h3>
+              <p class="np-cell-desc">CDCR, FinOps, CUR explained</p>
+            </a>
+            <a class="np-cell" href="/about.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="14" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="7" width="6" height="10" stroke="currentColor" stroke-width="1.5"/><path d="M5 6h2M5 9h2M5 12h2M13 9h2M13 12h2" stroke="currentColor" stroke-width="1.3"/></svg>
+              </div>
+              <h3 class="np-cell-title">About ZopDev</h3>
+              <p class="np-cell-desc">Founded 2024 · multi-cloud automation</p>
+            </a>
+          </div>
+          <div class="np-promo-row">
+            <span><strong>Weekly digest</strong> · waste signals, wins, war stories</span>
+            <a href="/resources/newsletter.html">Subscribe →</a>
+          </div>
+        </div>
+
+        <!-- ═══════ DEVELOPERS · bento layout ═══════ -->
+        <div class="nav-pane" data-pane="developers">
+          <div class="np-bento">
+            <a class="np-hero" href="/developers/mcp.html">
+              <span class="np-badge live">live</span>
+              <div class="np-hero-icon">
+                <svg width="44" height="44" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#0a0a0c"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="#7FB236" letter-spacing="1">MCP</text><rect x="4" y="4" width="24" height="24" stroke="#7FB236" stroke-width="1.2" fill="none" stroke-dasharray="2 2"/></svg>
+              </div>
+              <div>
+                <div class="np-hero-title">MCP Server</div>
+                <p class="np-hero-desc">Run ZopNight from Claude, Codex, and any MCP client. See the loop in your terminal.</p>
+              </div>
+              <span class="np-hero-cta">Start with MCP</span>
+            </a>
+            <a class="np-cell" href="/developers.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M6 7l-3 3 3 3M14 7l3 3-3 3M11 5l-2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </div>
+              <h3 class="np-cell-title">API reference</h3>
+              <p class="np-cell-desc">REST · webhooks · events</p>
+            </a>
+            <a class="np-cell" href="/developers/sdk.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 6h4l3 8h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><circle cx="16" cy="14" r="1.5" fill="currentColor"/></svg>
+              </div>
+              <h3 class="np-cell-title">SDK &amp; CLI</h3>
+              <p class="np-cell-desc">TypeScript, Python, zop CLI</p>
+            </a>
+            <a class="np-cell" href="/developers/webhooks.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="6" cy="6" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="6" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="14" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 7l2 5M13 7l-2 5" stroke="currentColor" stroke-width="1.3"/></svg>
+              </div>
+              <h3 class="np-cell-title">Webhooks</h3>
+              <p class="np-cell-desc">Pipe findings into your stack</p>
+            </a>
+            <a class="np-cell" href="https://github.com/zopdev">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1a9 9 0 0 0-2.84 17.54c.45.08.61-.2.61-.43v-1.5c-2.5.54-3.03-1.2-3.03-1.2-.4-1.04-1-1.32-1-1.32-.82-.56.06-.55.06-.55.9.06 1.38.93 1.38.93.8 1.38 2.1 1 2.6.74.08-.58.31-.98.57-1.2-2-.23-4.1-1-4.1-4.45 0-.98.35-1.78.92-2.41-.1-.23-.4-1.15.08-2.4 0 0 .75-.24 2.47.92a8.5 8.5 0 0 1 4.5 0c1.7-1.16 2.46-.92 2.46-.92.48 1.25.18 2.17.08 2.4.58.63.92 1.43.92 2.41 0 3.45-2.1 4.21-4.1 4.44.32.28.6.82.6 1.66v2.46c0 .23.16.52.62.43A9 9 0 0 0 10 1z"/></svg>
+              </div>
+              <h3 class="np-cell-title">GitHub</h3>
+              <p class="np-cell-desc">Open-source tools + Terraform provider</p>
+            </a>
+          </div>
+          <div class="np-promo-row">
+            <span><strong>Everything as code</strong> · CDCR is a pipeline, not a dashboard</span>
+            <a href="/developers/quickstart.html">Quickstart →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="nav-cta">
+      <!-- Overflow menu · groups all secondary nav (playground, sign-in, theme, variants)
+           so Book a demo reads as THE primary action -->
+      <!-- Inlined chrome · theme toggle · Playground · Sign in.
+           Replaces the prior 3-dot overflow so every secondary action is
+           one click away on every page. -->
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" role="switch">
+        <span class="tt-opt tt-sun" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="8" cy="8" r="3" fill="currentColor" stroke="none"/>
+            <path d="M8 1.5v1.3M8 13.2v1.3M1.5 8h1.3M13.2 8h1.3M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"/>
+          </svg>
+        </span>
+        <span class="tt-opt tt-moon" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="currentColor">
+            <path d="M12.8 10.1a5.5 5.5 0 0 1-7-7 .5.5 0 0 0-.7-.6A6.5 6.5 0 1 0 13.4 10.8a.5.5 0 0 0-.6-.7z"/>
+          </svg>
+        </span>
+      </button>
+      <a class="chip-playground" href="/playground.html"><span>Playground</span></a>
+      <a class="sign" href="/signin.html">Sign in</a>
+      <a class="btn btn-accent" href="/demo.html"><span>Book a demo</span> <span class="arrow">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="page">
+
+  <div class="crumb">
+    <a href="index.html">home</a>
+    <span class="sep">/</span>
+    pricing
+  </div>
+
+  <header class="page-head">
+    <div class="meta">§ pricing · transparent</div>
+    <h1>Pricing that scales with your <em>savings,</em> not your headcount.</h1>
+    <p class="lede">Per cloud account. <strong>Not per user. Not per seat.</strong> If you're saving more, you're growing, and that's the only metric that matters.</p>
+  </header>
+
+  <!-- ================================================================
+       §01 · PRICING TIERS
+       ================================================================ -->
+  <section>
+    <div class="inner">
+      <div class="sec-h">
+        <div class="sec-meta">§01 · plans</div>
+        <h2>Three tiers. One principle.</h2>
+        <p>Start free. Scale when you save. The account count is the only pricing variable, bring your whole team.</p>
+      </div>
+
+      <div class="tiers-grid">
+        <!-- STARTER -->
+        <div class="tier">
+          <div>
+            <div class="tier-name">Starter</div>
+            <div class="tier-price">
+              <span class="amount">Free</span>
+            </div>
+            <p class="tier-tagline">For teams starting their FinOps journey. Get visibility without commitment.</p>
+          </div>
+          <div class="tier-divider"></div>
+          <div class="tier-label">What's included</div>
+          <ul class="tier-features">
+            <li>Up to 2 cloud accounts (AWS, Azure, or GCP)</li>
+            <li>14-day resource history</li>
+            <li>Atlas inventory, full multi-cloud map</li>
+            <li>10 automated remediations per month</li>
+            <li>ZopNight Recommendations feed</li>
+            <li>Email support (2 business day response)</li>
+            <li>1 workspace, unlimited users</li>
+          </ul>
+          <div class="tier-cta">
+            <a class="btn btn-secondary" href="signin.html" style="width:100%; justify-content:center;">
+              <span>Start free</span> <span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- PRO (featured) -->
+        <div class="tier featured">
+          <div class="tier-pop">Most popular</div>
+          <div>
+            <div class="tier-name">Pro</div>
+            <div class="tier-price">
+              <span class="currency">$</span>
+              <span class="amount">299</span>
+              <span class="period">/account/mo</span>
+            </div>
+            <p class="tier-tagline">For engineering and FinOps teams running production infrastructure at scale.</p>
+          </div>
+          <div class="tier-divider"></div>
+          <div class="tier-label">Everything in Starter, plus</div>
+          <ul class="tier-features">
+            <li>Unlimited cloud accounts</li>
+            <li>90-day resource history</li>
+            <li>Unlimited automated remediations</li>
+            <li>Schedule, automated maintenance windows</li>
+            <li>Showback, team cost attribution reports</li>
+            <li>Slack &amp; PagerDuty integration</li>
+            <li>MCP Server for Claude &amp; Codex</li>
+            <li>RBAC, viewer, editor, admin roles</li>
+            <li>Priority support (4h response, 24/5)</li>
+            <li>API access + webhook delivery</li>
+          </ul>
+          <div class="tier-cta">
+            <a class="btn btn-accent" href="signin.html" style="width:100%; justify-content:center;">
+              <span>Start 14-day trial</span> <span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- ENTERPRISE -->
+        <div class="tier">
+          <div>
+            <div class="tier-name">Enterprise</div>
+            <div class="tier-price">
+              <span class="amount" style="font-size:var(--t-36);">Custom</span>
+            </div>
+            <p class="tier-tagline">For regulated industries, self-hosted deployments, and multi-org complexity.</p>
+          </div>
+          <div class="tier-divider"></div>
+          <div class="tier-label">Everything in Pro, plus</div>
+          <ul class="tier-features">
+            <li>Self-hosted deployment option</li>
+            <li>SSO / SAML 2.0 + OIDC</li>
+            <li>Custom data retention (up to 2 years)</li>
+            <li>Enterprise SLA with dedicated uptime commitment</li>
+            <li>Dedicated Customer Success Manager</li>
+            <li>AWS, Azure &amp; GCP Marketplace billing</li>
+            <li>Custom IAM policy review + security walkthrough</li>
+            <li>Volume pricing across accounts</li>
+            <li>Shared Slack channel with engineering</li>
+            <li>Pentest report access under NDA</li>
+          </ul>
+          <div class="tier-cta">
+            <a class="btn btn-primary" href="demo.html" style="width:100%; justify-content:center;">
+              <span>Talk to sales</span> <span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top:var(--sp-6); font-family:var(--mono); font-size:var(--t-12); color:var(--ink-5); letter-spacing:var(--ls-meta-tight);">
+        All prices in USD. Annual plans available at 20% discount. Cloud Marketplace billing available, counts toward your cloud commitment spend.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       §02 · FEATURE MATRIX
+       ================================================================ -->
+  <section>
+    <div class="inner">
+      <div class="sec-h">
+        <div class="sec-meta">§02 · feature matrix</div>
+        <h2>Full feature comparison.</h2>
+        <p>Every capability across every tier, no asterisks, no footnotes, no surprises at renewal.</p>
+      </div>
+
+      <div class="matrix-wrap">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="col-plan">Starter</th>
+              <th class="col-plan col-featured">Pro</th>
+              <th class="col-plan">Enterprise</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="matrix-group"><td colspan="4">Cloud Coverage</td></tr>
+            <tr>
+              <td class="feat-name">Cloud accounts</td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-13);color:var(--ink-3);">Up to 2</span></td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-13);color:var(--zop-orange);">Unlimited</span></td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-13);color:var(--ink-3);">Unlimited</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">AWS, Azure, GCP</td>
+              <td class="col-plan"><span class="check">✓</span></td>
+              <td class="col-plan"><span class="check-o">✓</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">Resource history</td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-13);color:var(--ink-3);">14 days</span></td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-13);color:var(--zop-orange);">90 days</span></td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-13);color:var(--ink-3);">Custom (up to 2y)</span></td>
+            </tr>
+            <tr class="matrix-group"><td colspan="4">Core Platform</td></tr>
+            <tr>
+              <td class="feat-name">Atlas inventory</td>
+              <td class="col-plan"><span class="check">✓</span></td>
+              <td class="col-plan"><span class="check-o">✓</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">MCP Server</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="check-o">✓</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">Recommendations feed</td>
+              <td class="col-plan"><span class="check">✓</span></td>
+              <td class="col-plan"><span class="check-o">✓</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">Automated remediations</td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-13);color:var(--ink-3);">10 / month</span></td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-13);color:var(--zop-orange);">Unlimited</span></td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-13);color:var(--ink-3);">Unlimited</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">Schedule (maintenance windows)</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="check-o">✓</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">Showback (team cost reports)</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="check-o">✓</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr class="matrix-group"><td colspan="4">Integrations &amp; Alerts</td></tr>
+            <tr>
+              <td class="feat-name">Slack integration</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="check-o">✓</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">PagerDuty integration</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="check-o">✓</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">REST API + webhooks</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="check-o">✓</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr class="matrix-group"><td colspan="4">Security &amp; Compliance</td></tr>
+            <tr>
+              <td class="feat-name">RBAC (viewer / editor / admin)</td>
+              <td class="col-plan"><span class="check">✓</span></td>
+              <td class="col-plan"><span class="check-o">✓</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">SSO / SAML 2.0 + OIDC</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">Audit log export to SIEM</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="check-o">✓</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">Self-hosted deployment</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr class="matrix-group"><td colspan="4">Support &amp; Success</td></tr>
+            <tr>
+              <td class="feat-name">Email support</td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-12);color:var(--ink-3);">2 business days</span></td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-12);color:var(--zop-orange);">4h · 24/5</span></td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-12);color:var(--ink-3);">15m · 24/7</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">SLA guarantee</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-12);color:var(--zop-orange);">99.9%</span></td>
+              <td class="col-plan"><span style="font-family:var(--mono);font-size:var(--t-12);color:var(--ink-3);">Custom</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">Dedicated CSM</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td class="feat-name">AWS / Azure / GCP Marketplace</td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="dash">·</span></td>
+              <td class="col-plan"><span class="check">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       §03 · ROI CALCULATOR
+       ================================================================ -->
+  <section>
+    <div class="inner">
+      <div class="sec-h">
+        <div class="sec-meta">§03 · calculator</div>
+        <h2>Estimate your ROI.</h2>
+        <p>Move the sliders. See the math. Industry average cloud waste runs 28–34% of total spend, we use 30% as our baseline. Your actual recovery varies based on infrastructure maturity.</p>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-grid">
+          <div class="calc-inputs">
+            <div class="calc-field">
+              <label class="calc-label" for="acct-slider">Cloud accounts</label>
+              <input type="range" class="calc-slider" id="acct-slider" min="1" max="50" value="5" oninput="calcUpdate()"/>
+              <div class="calc-val-row">
+                <span class="calc-val" id="acct-display">5</span>
+                <span class="calc-range">1 – 50 accounts</span>
+              </div>
+            </div>
+
+            <div class="calc-field">
+              <label class="calc-label" for="spend-input">Average monthly cloud spend ($)</label>
+              <input type="number" class="calc-input" id="spend-input" value="80000" min="1000" step="1000" oninput="calcUpdate()"/>
+            </div>
+
+            <div class="calc-field">
+              <label class="calc-label" for="waste-slider">Estimated waste percentage</label>
+              <input type="range" class="calc-slider" id="waste-slider" min="10" max="50" value="30" oninput="calcUpdate()"/>
+              <div class="calc-val-row">
+                <span class="calc-val" id="waste-pct-display">30%</span>
+                <span class="calc-range">10% – 50%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-results">
+            <div class="calc-row highlight">
+              <span class="calc-row-label">Estimated monthly waste</span>
+              <span class="calc-row-val" id="waste-display">$24,000</span>
+              <span class="calc-row-sub" id="waste-sub">30% of your $80,000 cloud spend</span>
+            </div>
+            <div class="calc-row">
+              <span class="calc-row-label">ZopNight Pro cost</span>
+              <span class="calc-row-val" id="zop-cost-display">$1,495</span>
+              <span class="calc-row-sub" id="zop-cost-sub">5 accounts × $299/mo</span>
+            </div>
+            <div class="calc-row" style="border-color:var(--zop-blue);">
+              <span class="calc-row-label">Net savings potential</span>
+              <span class="calc-row-val" id="net-savings-display" style="color:var(--zop-blue);">$22,505</span>
+              <span class="calc-row-sub" id="roi-display">15.1× return on ZopNight investment</span>
+            </div>
+            <div class="calc-cta">
+              <a class="btn btn-accent" href="demo.html">
+                <span>Get your exact number</span> <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       §04 · FAQ
+       ================================================================ -->
+  <section>
+    <div class="inner">
+      <div class="sec-h">
+        <div class="sec-meta">§04 · faq</div>
+        <h2>Common pricing questions.</h2>
+        <p>If you don't see your question here, <a href="demo.html" style="color:var(--zop-orange);">talk to our team</a>, we'll give you a straight answer.</p>
+      </div>
+
+      <div class="faq-list">
+        <details>
+          <summary>
+            Do I pay per user?
+            <span class="faq-chevron">+</span>
+          </summary>
+          <div class="faq-body">
+            <p><strong>No.</strong> ZopNight pricing is per cloud account, one account means one AWS account, one Azure subscription, or one GCP project. You can add your entire engineering organization, your FinOps team, your CFO, and your SREs to a single workspace with no additional cost.</p>
+            <p>We made this decision deliberately: seat-based pricing penalizes collaboration. When FinOps tools cost per user, teams limit access to protect budget. That creates information silos, exactly the opposite of what you need when you're trying to right-size cloud spend across organizations.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            What counts as a cloud account?
+            <span class="faq-chevron">+</span>
+          </summary>
+          <div class="faq-body">
+            <p>One connected account in ZopNight corresponds to one cloud provider account:</p>
+            <p>
+              <strong>AWS:</strong> One AWS Account ID (a 12-digit number like 123456789012).<br/>
+              <strong>Azure:</strong> One Azure Subscription (identified by its Subscription ID).<br/>
+              <strong>GCP:</strong> One GCP Project (identified by its Project ID).
+            </p>
+            <p>AWS Organizations management accounts and member accounts each count separately. If you have an AWS Organization with 20 member accounts, that's 20 connected accounts. We offer <a href="demo.html">volume pricing</a> for large account portfolios, contact us before you connect more than 10.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            Can I self-host on any plan?
+            <span class="faq-chevron">+</span>
+          </summary>
+          <div class="faq-body">
+            <p><strong>Self-hosting is an Enterprise-only feature.</strong> It requires infrastructure setup, ongoing maintenance, and a dedicated deployment support engagement, which is why it comes with an Enterprise CSM.</p>
+            <p>Self-hosted ZopNight runs in your VPC. Your cloud credentials never leave your network. We provide a container image, Helm chart, and Terraform module. Updates are pushed to your registry on your schedule. If data residency, air-gapped environments, or regulated infrastructure are requirements, self-hosting is the right path, <a href="demo.html">talk to our team</a> about timelines and requirements.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            Is there a free trial for Pro?
+            <span class="faq-chevron">+</span>
+          </summary>
+          <div class="faq-body">
+            <p><strong>Yes, 14 days, no credit card required.</strong> When you sign up for a Pro trial, you get full access to every Pro feature: unlimited accounts, 90-day history, unlimited remediations, Slack/PagerDuty, MCP Server, RBAC, and priority support.</p>
+            <p>At the end of the trial, you can convert to paid or drop back to the Starter plan (2 accounts, 14-day history). We don't auto-charge at trial end. A human from our team will reach out before expiration to help you evaluate fit, not to pressure you.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            How does Marketplace billing work?
+            <span class="faq-chevron">+</span>
+          </summary>
+          <div class="faq-body">
+            <p>ZopNight is available on <strong>AWS Marketplace, Azure Marketplace, and GCP Marketplace</strong> for Enterprise customers. Marketplace billing means your ZopNight subscription appears on your existing cloud invoice and counts toward your cloud provider commitment spend (EDP, MACC, or CUD depending on provider).</p>
+            <p>This matters for teams who have committed spending agreements with AWS, Azure, or GCP, Marketplace purchases draw down those commitments, effectively making ZopNight funded by your existing cloud budget rather than a separate line item requiring separate procurement approval.</p>
+            <p>To set up Marketplace billing, contact your account executive or <a href="demo.html">request a call</a>. The process typically takes 3–5 business days.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       §05 · TRUSTED BY + FINAL CTA
+       ================================================================ -->
+  <section>
+    <div class="inner">
+      <div class="sec-meta">§05 · trusted by</div>
+
+      <div class="logo-bar">
+        <span class="logo-co">Zopping</span>
+        <span class="logo-co">Linarc</span>
+        <span class="logo-co">Flexflow</span>
+        <span class="logo-co">Cascade Health</span>
+        <span class="logo-co">Vertex Commerce</span>
+        <span class="logo-co">Orion Financial</span>
+        <span class="logo-co">Meridian SaaS</span>
+        <span class="logo-co">Atlas Digital</span>
+      </div>
+
+      <div class="pricing-final">
+        <p>Not sure which plan? Let's talk.</p>
+        <div style="display:flex; gap:var(--sp-4); flex-wrap:wrap;">
+          <a class="btn btn-accent" href="demo.html">
+            <span>Talk to our team</span> <span class="arrow">→</span>
+          </a>
+          <a class="btn btn-secondary" href="signin.html">
+            Start free →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-foot">
+  <div class="foot-inner">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="/" class="logo-lockup md" aria-label="ZopDev"><svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg></a>
+      <p>The Continuous CloudOps platform. See everything. Find what's wrong. Fix it in one click.</p>
+    </div>
+    <div class="foot-col">
+      <h3>product</h3>
+      <ul>
+        <li><a href="/product/zopnight/atlas.html">Atlas</a></li>
+        <li><a href="/product/zopnight/mcp.html">MCP Server</a></li>
+        <li><a href="/product/zopnight/schedule.html">Schedule</a></li>
+        <li><a href="/product/zopnight/showback.html">Showback</a></li>
+        <li><a href="/product/zopnight/recommendation.html">Recommendations</a></li>
+        <li><a href="/integrations.html">Integrations</a></li>
+        <li><a href="/pricing.html">Pricing</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h3>solutions</h3>
+      <ul>
+        <li><a href="/solutions/finops.html">For FinOps</a></li>
+        <li><a href="/solutions/devops.html">For DevOps</a></li>
+        <li><a href="/solutions/cfo.html">For CFOs</a></li>
+        <li><a href="/solutions/aws.html">AWS</a></li>
+        <li><a href="/solutions/kubernetes.html">Kubernetes</a></li>
+        <li><a href="/solutions/rightsizing.html">Rightsizing</a></li>
+        <li><a href="/solutions/anomaly-detection.html">Anomaly detection</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h3>resources</h3>
+      <ul>
+        <li><a href="/customers.html">Customers</a></li>
+        <li><a href="/resources/benchmarks.html">State of Cloud Waste</a></li>
+        <li><a href="/resources/blog.html">Blog</a></li>
+        <li><a href="/resources/glossary.html">Glossary</a></li>
+        <li><a href="/changelog.html">Changelog</a></li>
+        <li><a href="/roadmap.html">Roadmap</a></li>
+        <li><a href="/developers.html">Developers</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h3>company</h3>
+      <ul>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/company/leadership.html">Leadership</a></li>
+        <li><a href="/company/careers.html">Careers</a></li>
+        <li><a href="/company/press.html">Press kit</a></li>
+        <li><a href="/brand-kit.html">Brand kit</a></li>
+        <li><a href="/company/contact.html">Contact</a></li>
+        <li><a href="/trust.html">Trust center</a></li>
+        <li><a href="/partners.html">Partners</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-trust">
+    <span class="badge">SOC 2 Type II</span>
+    <span class="badge">ISO 27001</span>
+    <span class="badge o">HIPAA</span>
+    <span class="badge g">GDPR · CCPA</span>
+    <span class="badge k">AWS Marketplace</span>
+    <a href="/status.html" class="status"><span class="badge ok" style="border:0; padding:0; color:transparent; width:7px; height:7px"></span> All systems operational</a>
+  </div>
+  <div class="foot-legal-rail">
+    <a href="/legal/privacy.html">Privacy</a>
+    <a href="/legal/terms.html">Terms</a>
+    <a href="/legal/cookies.html">Cookies</a>
+    <a href="/trust/dpa.html">DPA</a>
+    <a href="/trust/subprocessors.html">Subprocessors</a>
+    <a href="/trust/sla.html">SLA</a>
+    <a href="/trust/ai-policy.html">AI policy</a>
+    <a href="/company/accessibility.html">Accessibility</a>
+    <a href="/sitemap.xml">Sitemap</a>
+  </div>
+  <div class="foot-bottom">
+    <div>© <span data-year>2026</span> ZopDev, Inc. · san francisco · all rights reserved</div>
+    <div>the Continuous CloudOps platform · see · find · fix</div>
+  </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    document.querySelectorAll('[data-year]').forEach(function(el){ el.textContent = new Date().getFullYear(); });
+    var ann = document.getElementById('ann-bar');
+    var btn = document.getElementById('ann-close');
+    if(!ann || !btn) return;
+    var key = 'zop-ann-2026-mcp';
+    try{ if(localStorage.getItem(key) === '1') ann.style.display = 'none'; }catch(e){}
+    btn.addEventListener('click', function(){
+      ann.style.display = 'none';
+      try{ localStorage.setItem(key, '1'); }catch(e){}
+    });
+  })();
+
+  function fmt(n){
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+
+  function calcUpdate(){
+    var accounts = parseInt(document.getElementById('acct-slider').value) || 5;
+    var spend = parseFloat(document.getElementById('spend-input').value) || 80000;
+    var wastePct = parseInt(document.getElementById('waste-slider').value) || 30;
+
+    document.getElementById('acct-display').textContent = accounts;
+    document.getElementById('waste-pct-display').textContent = wastePct + '%';
+
+    var waste = spend * (wastePct / 100);
+    var zopCost = accounts <= 2 ? 0 : accounts * 299;
+    var net = waste - zopCost;
+    var roi = zopCost > 0 ? (net / zopCost).toFixed(1) : '\u221e';
+
+    document.getElementById('waste-display').textContent = fmt(waste);
+    document.getElementById('waste-sub').textContent =
+      wastePct + '% of your ' + fmt(spend) + ' cloud spend';
+
+    document.getElementById('zop-cost-display').textContent = zopCost === 0 ? 'Free' : fmt(zopCost);
+    document.getElementById('zop-cost-sub').textContent = accounts <= 2
+      ? 'Starter plan \u2014 up to 2 accounts'
+      : accounts + ' accounts \u00d7 $299/mo';
+
+    document.getElementById('net-savings-display').textContent = fmt(Math.max(0, net));
+    document.getElementById('roi-display').textContent = zopCost === 0
+      ? 'All waste recovered at zero cost'
+      : roi + '\u00d7 return on ZopNight investment';
+  }
+
+  calcUpdate();
+</script>
+
+
+<!-- homepage-chrome init: theme toggle + nav megamenu + scroll hide + section reveal -->
+<script>
+(function(){
+  /* Theme toggle */
+  var html = document.documentElement;
+  if(!html.getAttribute('data-theme')) html.setAttribute('data-theme','light');
+  var btn = document.getElementById('theme-toggle');
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+    });
+  }
+})();
+
+(function(){
+  /* Nav megamenu */
+  var overlay = document.getElementById('nav-overlay');
+  var navLinks = document.getElementById('nav-links');
+  if(!overlay || !navLinks) return;
+  var panes = {};
+  overlay.querySelectorAll('.nav-pane').forEach(function(p){ panes[p.dataset.pane] = p; });
+  var activeMenu = null;
+  var closeTimer = null;
+  function getLeft(navItem){
+    var navInner = navItem.closest('.nav-inner');
+    var niRect = navItem.getBoundingClientRect();
+    var innerRect = navInner.getBoundingClientRect();
+    var left = niRect.left - innerRect.left;
+    var overlayW = overlay.offsetWidth || 720;
+    var maxLeft = innerRect.width - overlayW - 16;
+    return Math.max(0, Math.min(left, maxLeft));
+  }
+  function showMenu(menuName, navItem){
+    clearTimeout(closeTimer);
+    overlay.style.left = getLeft(navItem) + 'px';
+    if(activeMenu !== menuName){
+      Object.keys(panes).forEach(function(k){ panes[k].classList.remove('active'); });
+      var incoming = panes[menuName];
+      if(incoming){
+        incoming.classList.add('active');
+        var panesEl = overlay.querySelector('.nav-panes');
+        if(panesEl) panesEl.style.height = incoming.offsetHeight + 'px';
+      }
+      activeMenu = menuName;
+    }
+    navLinks.querySelectorAll('.nav-item').forEach(function(ni){
+      ni.classList.toggle('open', ni.dataset.menu === menuName);
+    });
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden','false');
+  }
+  function hideMenu(){
+    closeTimer = setTimeout(function(){
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden','true');
+      navLinks.querySelectorAll('.nav-item').forEach(function(ni){ ni.classList.remove('open'); });
+      activeMenu = null;
+    }, 120);
+  }
+  navLinks.querySelectorAll('.nav-item').forEach(function(item){
+    item.addEventListener('mouseenter', function(){ showMenu(item.dataset.menu, item); });
+    item.addEventListener('mouseleave', hideMenu);
+    var a = item.querySelector('a');
+    if(a){
+      a.addEventListener('focus', function(){ showMenu(item.dataset.menu, item); });
+      a.addEventListener('blur', hideMenu);
+    }
+  });
+  overlay.addEventListener('mouseenter', function(){ clearTimeout(closeTimer); });
+  overlay.addEventListener('mouseleave', hideMenu);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ clearTimeout(closeTimer); hideMenu(); }
+  });
+})();
+
+(function(){
+  /* Nav scroll hide/show */
+  var nav = document.querySelector('.nav');
+  if(!nav) return;
+  var lastY = 0, delta = 0, hidden = false, ticking = false;
+  var HIDE_AT = 72, SHOW_AT = 10;
+  function update(){
+    ticking = false;
+    var y = window.pageYOffset;
+    var diff = y - lastY;
+    lastY = y;
+    if(y <= 0){
+      if(hidden){ nav.classList.remove('nav--hidden'); hidden = false; }
+      delta = 0; return;
+    }
+    if(diff > 0){
+      delta = (delta > 0 ? delta : 0) + diff;
+      if(!hidden && delta > HIDE_AT){
+        var ov = document.getElementById('nav-overlay');
+        if(ov) ov.classList.remove('open');
+        nav.classList.add('nav--hidden'); hidden = true; delta = 0;
+      }
+    } else {
+      delta = (delta < 0 ? delta : 0) + diff;
+      if(hidden && Math.abs(delta) > SHOW_AT){
+        nav.classList.remove('nav--hidden'); hidden = false; delta = 0;
+      }
+    }
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){ requestAnimationFrame(update); ticking = true; }
+  }, {passive:true});
+})();
+
+(function(){
+  /* Section reveal on scroll */
+  var sections = document.querySelectorAll('.section');
+  if(!sections.length || !('IntersectionObserver' in window)){
+    sections.forEach(function(s){ s.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {rootMargin:'-10% 0px -10% 0px', threshold:0.05});
+  sections.forEach(function(s){ io.observe(s); });
+})();
+</script>
+
+<script src="chrome-darkfold.js" defer></script>
+<script src="chrome-mobilenav.js" defer></script>
+</body>
+</html>
