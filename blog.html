@@ -5,112 +5,88 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
 
-<title>Changelog · ZopDev</title>
-<meta name="description" content="Every ZopNight release, fix, and new integration. We ship every two weeks."/>
+<title>Blog · Engineering, FinOps, and the cloud bill · ZopDev</title>
+<meta name="description" content="Notes from the team building the autopilot for multi-cloud cost. Post-mortems, benchmarks, and the kind of FinOps detail you actually need."/>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="tokens.css"/>
-<link rel="stylesheet" href="homepage-chrome.css"/>
+<link rel="stylesheet" href="chrome.css"/>
 
 <style>
-/* no-italic-site-wide */ em,i,cite,dfn,var,address,blockquote{font-style:normal}
+em,i,cite,dfn,var,address,blockquote{font-style:normal}
 .page{ padding:0; }
 .page > section{ padding:var(--sec-pad) 0; border-bottom:1px solid var(--line); }
 .page > section:last-child{ border-bottom:0; }
 
-.page-head{
-  padding:var(--sp-10) 0 var(--sp-12);
-  max-width:var(--max); margin:0 auto;
-  padding-left:var(--gutter); padding-right:var(--gutter);
-  border-bottom:1px solid var(--line);
-}
-.page-head .meta{
-  font-family:var(--mono); font-size:var(--t-11);
-  color:var(--zop-orange); letter-spacing:var(--ls-meta);
-  text-transform:uppercase; margin-bottom:var(--sp-4);
-  display:inline-flex; align-items:center; gap:var(--sp-2);
-}
-.page-head .meta::before{ content:''; width:10px; height:10px; background:var(--zop-orange); }
-.page-head h1{
-  font-size:clamp(48px,6vw,88px);
-  font-weight:var(--fw-bold); letter-spacing:var(--ls-display);
-  line-height:var(--lh-display);
-  max-width:800px; margin:0 0 var(--sp-5);
-}
-.page-head p.lede{
-  font-size:var(--t-20); color:var(--ink-3);
-  max-width:640px; line-height:1.45; margin:0;
-}
+.crumb{ padding:var(--sp-7) 0 var(--sp-4); max-width:var(--max); margin:0 auto; padding-left:var(--gutter); padding-right:var(--gutter); font-family:var(--mono); font-size:var(--t-11); color:var(--ink-4); letter-spacing:var(--ls-meta-tight); text-transform:uppercase; }
+.crumb a{ color:var(--ink-3); }
+.crumb a:hover{ color:var(--ink); }
+.crumb .sep{ color:var(--ink-5); margin:0 var(--sp-2); }
 
-.sec-meta{
-  font-family:var(--mono); font-size:var(--t-11);
-  color:var(--zop-orange); letter-spacing:var(--ls-meta);
-  text-transform:uppercase; margin-bottom:var(--sp-6);
-  display:inline-flex; align-items:center; gap:var(--sp-2);
-}
-.sec-meta::before{ content:''; width:10px; height:10px; background:var(--zop-orange); flex-shrink:0; }
+/* HERO */
+.bl-hero{ background:var(--bg-1); border-bottom:1px solid var(--line); padding:var(--sp-16) 0 var(--sp-12); }
+.bl-hero .container{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-10); align-items:end; }
+@media (max-width:980px){ .bl-hero .container{ grid-template-columns:1fr; } }
+.bl-tag{ display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:var(--t-11); letter-spacing:var(--ls-meta); text-transform:uppercase; color:var(--zop-orange); margin-bottom:var(--sp-5); }
+.bl-tag::before{ content:''; width:8px; height:8px; background:var(--zop-orange); }
+.bl-hero h1{ font-size:clamp(48px, 6.4vw, 88px); line-height:var(--lh-display); letter-spacing:var(--ls-display); margin:0 0 var(--sp-5); }
+.bl-hero h1 em{ color:var(--zop-orange); font-style:normal; }
+.bl-hero p.lead{ font-size:var(--t-17); color:var(--ink-3); max-width:520px; line-height:1.5; margin:0; }
+.bl-hero p.lead strong{ color:var(--ink); font-weight:var(--fw-medium); }
 
-/* release entries */
-.releases{ display:flex; flex-direction:column; gap:var(--sp-8); max-width:860px; }
-.release{
-  background:var(--bg-2); border:1px solid var(--line);
-  border-left:3px solid var(--zop-orange);
-}
-.release-head{
-  padding:var(--sp-6) var(--sp-8); border-bottom:1px solid var(--line);
-  display:flex; align-items:baseline; gap:var(--sp-6); flex-wrap:wrap;
-}
-.release-version{
-  font-family:var(--mono); font-size:var(--t-24); font-weight:var(--fw-bold);
-  color:var(--zop-orange); letter-spacing:0;
-}
-.release-name{ font-size:var(--t-20); font-weight:var(--fw-semibold); color:var(--ink); }
-.release-date{ font-family:var(--mono); font-size:var(--t-12); color:var(--ink-4); letter-spacing:var(--ls-meta-tight); margin-left:auto; }
-.release-body{ padding:var(--sp-6) var(--sp-8); }
-.release-desc{ font-size:var(--t-15); color:var(--ink-3); margin:0 0 var(--sp-6); line-height:var(--lh-body); }
-.change-list{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:var(--sp-3); }
-.change-item{ display:flex; align-items:baseline; gap:var(--sp-4); font-size:var(--t-15); color:var(--ink-2); line-height:var(--lh-body); }
-.change-dot{ width:10px; height:10px; flex-shrink:0; position:relative; top:2px; }
-.change-dot.new{ background:var(--zop-orange); }
-.change-dot.improved{ background:var(--zop-blue); }
-.change-dot.fixed{ background:var(--ink-4); }
-.change-type{
-  font-family:var(--mono); font-size:var(--t-10); letter-spacing:var(--ls-meta); text-transform:uppercase;
-  width:68px; flex-shrink:0; color:var(--ink-4);
-}
-.change-type.new{ color:var(--zop-orange); }
-.change-type.improved{ color:var(--zop-blue); }
-.change-type.fixed{ color:var(--ink-4); }
+/* CATEGORIES BAR */
+.bl-cats{ display:flex; gap:var(--sp-2); flex-wrap:wrap; padding:var(--sp-8) 0 var(--sp-4); border-bottom:1px solid var(--line); }
+.bl-cats a{ font-family:var(--mono); font-size:var(--t-11); letter-spacing:var(--ls-meta); text-transform:uppercase; padding:var(--sp-2) var(--sp-4); border:1px solid var(--line); color:var(--ink-3); transition:background .14s, color .14s, border-color .14s; }
+.bl-cats a:hover, .bl-cats a.active{ background:var(--ink); color:var(--bg-0); border-color:var(--ink); }
 
-/* subscribe */
-.sub-block{
-  background:var(--bg-2); border:1px solid var(--line); padding:var(--sp-8);
-  display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-10); align-items:center;
-  margin-top:var(--sp-8);
-}
-.sub-block h2{ font-size:clamp(24px,3vw,36px); letter-spacing:var(--ls-display); margin:0 0 var(--sp-3); }
-.sub-block p{ font-size:var(--t-15); color:var(--ink-3); margin:0; line-height:var(--lh-body); }
-.sub-form{ display:flex; flex-direction:column; gap:var(--sp-4); }
-.sub-form label{ font-family:var(--mono); font-size:var(--t-11); color:var(--ink-4); letter-spacing:var(--ls-meta); text-transform:uppercase; }
-.sub-form input{
-  background:var(--bg-4); border:1px solid var(--line); color:var(--ink);
-  font-family:var(--mono); font-size:var(--t-14);
-  padding:12px var(--sp-5); outline:none;
-}
-.sub-form input:focus{ border-color:var(--zop-orange); }
-.sub-form input::placeholder{ color:var(--ink-4); }
+/* FEATURED POST */
+.bl-featured{ display:grid; grid-template-columns:1.4fr 1fr; gap:0; border:1px solid var(--line); margin-bottom:var(--sp-12); transition:transform .16s, box-shadow .16s; }
+.bl-featured:hover{ transform:translateY(-3px); box-shadow:var(--shadow-hover-orange); }
+@media (max-width:980px){ .bl-featured{ grid-template-columns:1fr; } }
+.bl-featured-img{ background:var(--bg-2); padding:var(--sp-12); display:flex; align-items:center; justify-content:center; min-height:280px; border-right:1px solid var(--line); }
+@media (max-width:980px){ .bl-featured-img{ border-right:0; border-bottom:1px solid var(--line); } }
+.bl-featured-img svg{ max-width:280px; width:100%; height:auto; }
+.bl-featured-body{ padding:var(--sp-10) var(--sp-8); display:flex; flex-direction:column; gap:var(--sp-3); justify-content:center; }
+.bl-featured .meta{ font-family:var(--mono); font-size:var(--t-10); letter-spacing:var(--ls-meta); text-transform:uppercase; color:var(--zop-orange); }
+.bl-featured h2{ font-size:clamp(28px, 3.6vw, 44px); margin:0; letter-spacing:var(--ls-heading); line-height:1.15; }
+.bl-featured h2 a{ color:var(--ink); }
+.bl-featured h2 a:hover{ color:var(--zop-orange); }
+.bl-featured p{ color:var(--ink-3); font-size:var(--t-15); line-height:var(--lh-body); margin:0; max-width:480px; }
+.bl-featured .author{ font-family:var(--mono); font-size:var(--t-11); color:var(--ink-4); letter-spacing:var(--ls-meta-tight); margin-top:var(--sp-3); }
 
-.sec-heading{ font-size:clamp(28px,3.5vw,44px); letter-spacing:var(--ls-display); line-height:var(--lh-heading); margin:0 0 var(--sp-5); }
+/* POST GRID */
+.bl-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:0; border:1px solid var(--line); background:var(--line); }
+@media (max-width:980px){ .bl-grid{ grid-template-columns:repeat(2, 1fr); } }
+@media (max-width:560px){ .bl-grid{ grid-template-columns:1fr; } }
+.bl-post{ background:var(--bg-1); padding:var(--sp-7); display:flex; flex-direction:column; gap:var(--sp-3); transition:background .14s var(--ease-out); }
+.bl-post:hover{ background:var(--bg-2); }
+.bl-post .cat{ font-family:var(--mono); font-size:var(--t-10); letter-spacing:var(--ls-meta); text-transform:uppercase; color:var(--zop-orange); }
+.bl-post h3{ font-size:var(--t-20); margin:0; letter-spacing:var(--ls-heading); line-height:1.2; }
+.bl-post h3 a{ color:var(--ink); }
+.bl-post h3 a:hover{ color:var(--zop-orange); }
+.bl-post p{ color:var(--ink-3); font-size:var(--t-13); line-height:var(--lh-body); margin:0; flex:1; }
+.bl-post .by{ display:flex; justify-content:space-between; padding-top:var(--sp-4); margin-top:var(--sp-2); border-top:1px solid var(--line); font-family:var(--mono); font-size:var(--t-10); letter-spacing:var(--ls-meta-tight); text-transform:uppercase; color:var(--ink-4); }
 
-@media(max-width:768px){
-  .sub-block{ grid-template-columns:1fr; }
-  .release-head{ flex-direction:column; gap:var(--sp-2); }
-  .release-date{ margin-left:0; }
-}
+/* SUBSCRIBE STRIP */
+.bl-sub{ background:var(--bg-1); border:1px solid var(--line); padding:var(--sp-12) var(--sp-10); display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-8); align-items:center; }
+@media (max-width:768px){ .bl-sub{ grid-template-columns:1fr; padding:var(--sp-8); } }
+.bl-sub h2{ font-size:clamp(28px, 3.2vw, 40px); margin:0 0 var(--sp-3); letter-spacing:var(--ls-heading); line-height:1.15; }
+.bl-sub h2 em{ color:var(--zop-orange); font-style:normal; }
+.bl-sub p{ color:var(--ink-3); margin:0; font-size:var(--t-14); }
+.bl-form{ display:flex; gap:var(--sp-2); }
+.bl-form input{ flex:1; padding:var(--sp-3) var(--sp-4); background:var(--bg-2); border:1px solid var(--line); color:var(--ink); font-family:var(--font); font-size:var(--t-14); }
+.bl-form input::placeholder{ color:var(--ink-5); }
+.bl-form input:focus{ outline:none; border-color:var(--zop-orange); }
+.bl-form button{ padding:var(--sp-3) var(--sp-5); background:var(--zop-orange); color:#0A0A0A; font-family:var(--mono); font-size:var(--t-11); letter-spacing:var(--ls-meta); text-transform:uppercase; font-weight:var(--fw-semibold); cursor:pointer; transition:transform .14s, box-shadow .14s; }
+.bl-form button:hover{ transform:translateY(-2px); box-shadow:var(--shadow-hover-ink); }
+
+@media (max-width:768px){ .page > section{ padding:var(--sec-pad-sm) 0; } }
 </style>
+<link rel="stylesheet" href="homepage-chrome.css"/>
+<script src="chrome-mobilenav.js" defer></script>
 </head>
 <body>
 
@@ -130,21 +106,8 @@
   </defs>
 </svg>
 
-<div class="ann-bar" id="ann-bar">
-  <div class="ann-inner">
-    <a href="developers/mcp.html" class="ann-chip">
-      <span class="ann-dot"></span>
-      <strong>MCP Server</strong>, live in Claude &amp; Codex
-      <span class="ann-arrow">→</span>
-    </a>
-    <a href="changelog.html" class="ann-link">Changelog →</a>
-    <button class="ann-close" id="ann-close" aria-label="Dismiss announcement">&times;</button>
-  </div>
-</div>
+<div class="ann-bar" id="ann-bar"><div class="ann-inner"><a href="/developers.html" class="ann-chip"><span class="ann-dot"></span><strong>MCP Server</strong>, live in Claude &amp; Codex<span class="ann-arrow">→</span></a><a href="/changelog.html" class="ann-link">Changelog →</a><button class="ann-close" id="ann-close" aria-label="Dismiss announcement">&times;</button></div></div>
 
-<!-- ============================================================
-     LIVE STATUS STRIP. Cloud-ops signal strip
-     ============================================================ -->
 <div class="live-strip" aria-live="polite">
   <!-- Anchored pill: live market-open indicator + uptime & UTC clock. Stays
        put on the right while the ticker runs under it. -->
@@ -190,9 +153,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     NAVBAR
-     ============================================================ -->
 <nav class="nav">
   <div class="nav-inner">
     <a href="/" class="logo-lockup sm" aria-label="ZopDev">
@@ -386,254 +346,140 @@
   </div>
 </nav>
 
+
 <main class="page">
+  <div class="crumb"><a href="/">home</a> <span class="sep">/</span> blog</div>
 
-  <header class="page-head">
-    <div class="meta">changelog · releases</div>
-    <h1>Changelog</h1>
-    <p class="lede">Every release, every fix, every new integration. We ship every two weeks.</p>
-  </header>
-
-  <!-- 01 · latest releases -->
-  <section>
+  <!-- HERO -->
+  <section class="bl-hero">
     <div class="container">
-      <div class="sec-meta">01 · latest releases</div>
-
-      <div class="releases">
-
-        <!-- 2026.04 -->
-        <div class="release">
-          <div class="release-head">
-            <span class="release-version">2026.04</span>
-            <span class="release-name">MCP Server GA</span>
-            <span class="release-date">April 14, 2026</span>
-          </div>
-          <div class="release-body">
-            <p class="release-desc">ZopNight MCP Server is now generally available. Any MCP-compatible AI client, Claude Desktop, Cursor, Codex, can now query your cloud state, surface findings, and apply remediations with approval. This release also ships a significant improvement to anomaly detection sensitivity and expands GCP region support.</p>
-            <ul class="change-list">
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                MCP Server GA: works with Claude Desktop, Cursor, Codex, and any MCP-compatible client
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                MCP tool: <code style="font-family:var(--mono); font-size:var(--t-13); color:var(--zop-orange);">list_findings</code>, query open findings with filters by account, impact, region
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                MCP tool: <code style="font-family:var(--mono); font-size:var(--t-13); color:var(--zop-orange);">apply_remediation</code>, create pending approval records from AI chat
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                MCP tool: <code style="font-family:var(--mono); font-size:var(--t-13); color:var(--zop-orange);">get_showback_report</code>, department-level cost data accessible from AI clients
-              </li>
-              <li class="change-item">
-                <span class="change-dot improved"></span>
-                <span class="change-type improved">Improved</span>
-                Anomaly detection sensitivity: 40% fewer false positives on seasonal workloads
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                GCP region expansion: us-west2 (Los Angeles) and europe-west1 (Belgium) now supported
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 2026.03 -->
-        <div class="release">
-          <div class="release-head">
-            <span class="release-version">2026.03</span>
-            <span class="release-name">Schedule v2</span>
-            <span class="release-date">March 3, 2026</span>
-          </div>
-          <div class="release-body">
-            <p class="release-desc">Recurring schedules now support full cron expressions with timezone awareness. Slack notification integration ships alongside this release, giving teams visibility into scheduled actions without logging into ZopNight. Azure Scale Set support rounds out the compute coverage for Azure customers.</p>
-            <ul class="change-list">
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                Recurring schedules: full cron expression support with per-schedule timezone configuration
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                Slack notifications: receive a message when a schedule executes, pauses, or fails
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                Azure Scale Set support: schedules can now target Azure Virtual Machine Scale Sets
-              </li>
-              <li class="change-item">
-                <span class="change-dot improved"></span>
-                <span class="change-type improved">Improved</span>
-                Schedule execution logs are now retained for 90 days (previously 14)
-              </li>
-              <li class="change-item">
-                <span class="change-dot fixed"></span>
-                <span class="change-type fixed">Fixed</span>
-                Schedules no longer execute during the account connection warm-up window
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 2026.02 -->
-        <div class="release">
-          <div class="release-head">
-            <span class="release-version">2026.02</span>
-            <span class="release-name">Showback Dashboard</span>
-            <span class="release-date">February 3, 2026</span>
-          </div>
-          <div class="release-body">
-            <p class="release-desc">The new Showback dashboard gives FinOps and finance teams a department-level cost view without requiring engineering support to build custom reports. CSV export and custom date range selection make it suitable for monthly reporting workflows.</p>
-            <ul class="change-list">
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                Department-level showback view: filter and group by team tag, account, or organizational unit
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                CSV export: download showback data for any date range, compatible with Excel and Google Sheets
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                Custom date ranges: select any 1–90 day window for showback reporting
-              </li>
-              <li class="change-item">
-                <span class="change-dot improved"></span>
-                <span class="change-type improved">Improved</span>
-                Showback data now updates every 4 hours (previously daily)
-              </li>
-              <li class="change-item">
-                <span class="change-dot fixed"></span>
-                <span class="change-type fixed">Fixed</span>
-                Showback costs no longer double-count shared Reserved Instance capacity
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 2026.01 -->
-        <div class="release">
-          <div class="release-head">
-            <span class="release-version">2026.01</span>
-            <span class="release-name">Recommendations Engine</span>
-            <span class="release-date">January 6, 2026</span>
-          </div>
-          <div class="release-body">
-            <p class="release-desc">The recommendations engine now uses a 90-day utilization baseline, up from 14 days, giving much more stable rightsizing signals. Every recommendation ships with a confidence score and estimated payback timeline. One-click rightsizing for EC2 and RDS is now available for all accounts with sufficient permissions.</p>
-            <ul class="change-list">
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                90-day utilization baseline for all rightsizing recommendations (previously 14-day)
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                Confidence scoring: High/Medium/Low confidence ratings on every recommendation
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                One-click rightsizing: apply EC2 and RDS instance type changes directly from ZopNight
-              </li>
-              <li class="change-item">
-                <span class="change-dot improved"></span>
-                <span class="change-type improved">Improved</span>
-                Recommendations now respect application-tier tags to avoid downsizing production services
-              </li>
-              <li class="change-item">
-                <span class="change-dot fixed"></span>
-                <span class="change-type fixed">Fixed</span>
-                RDS recommendations no longer suggest instance families unavailable in the target region
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 2025.12 -->
-        <div class="release">
-          <div class="release-head">
-            <span class="release-version">2025.12</span>
-            <span class="release-name">Multi-Account GA</span>
-            <span class="release-date">December 8, 2025</span>
-          </div>
-          <div class="release-body">
-            <p class="release-desc">AWS Organizations support is now generally available, allowing customers to connect and manage up to 500 member accounts from a single ZopNight workspace. Cross-account RBAC lets you assign view or manage permissions to specific accounts by team or role.</p>
-            <ul class="change-list">
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                AWS Organizations support: connect all member accounts from a single management account
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                Up to 500 member accounts supported per ZopNight workspace (Enterprise plan)
-              </li>
-              <li class="change-item">
-                <span class="change-dot new"></span>
-                <span class="change-type new">New</span>
-                Cross-account RBAC: assign per-account view or manage permissions to team members
-              </li>
-              <li class="change-item">
-                <span class="change-dot improved"></span>
-                <span class="change-type improved">Improved</span>
-                Account connection now uses AWS IAM Identity Center SSO where available
-              </li>
-              <li class="change-item">
-                <span class="change-dot fixed"></span>
-                <span class="change-type fixed">Fixed</span>
-                Atlas inventory no longer duplicates resources in accounts with cross-account trust relationships
-              </li>
-            </ul>
-          </div>
-        </div>
-
+      <div>
+        <div class="bl-tag">blog · weekly</div>
+        <h1>Notes from the team building <em>the autopilot.</em></h1>
       </div>
+      <p class="lead">Post-mortems. Benchmarks. The kind of FinOps detail you actually need before you run the migration. <strong>One post a week, no fluff.</strong></p>
     </div>
   </section>
 
-  <!-- 02 · subscribe -->
+  <!-- CATEGORIES + FEATURED -->
   <section>
     <div class="container">
-      <div class="sec-meta">02 · subscribe</div>
-      <div class="sub-block">
+      <nav class="bl-cats" aria-label="Categories">
+        <a href="#" class="active">All</a>
+        <a href="#">FinOps</a>
+        <a href="#">Engineering</a>
+        <a href="#">Kubernetes</a>
+        <a href="#">CI/CD</a>
+        <a href="#">Multi-cloud</a>
+        <a href="#">Post-mortems</a>
+        <a href="#">Product</a>
+      </nav>
+
+      <article class="bl-featured" style="margin-top:var(--sp-12)">
+        <a class="bl-featured-img" href="#">
+          <svg viewBox="0 0 280 200" aria-hidden="true">
+            <rect x="0" y="0" width="280" height="200" fill="#0E0E12"/>
+            <rect x="20" y="120" width="40" height="60" fill="#F58549"/>
+            <rect x="68" y="80" width="40" height="100" fill="#F58549" opacity="0.75"/>
+            <rect x="116" y="40" width="40" height="140" fill="#F58549" opacity="0.55"/>
+            <rect x="164" y="60" width="40" height="120" fill="#F58549" opacity="0.4"/>
+            <rect x="212" y="100" width="40" height="80" fill="#F58549" opacity="0.25"/>
+            <text x="140" y="30" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#A8A195" letter-spacing="2">STATE OF CLOUD WASTE 2026</text>
+          </svg>
+        </a>
+        <div class="bl-featured-body">
+          <span class="meta">FEATURED · APR 22, 2026 · 14 MIN READ</span>
+          <h2><a href="#">State of Cloud Waste 2026: where the 58% goes</a></h2>
+          <p>We analysed 4,200 production accounts. Non-prod runs 24/7 in 71% of them. Right-sizing alone left $312M on the table this year. Here's the per-pattern breakdown.</p>
+          <div class="author">By Priya M. + the data team · finops, benchmarks</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- POST GRID · 9 mock posts -->
+  <section>
+    <div class="container">
+      <div class="bl-grid">
+
+        <article class="bl-post"><span class="cat">Engineering</span>
+          <h3><a href="#">How we run scheduling for 32k resources from a single Postgres</a></h3>
+          <p>The eval loop runs every 60 seconds. Naive cron was the wrong shape. Here's the queue + advisory-lock dance that lets us scale linearly.</p>
+          <div class="by"><span>Marcus L.</span><span>Apr 18 · 9 min</span></div>
+        </article>
+
+        <article class="bl-post"><span class="cat">FinOps</span>
+          <h3><a href="#">The 7 cost lines your FinOps dashboard probably hides</a></h3>
+          <p>Inter-AZ traffic. NAT gateway data-out. Idle ELB connection hours. The line items that don't show up under "compute" but quietly out-spend it.</p>
+          <div class="by"><span>Jules R.</span><span>Apr 11 · 6 min</span></div>
+        </article>
+
+        <article class="bl-post"><span class="cat">Kubernetes</span>
+          <h3><a href="#">Right-sizing pods without killing tail latency</a></h3>
+          <p>VPA gets you 80% of the way. The other 20% is a 14-day p99 lookback you have to add yourself. Here's our open-source one.</p>
+          <div class="by"><span>Anya K.</span><span>Apr 4 · 11 min</span></div>
+        </article>
+
+        <article class="bl-post"><span class="cat">Post-mortem</span>
+          <h3><a href="#">The Apr 12 GCP connector incident, in detail</a></h3>
+          <p>Google rotated a regional endpoint. Our retry budget was wrong. Twelve minutes of degraded discovery for 17 customers. What we changed.</p>
+          <div class="by"><span>Devon P.</span><span>Apr 14 · 8 min</span></div>
+        </article>
+
+        <article class="bl-post"><span class="cat">CI/CD</span>
+          <h3><a href="#">Spot fleets for non-prod CI: a 73% cost cut</a></h3>
+          <p>Most CI runs are interruptible by definition &mdash; they retry on failure. So why are you paying on-demand prices? The fleet config we ship.</p>
+          <div class="by"><span>Sam T.</span><span>Mar 28 · 7 min</span></div>
+        </article>
+
+        <article class="bl-post"><span class="cat">Multi-cloud</span>
+          <h3><a href="#">Why we built our own resource graph instead of using Backstage</a></h3>
+          <p>Backstage is a catalog. We needed a graph. The schema differences turned out to matter much more than we expected.</p>
+          <div class="by"><span>Priya M.</span><span>Mar 21 · 12 min</span></div>
+        </article>
+
+        <article class="bl-post"><span class="cat">Product</span>
+          <h3><a href="#">Shipping the MCP server: what an AI client wants from your API</a></h3>
+          <p>An MCP server isn't a thin wrapper around your REST endpoints. The shape of the tool calls matters more than we thought. What we re-designed.</p>
+          <div class="by"><span>Marcus L.</span><span>Mar 14 · 10 min</span></div>
+        </article>
+
+        <article class="bl-post"><span class="cat">FinOps</span>
+          <h3><a href="#">Showback that survives the boardroom</a></h3>
+          <p>Tag-based cost attribution falls apart when teams share infra. Three reporting models we tried, two we threw out, one that finally stuck.</p>
+          <div class="by"><span>Jules R.</span><span>Mar 7 · 9 min</span></div>
+        </article>
+
+        <article class="bl-post"><span class="cat">Engineering</span>
+          <h3><a href="#">Idempotent stop/start: the unglamorous hard part of scheduling</a></h3>
+          <p>What happens if our scheduler runs the same shutdown twice? Fine. What if it runs <em>concurrently</em>? Less fine. The locking we wish AWS exposed.</p>
+          <div class="by"><span>Anya K.</span><span>Feb 28 · 8 min</span></div>
+        </article>
+
+      </div>
+
+      <p style="margin-top:var(--sp-8); text-align:center;"><a href="#" style="font-family:var(--mono); font-size:var(--t-12); color:var(--ink); border:1px solid var(--ink); padding:var(--sp-3) var(--sp-6); display:inline-flex; gap:8px; align-items:center; letter-spacing:var(--ls-meta); text-transform:uppercase;">Older posts <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <!-- SUBSCRIBE -->
+  <section>
+    <div class="container">
+      <div class="bl-sub">
         <div>
-          <h2>Get release notes in your inbox.</h2>
-          <p style="margin-top:var(--sp-4);">We ship every two weeks. Subscribe to receive a short summary of what's new, no marketing, just the changelog in email form.</p>
+          <h2>Get the weekly <em>in your inbox.</em></h2>
+          <p>One post a week. Sundays. No "10 ways to think about cloud" listicles &mdash; just the engineering and FinOps notes we'd want to read.</p>
         </div>
-        <div class="sub-form">
-          <label for="cl-email">Work email</label>
-          <input type="email" id="cl-email" placeholder="you@company.com" autocomplete="email"/>
-          <a class="btn btn-accent" href="demo.html" style="width:fit-content;"><span>Subscribe →</span></a>
-        </div>
+        <form class="bl-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ subscribed';">
+          <input type="email" placeholder="you@team.com" required/>
+          <button type="submit">Subscribe</button>
+        </form>
       </div>
-    </div>
-  </section>
-
-  <!-- 03 · roadmap -->
-  <section>
-    <div class="container">
-      <div class="sec-meta">03 · roadmap</div>
-      <h2 class="sec-heading">See what's coming.</h2>
-      <p style="font-size:var(--t-17); color:var(--ink-3); max-width:640px; line-height:1.55; margin:0 0 var(--sp-7);">What's in progress, what's next, and what you voted for. We update the roadmap every sprint.</p>
-      <a class="btn btn-secondary" href="roadmap.html"><span>View roadmap</span> <span class="arrow">→</span></a>
     </div>
   </section>
 
 </main>
+
 
 <footer>
   <div class="container">
@@ -704,140 +550,9 @@
   if(!ann || !btn) return;
   var key = 'zop-ann-2026-mcp';
   try{ if(localStorage.getItem(key) === '1') ann.style.display = 'none'; }catch(e){}
-  btn.addEventListener('click', function(){
-    ann.style.display = 'none';
-    try{ localStorage.setItem(key, '1'); }catch(e){}
-  });
+  btn.addEventListener('click', function(){ ann.style.display = 'none'; try{ localStorage.setItem(key, '1'); }catch(e){} });
 })();
 </script>
 
-<!-- homepage-chrome init: theme toggle + nav megamenu + scroll hide + section reveal -->
-<script>
-(function(){
-  /* Theme toggle */
-  var html = document.documentElement;
-  if(!html.getAttribute('data-theme')) html.setAttribute('data-theme','light');
-  var btn = document.getElementById('theme-toggle');
-  if(btn){
-    btn.addEventListener('click', function(){
-      var cur = html.getAttribute('data-theme');
-      html.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
-    });
-  }
-})();
-
-(function(){
-  /* Nav megamenu */
-  var overlay = document.getElementById('nav-overlay');
-  var navLinks = document.getElementById('nav-links');
-  if(!overlay || !navLinks) return;
-  var panes = {};
-  overlay.querySelectorAll('.nav-pane').forEach(function(p){ panes[p.dataset.pane] = p; });
-  var activeMenu = null;
-  var closeTimer = null;
-  function getLeft(navItem){
-    var navInner = navItem.closest('.nav-inner');
-    var niRect = navItem.getBoundingClientRect();
-    var innerRect = navInner.getBoundingClientRect();
-    var left = niRect.left - innerRect.left;
-    var overlayW = overlay.offsetWidth || 720;
-    var maxLeft = innerRect.width - overlayW - 16;
-    return Math.max(0, Math.min(left, maxLeft));
-  }
-  function showMenu(menuName, navItem){
-    clearTimeout(closeTimer);
-    overlay.style.left = getLeft(navItem) + 'px';
-    if(activeMenu !== menuName){
-      Object.keys(panes).forEach(function(k){ panes[k].classList.remove('active'); });
-      var incoming = panes[menuName];
-      if(incoming){
-        incoming.classList.add('active');
-        var panesEl = overlay.querySelector('.nav-panes');
-        if(panesEl) panesEl.style.height = incoming.offsetHeight + 'px';
-      }
-      activeMenu = menuName;
-    }
-    navLinks.querySelectorAll('.nav-item').forEach(function(ni){
-      ni.classList.toggle('open', ni.dataset.menu === menuName);
-    });
-    overlay.classList.add('open');
-    overlay.setAttribute('aria-hidden','false');
-  }
-  function hideMenu(){
-    closeTimer = setTimeout(function(){
-      overlay.classList.remove('open');
-      overlay.setAttribute('aria-hidden','true');
-      navLinks.querySelectorAll('.nav-item').forEach(function(ni){ ni.classList.remove('open'); });
-      activeMenu = null;
-    }, 120);
-  }
-  navLinks.querySelectorAll('.nav-item').forEach(function(item){
-    item.addEventListener('mouseenter', function(){ showMenu(item.dataset.menu, item); });
-    item.addEventListener('mouseleave', hideMenu);
-    var a = item.querySelector('a');
-    if(a){
-      a.addEventListener('focus', function(){ showMenu(item.dataset.menu, item); });
-      a.addEventListener('blur', hideMenu);
-    }
-  });
-  overlay.addEventListener('mouseenter', function(){ clearTimeout(closeTimer); });
-  overlay.addEventListener('mouseleave', hideMenu);
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape'){ clearTimeout(closeTimer); hideMenu(); }
-  });
-})();
-
-(function(){
-  /* Nav scroll hide/show */
-  var nav = document.querySelector('.nav');
-  if(!nav) return;
-  var lastY = 0, delta = 0, hidden = false, ticking = false;
-  var HIDE_AT = 72, SHOW_AT = 10;
-  function update(){
-    ticking = false;
-    var y = window.pageYOffset;
-    var diff = y - lastY;
-    lastY = y;
-    if(y <= 0){
-      if(hidden){ nav.classList.remove('nav--hidden'); hidden = false; }
-      delta = 0; return;
-    }
-    if(diff > 0){
-      delta = (delta > 0 ? delta : 0) + diff;
-      if(!hidden && delta > HIDE_AT){
-        var ov = document.getElementById('nav-overlay');
-        if(ov) ov.classList.remove('open');
-        nav.classList.add('nav--hidden'); hidden = true; delta = 0;
-      }
-    } else {
-      delta = (delta < 0 ? delta : 0) + diff;
-      if(hidden && Math.abs(delta) > SHOW_AT){
-        nav.classList.remove('nav--hidden'); hidden = false; delta = 0;
-      }
-    }
-  }
-  window.addEventListener('scroll', function(){
-    if(!ticking){ requestAnimationFrame(update); ticking = true; }
-  }, {passive:true});
-})();
-
-(function(){
-  /* Section reveal on scroll */
-  var sections = document.querySelectorAll('.section');
-  if(!sections.length || !('IntersectionObserver' in window)){
-    sections.forEach(function(s){ s.classList.add('in'); });
-    return;
-  }
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, {rootMargin:'-10% 0px -10% 0px', threshold:0.05});
-  sections.forEach(function(s){ io.observe(s); });
-})();
-</script>
-
-<script src="chrome-darkfold.js" defer></script>
-<script src="chrome-mobilenav.js" defer></script>
 </body>
 </html>

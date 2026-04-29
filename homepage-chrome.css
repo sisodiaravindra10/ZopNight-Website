@@ -294,12 +294,12 @@ html[data-theme="dark"] .nav-cta .chip-playground:hover{ background:rgba(255,255
 }
 .np-cell, .np-hero, .np-promo{
   background:var(--paper);
-  padding:18px 20px;
+  padding:14px 18px;
   text-decoration:none; color:inherit;
-  display:flex; flex-direction:column; gap:6px;
+  display:flex; flex-direction:column; gap:5px;
   position:relative;
   transition:background .14s var(--ease-out);
-  min-height:108px;
+  min-height:84px;
 }
 .np-cell:hover, .np-hero:hover, .np-promo:hover{
   background:var(--g-50);
@@ -311,9 +311,9 @@ html[data-theme="dark"] .np-bento{ background:#2a2a30; border-bottom-color:#2a2a
 /* Hero · spans 2 rows */
 .np-hero{
   grid-column:1; grid-row:1 / span 2;
-  padding:22px 22px 20px;
+  padding:18px 20px 16px;
   justify-content:space-between;
-  min-height:220px;
+  min-height:180px;
   position:relative; overflow:hidden;
 }
 .np-hero-icon{
@@ -377,10 +377,81 @@ html[data-theme="dark"] .np-promo-row{ background:#0f0f12; border-top-color:#2a2
 html[data-theme="dark"] .np-promo-row a{ color:var(--paper); border-color:var(--paper); }
 html[data-theme="dark"] .np-promo-row a:hover{ background:var(--paper); color:var(--ink); }
 
+/* ══ Bento variants ══
+   --stack2: Product · 1.3fr 1fr · hero spans rows 1-2 in col 1, two
+             cells stack in col 2 (3 items, no empty slots).
+   --grid:   Resources · 3 equal cols, N rows of equal cells (no hero,
+             so every cell sits at natural content height).
+   --narrow: Company · 1.3fr 1fr · hero on left, single cell on right
+             (2 items, side-by-side). */
+.np-bento.np-bento--stack2{
+  grid-template-columns:1.3fr 1fr;
+  grid-template-rows:1fr 1fr;
+}
+.np-bento.np-bento--stack2 .np-hero{ grid-column:1; grid-row:1 / span 2; }
+.np-bento.np-bento--stack2 .np-cell{ grid-column:2; min-height:0; }
+
+.np-bento.np-bento--grid{
+  grid-template-columns:1fr 1fr 1fr;
+  grid-auto-rows:116px;
+}
+.np-bento.np-bento--grid .np-cell{ min-height:0; }
+
+.np-bento.np-bento--narrow{
+  grid-template-columns:1.3fr 1fr;
+  grid-template-rows:auto;
+}
+.np-bento.np-bento--narrow .np-hero{ grid-column:1; grid-row:1; min-height:160px; }
+.np-bento.np-bento--narrow .np-cell{ grid-column:2; grid-row:1; min-height:0; }
+
 @media (max-width:720px){
   .nav-overlay{ width:92vw; }
-  .np-bento{ grid-template-columns:1fr; }
-  .np-hero{ grid-column:1; grid-row:1; min-height:auto; }
+  .np-bento,
+  .np-bento.np-bento--stack2,
+  .np-bento.np-bento--grid,
+  .np-bento.np-bento--narrow{ grid-template-columns:1fr; grid-template-rows:auto; }
+  .np-hero,
+  .np-bento.np-bento--stack2 .np-hero,
+  .np-bento.np-bento--narrow .np-hero{ grid-column:1; grid-row:1; min-height:auto; }
+  .np-bento.np-bento--stack2 .np-cell,
+  .np-bento.np-bento--narrow .np-cell{ grid-column:1; }
+}
+
+/* ══ Nav status pill ══
+   Lives in .nav-cta · live-dot + "Status" label · links to /status.html.
+   Echoes the live-ops strip identity without competing with the primary
+   "Book a demo" CTA. Hover lifts the dot scale and shifts the bg one
+   notch warmer. Solid fills only — no glow, per token rules. */
+.nav-status{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:7px 11px;
+  font-family:var(--mono); font-size:10.5px; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink);
+  background:transparent;
+  border:1px solid var(--line);
+  text-decoration:none;
+  transition:background .14s var(--ease-out), border-color .14s var(--ease-out);
+}
+.nav-status:hover{ background:var(--g-50); border-color:var(--ink); }
+html[data-theme="dark"] .nav-status{ color:var(--paper); border-color:#2a2a30; }
+html[data-theme="dark"] .nav-status:hover{ background:#1a1a1e; border-color:var(--paper); }
+.nav-status-dot{
+  width:7px; height:7px; border-radius:var(--r-pill);
+  background:var(--ok, #34d399);
+  box-shadow:0 0 0 3px rgba(52,211,153,.18);
+  flex-shrink:0;
+}
+@media (prefers-reduced-motion: no-preference){
+  .nav-status-dot{ animation:nav-status-pulse 2.4s ease-in-out infinite; }
+  @keyframes nav-status-pulse{
+    0%, 100%{ box-shadow:0 0 0 3px rgba(52,211,153,.18); }
+    50%     { box-shadow:0 0 0 5px rgba(52,211,153,.08); }
+  }
+}
+@media (max-width:980px){
+  .nav-status{ padding:7px 9px; }
+  .nav-status-text{ display:none; }
 }
 
 /* =================================================================

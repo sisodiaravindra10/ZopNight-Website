@@ -18,7 +18,12 @@ cd "$(dirname "$0")"
 
 EXIT=0
 EXCLUDE_DIR='_explorations/|node_modules/|brand-launch/'
-EXCLUDE_FILE='index\.html$'   # homepage exception (nav blur, body grid wash)
+# Exclusions:
+#   index\.html       — frozen safety copy, not edited
+#   index\.backup\.html — working homepage (gets the same exceptions: nav blur, grid washes)
+#   *-variants\.html  — designer exploration files (cursor, loader, feature-layout)
+#   _shell\.html      — page template, not a real page
+EXCLUDE_FILE='index\.html$|index\.backup\.html$|-variants\.html$|_shell\.html$'
 
 violation() { echo "❌ $1"; EXIT=1; }
 

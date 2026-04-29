@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -322,10 +322,66 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);
 
 </main>
 
-<footer style="border-top:1px solid var(--line);padding:32px;max-width:var(--max);margin:0 auto;font-family:var(--mono);font-size:11px;color:var(--g-500);letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px">
-  <span>// ZopDev · cursor bench · crazy edition · 12 JS-driven variants</span>
-  <span><a href="/cursor-variants.html" style="color:inherit;border-bottom:1px solid var(--line)">basic edition</a> · <a href="/index.html" style="color:inherit;border-bottom:1px solid var(--line)">homepage</a></span>
+<footer>
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="/product/zopnight.html">ZopNight</a></li>
+        <li><a href="/product/zopday.html">ZopDay</a></li>
+        <li><a href="/product/zopcloud.html">ZopCloud</a></li>
+        <li><a href="/integrations.html">Integrations</a></li>
+        <li><a href="/pricing.html">Pricing</a></li>
+        <li><a href="/status.html">Status</a></li></ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/free-ebooks.html">Ebooks</a></li>
+        <li><a href="/customers.html">Case studies</a></li>
+        <li><a href="/solutions.html">Use cases by industry</a></li>
+        <li><a href="/walkthrough.html">Product guide</a></li>
+        <li><a href="/devops-hub.html">DevOps hub</a></li>
+        <li><a href="/kubernetes-guide.html">Kubernetes guide</a></li>
+        <li><a href="/ci-cd-best-practices.html">CI/CD best practices</a></li>
+        <li><a href="/changelog.html">Changelog</a></li>
+        <li><a href="/roadmap.html">Roadmap</a></li></ul></div>
+      <div class="foot-col"><h3>developers</h3><ul>
+        <li><a href="/developers.html">Documentation</a></li>
+        <li><a href="/developers.html">API reference</a></li>
+        <li><a href="/developers.html">MCP server</a></li>
+        <li><a href="/developers.html">SDK &amp; CLI</a></li>
+        <li><a href="/developers.html">Webhooks</a></li>
+        <li><a href="https://github.com/zopdev">GitHub</a></li></ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/company/careers.html">Careers</a></li>
+        <li><a href="/community.html">Community</a></li>
+        <li><a href="/brand-kit.html">Brand kit</a></li>
+        <li><a href="/brand-kit.html">Press kit</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/partners.html">Partners</a></li>
+        <li><a href="/trust.html">Trust center</a></li></ul></div>
+    </div>
+
+    <div class="foot-bottom" style="padding-top:20px; border-top:1px solid var(--line);">
+      <div>© <span data-year>2026</span> ZopDev, Inc. · all rights reserved · <a href="/trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">privacy</a> · <a href="/trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">terms</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
+    </div>
+  </div>
 </footer>
+<!-- ============================================================
+     ECLIPSE-STRIPE WORDMARK · the massive ZopDev brand anchor.
+     Sits beneath the footer on every page — theme-locked dark
+     slab, blends with the footer's #0A0A0A canvas.
+     ============================================================ -->
+<section class="eclipse-stripe" aria-label="ZopDev brand mark">
+  <div class="eclipse-mark">
+    <span class="eclipse-word">ZopDev</span><svg class="eclipse-glyph" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopdev"/></svg>
+  </div>
+</section>
+
 
 <script>
 /* ============================================================

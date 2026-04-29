@@ -304,71 +304,72 @@ footer.site-foot{
   border-top:1px solid var(--line);
   background:#0A0A0A;
 }
-.foot-grid{
+/* All rules below scoped to .site-foot so they don't bleed into plain
+   `<footer>` (which is the homepage-style markup used by every real
+   user-facing page). The plain-footer rules live in the next block. */
+.site-foot .foot-grid{
   display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr;
   gap:var(--sp-10);
   max-width:var(--max); margin:0 auto;
   padding:0 var(--gutter) var(--sp-10);
 }
-.foot-brand{ display:flex; flex-direction:column; gap:var(--sp-3); }
-.foot-brand .brand{ display:inline-flex; align-items:center; color:var(--ink); }
-.foot-brand .brand .logo{ height:32px; width:auto; color:currentColor; display:block; }
-.foot-brand p{
+.site-foot .foot-brand{ display:flex; flex-direction:column; gap:var(--sp-3); }
+.site-foot .foot-brand .brand{ display:inline-flex; align-items:center; color:var(--ink); }
+.site-foot .foot-brand .brand .logo{ height:32px; width:auto; color:currentColor; display:block; }
+.site-foot .foot-brand p{
   color:var(--ink-3); font-size:var(--t-13);
   max-width:280px; line-height:var(--lh-body); margin:0;
 }
 
-.foot-col h4{
+.site-foot .foot-col h4{
   font-family:var(--mono); font-size:var(--t-10);
   color:var(--ink-4); letter-spacing:var(--ls-meta);
   text-transform:uppercase; margin-bottom:var(--sp-4);
   font-weight:var(--fw-medium);
 }
-.foot-col ul{ list-style:none; padding:0; margin:0; }
-.foot-col li{ padding:5px 0; }
-.foot-col a{ color:var(--ink-3); font-size:var(--t-13); transition:color var(--dur-fast) var(--ease-out); }
-.foot-col a:hover{ color:var(--ink); }
+.site-foot .foot-col ul{ list-style:none; padding:0; margin:0; }
+.site-foot .foot-col li{ padding:5px 0; }
+.site-foot .foot-col a{ color:var(--ink-3); font-size:var(--t-13); transition:color var(--dur-fast) var(--ease-out); }
+.site-foot .foot-col a:hover{ color:var(--ink); }
 
-/* trust badges row — above the legal copyright line */
-.foot-trust{
+.site-foot .foot-trust{
   max-width:var(--max); margin:0 auto;
   padding:var(--sp-6) var(--gutter) var(--sp-5);
   border-top:1px solid var(--line);
   display:flex; flex-wrap:wrap; gap:var(--sp-5) var(--sp-7); align-items:center;
 }
-.foot-trust .badge{
+.site-foot .foot-trust .badge{
   font-family:var(--mono); font-size:var(--t-10);
   letter-spacing:var(--ls-meta); text-transform:uppercase;
   color:var(--ink-3); padding:5px 10px; border:1px solid var(--line);
   display:inline-flex; align-items:center; gap:var(--sp-1);
 }
-.foot-trust .badge::before{
+.site-foot .foot-trust .badge::before{
   content:''; width:7px; height:7px; background:var(--zop-blue);
 }
-.foot-trust .badge.ok::before{ background:var(--ok, #34d399); animation:live-pulse 2.4s infinite; }
-.foot-trust .badge.o::before{  background:var(--zop-orange); }
-.foot-trust .badge.g::before{  background:var(--zop-green, #7FB236); }
-.foot-trust .badge.k::before{  background:var(--ink); }
-.foot-trust .status{
+.site-foot .foot-trust .badge.ok::before{ background:var(--ok, #34d399); animation:live-pulse 2.4s infinite; }
+.site-foot .foot-trust .badge.o::before{  background:var(--zop-orange); }
+.site-foot .foot-trust .badge.g::before{  background:var(--zop-green, #7FB236); }
+.site-foot .foot-trust .badge.k::before{  background:var(--ink); }
+.site-foot .foot-trust .status{
   margin-left:auto;
   color:var(--ink-3); font-family:var(--mono); font-size:var(--t-11);
   letter-spacing:var(--ls-meta-tight);
   display:inline-flex; align-items:center; gap:var(--sp-2);
 }
-.foot-trust .status:hover{ color:var(--ink); }
+.site-foot .foot-trust .status:hover{ color:var(--ink); }
 
-/* sub-legal rail — subprocessors, DPA, accessibility, AI policy */
-.foot-legal-rail{
+.site-foot .foot-legal-rail{
   max-width:var(--max); margin:0 auto;
   padding:0 var(--gutter) var(--sp-5);
   display:flex; flex-wrap:wrap; gap:var(--sp-5);
   font-family:var(--mono); font-size:var(--t-11);
   color:var(--ink-4); letter-spacing:var(--ls-meta-tight);
 }
-.foot-legal-rail a{ color:var(--ink-4); }
-.foot-legal-rail a:hover{ color:var(--ink); }
+.site-foot .foot-legal-rail a{ color:var(--ink-4); }
+.site-foot .foot-legal-rail a:hover{ color:var(--ink); }
 
-.foot-bottom{
+.site-foot .foot-bottom{
   max-width:var(--max); margin:0 auto;
   padding:var(--sp-6) var(--gutter) 0;
   border-top:1px solid var(--line);
@@ -376,6 +377,160 @@ footer.site-foot{
   font-family:var(--mono); font-size:var(--t-11);
   color:var(--ink-4); letter-spacing:var(--ls-meta-tight);
 }
+
+/* =========================================================================
+   FOOTER · plain `<footer>` (homepage-style, no class)
+   -------------------------------------------------------------------------
+   The homepage uses `<footer>` (no class) with `.foot-grid--equal` for a
+   4-column equal-width layout, no brand block (the eclipse-stripe wordmark
+   below carries the brand). These rules ensure every subpage that uses
+   the same markup renders identically to the homepage. Theme-locked dark
+   slab so it blends with whatever sits beneath (eclipse-stripe on home,
+   page bg on subpages).
+   ========================================================================= */
+footer{ background:#0A0A0A; padding:56px 0 28px; color:#F0EBDB; }
+footer .container{ max-width:var(--max); margin:0 auto; padding:0 var(--gutter); }
+
+footer .foot-grid.foot-grid--equal{
+  display:grid; grid-template-columns:repeat(4, 1fr);
+  gap:48px; margin-bottom:32px;
+}
+@media (max-width:760px){
+  footer .foot-grid.foot-grid--equal{ grid-template-columns:repeat(2, 1fr); gap:32px; }
+}
+@media (max-width:480px){
+  footer .foot-grid.foot-grid--equal{ grid-template-columns:1fr; gap:24px; }
+}
+
+/* column headers · mono caps eyebrow grey */
+footer .foot-col h3{
+  font-family:var(--mono); font-size:10px; font-weight:600;
+  color:#9C9588;
+  letter-spacing:.16em; text-transform:uppercase; margin:0 0 18px;
+}
+footer .foot-col ul{ list-style:none; padding:0; margin:0; }
+footer .foot-col li{ padding:5px 0; }
+footer .foot-col a{
+  color:#D4CDB5; font-size:13px;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+footer .foot-col a:hover{ color:#F0EBDB; }
+
+/* bottom row · copyright + social */
+footer .foot-bottom{
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,.08);
+  font-family:var(--mono); font-size:11px;
+  color:#9C9588; letter-spacing:.05em;
+  max-width:none; margin:0;   /* override .foot-bottom from .site-foot block above */
+}
+footer .foot-bottom a{
+  color:inherit;
+  border-bottom:1px solid rgba(255,255,255,.18);
+  padding-bottom:1px;
+  transition:color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+footer .foot-bottom a:hover{ color:#F0EBDB; border-bottom-color:#F0EBDB; }
+footer .foot-social{ display:flex; gap:14px; }
+footer .foot-social a{
+  color:#9C9588; border-bottom:0;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+footer .foot-social a:hover{ color:#F0EBDB; }
+
+
+/* =========================================================================
+   ECLIPSE-STRIPE · the massive ZopDev wordmark + brand glyph that sits
+   below the footer on every page. Theme-locked dark slab, blends with
+   the footer above (same #0A0A0A canvas). Ported from index.backup.html
+   so subpages get the same anchor.
+   ========================================================================= */
+.eclipse-stripe{
+  position:relative;
+  background:#0A0A0A;
+  padding:0 32px;
+  height:300px;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.eclipse-mark{
+  position:relative; z-index:1;
+  font-family:var(--font);
+  font-size:clamp(120px, 20vw, 340px);
+  font-weight:700;
+  letter-spacing:-.055em; line-height:.85;
+  margin:0; color:#F0EBDB;
+  pointer-events:none;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+  display:inline-flex; align-items:center; gap:.06em;
+}
+.eclipse-mark .eclipse-word{ display:inline-block; }
+.eclipse-mark .eclipse-glyph{
+  display:inline-block;
+  width:0.72em; height:0.72em;
+  flex-shrink:0;
+  margin-left:.04em;
+  margin-bottom:-.02em;
+  vertical-align:baseline;
+}
+@media (max-width:760px){
+  .eclipse-stripe{ height:200px; padding:0 20px; }
+}
+
+
+/* =========================================================================
+   FAQ ACCORDION · canonical · ported from index.backup.html so every page
+   that needs an FAQ can use the same markup:
+     <div class="faq-list">
+       <details>
+         <summary>Question? <span class="faq-chevron">+</span></summary>
+         <div class="faq-body"><p>Answer.</p></div>
+       </details>
+       ...
+     </div>
+   ========================================================================= */
+.faq-list{
+  display:flex; flex-direction:column;
+  border:1px solid var(--line);
+}
+.faq-list details{ border-bottom:1px solid var(--line); }
+.faq-list details:last-child{ border-bottom:0; }
+.faq-list summary{
+  padding:20px 24px;
+  font-size:15px; font-weight:600; font-family:var(--font);
+  cursor:pointer; list-style:none;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  color:var(--ink); user-select:none; line-height:1.4;
+  transition:background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.faq-list summary::-webkit-details-marker{ display:none; }
+.faq-list summary:hover{ background:rgba(0,0,0,.025); }
+html[data-theme="dark"] .faq-list summary:hover{ background:rgba(255,255,255,.04); }
+.faq-list details[open] summary{ color:var(--zop-orange); }
+.faq-chevron{
+  width:22px; height:22px; flex-shrink:0;
+  border:1px solid var(--line);
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; color:var(--ink-4); font-family:var(--mono); font-weight:500;
+  transition:transform var(--dur-fast) var(--ease-out),
+             color var(--dur-fast) var(--ease-out),
+             border-color var(--dur-fast) var(--ease-out);
+}
+.faq-list details[open] .faq-chevron{
+  transform:rotate(45deg);
+  color:var(--zop-orange);
+  border-color:var(--zop-orange);
+}
+.faq-body{
+  padding:0 24px 20px;
+  font-size:13.5px; color:var(--ink-3); line-height:1.7;
+}
+.faq-body p{ margin:0 0 10px; }
+.faq-body p:last-child{ margin:0; }
+.faq-body strong{ color:var(--ink); }
+.faq-body a{ color:var(--zop-blue); }
 
 
 /* =========================================================================

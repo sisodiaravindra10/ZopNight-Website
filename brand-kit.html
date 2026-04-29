@@ -12,7 +12,7 @@
   and fonts come from homepage-chrome.css so output stays on-brand.
   ============================================================================
 -->
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -801,15 +801,16 @@ html[data-theme="dark"] .bk-preview{
 
 /* ── 10 · Press kit · gallery of brand marks (special, no edit fields) ── */
 #t-press-kit{
-  width:1200px; height:1200px; padding:48px;
+  width:1200px; height:1660px; padding:48px;
   display:grid; grid-template-columns:repeat(2, 1fr); gap:24px;
+  align-content:start;
   background:#FAF7EC; color:#0A0A0A;
 }
 #t-press-kit .pk-cell{
   border:1px solid #D9D3BF; padding:32px;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
   background:#FAF7EC;
-  position:relative;
+  position:relative; min-height:260px;
 }
 #t-press-kit .pk-cell svg{ width:160px; height:160px; }
 #t-press-kit .pk-cell .pk-label{
@@ -820,6 +821,34 @@ html[data-theme="dark"] .bk-preview{
   font-family:'JetBrains Mono', monospace; font-size:11px;
   letter-spacing:.06em; color:#525252;
 }
+/* Wordmark section divider · spans both columns */
+#t-press-kit .pk-section{
+  grid-column:1 / -1;
+  display:flex; align-items:center; gap:12px; padding:12px 0 0;
+  font-family:'JetBrains Mono', monospace; font-size:10px; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:#767063;
+}
+#t-press-kit .pk-section::after{ content:''; flex:1; height:1px; background:#D9D3BF; }
+/* Wordmark cells · full-width rows */
+#t-press-kit .pk-wm-cell{
+  grid-column:1 / -1;
+  border:1px solid #D9D3BF; padding:28px 40px;
+  display:flex; align-items:center; gap:40px;
+  background:#FAF7EC; min-height:116px;
+}
+#t-press-kit .pk-wm-cell.pk-wm-dark{ background:#0A0A0A; border-color:#1e1e1e; }
+#t-press-kit .pk-wm-cell svg{ height:52px; width:auto; flex-shrink:0; }
+#t-press-kit .pk-wm-cell .pk-wm-meta{ margin-left:auto; text-align:right; }
+#t-press-kit .pk-wm-cell .pk-label{
+  font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:600;
+  letter-spacing:.08em; color:#0A0A0A;
+}
+#t-press-kit .pk-wm-cell.pk-wm-dark .pk-label{ color:#F0EBDB; }
+#t-press-kit .pk-wm-cell .pk-id{
+  font-family:'JetBrains Mono', monospace; font-size:10px;
+  letter-spacing:.06em; color:#767063;
+}
+#t-press-kit .pk-wm-cell.pk-wm-dark .pk-id{ color:#555; }
 
 /* ============================================================================
    PRESS-KIT DOWNLOAD PANEL · sits in the editor when press-kit is active
@@ -1156,6 +1185,36 @@ const SVG_MARK = {
          '</svg>'
 };
 
+/* Full wordmark lockups (mark icon + "ZopDev" text) · no fixed width/height so
+   CSS controls display size in the press-kit preview. viewBox="0 0 150 40". */
+const WM_FONT = "'Space Grotesk',system-ui,-apple-system,sans-serif";
+const SVG_WORDMARK = {
+  light: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 40">` +
+         `<rect x="0"  y="0"  width="20" height="20" fill="#2A4494"/>` +
+         `<rect x="20" y="0"  width="20" height="20" fill="#F58549"/>` +
+         `<rect x="20" y="20" width="20" height="20" fill="#7FB236"/>` +
+         `<text x="50" y="29" font-family="${WM_FONT}" font-size="22" font-weight="700" fill="#0A0A0A" letter-spacing="-0.4">ZopDev</text>` +
+         `</svg>`,
+  dark: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 40">` +
+        `<rect x="0"  y="0"  width="20" height="20" fill="#2A4494"/>` +
+        `<rect x="20" y="0"  width="20" height="20" fill="#F58549"/>` +
+        `<rect x="20" y="20" width="20" height="20" fill="#7FB236"/>` +
+        `<text x="50" y="29" font-family="${WM_FONT}" font-size="22" font-weight="700" fill="#F0EBDB" letter-spacing="-0.4">ZopDev</text>` +
+        `</svg>`,
+  monoDark: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 40">` +
+            `<rect x="0"  y="0"  width="20" height="20" fill="#0A0A0A"/>` +
+            `<rect x="20" y="0"  width="20" height="20" fill="#0A0A0A"/>` +
+            `<rect x="20" y="20" width="20" height="20" fill="#0A0A0A"/>` +
+            `<text x="50" y="29" font-family="${WM_FONT}" font-size="22" font-weight="700" fill="#0A0A0A" letter-spacing="-0.4">ZopDev</text>` +
+            `</svg>`,
+  monoLight: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 40">` +
+             `<rect x="0"  y="0"  width="20" height="20" fill="#F0EBDB"/>` +
+             `<rect x="20" y="0"  width="20" height="20" fill="#F0EBDB"/>` +
+             `<rect x="20" y="20" width="20" height="20" fill="#F0EBDB"/>` +
+             `<text x="50" y="29" font-family="${WM_FONT}" font-size="22" font-weight="700" fill="#F0EBDB" letter-spacing="-0.4">ZopDev</text>` +
+             `</svg>`,
+};
+
 function markFor(sub){
   return SVG_MARK[sub] || SVG_MARK.dev;
 }
@@ -1385,6 +1444,35 @@ const RENDERERS = {
         <div class="pk-id">#mark-zopcloud</div>
       </div>
     </div>
+    <div class="pk-section">Wordmarks</div>
+    <div class="pk-wm-cell">
+      ${SVG_WORDMARK.light}
+      <div class="pk-wm-meta">
+        <div class="pk-label">Full color · light</div>
+        <div class="pk-id">On paper / white surfaces</div>
+      </div>
+    </div>
+    <div class="pk-wm-cell pk-wm-dark">
+      ${SVG_WORDMARK.dark}
+      <div class="pk-wm-meta">
+        <div class="pk-label">Full color · dark</div>
+        <div class="pk-id">On ink / dark surfaces</div>
+      </div>
+    </div>
+    <div class="pk-wm-cell">
+      ${SVG_WORDMARK.monoDark}
+      <div class="pk-wm-meta">
+        <div class="pk-label">Mono · ink</div>
+        <div class="pk-id">Single-color dark · print</div>
+      </div>
+    </div>
+    <div class="pk-wm-cell pk-wm-dark">
+      ${SVG_WORDMARK.monoLight}
+      <div class="pk-wm-meta">
+        <div class="pk-label">Mono · white</div>
+        <div class="pk-id">Single-color light · dark print</div>
+      </div>
+    </div>
   `,
 };
 
@@ -1515,6 +1603,28 @@ function renderEditor(){
           <button data-pk="cloud" data-fmt="png" data-size="256">PNG 256</button>
           <button data-pk="cloud" data-fmt="png" data-size="512">PNG 512</button>
           <button data-pk="cloud" data-fmt="png" data-size="1024">PNG 1024</button>
+        </div>
+      </div>
+      <div class="pk-download">
+        <h4>Wordmark · full color</h4>
+        <div class="pk-buttons">
+          <button class="primary" data-pk="wordmark-light" data-fmt="svg">SVG · light</button>
+          <button class="primary" data-pk="wordmark-dark"  data-fmt="svg">SVG · dark</button>
+          <button data-pk="wordmark-light" data-fmt="png" data-size="400">PNG 400</button>
+          <button data-pk="wordmark-light" data-fmt="png" data-size="800">PNG 800</button>
+          <button data-pk="wordmark-dark"  data-fmt="png" data-size="400">PNG 400 · dark</button>
+          <button data-pk="wordmark-dark"  data-fmt="png" data-size="800">PNG 800 · dark</button>
+        </div>
+      </div>
+      <div class="pk-download">
+        <h4>Wordmark · mono</h4>
+        <div class="pk-buttons">
+          <button class="primary" data-pk="wordmark-mono-dark"  data-fmt="svg">SVG · ink</button>
+          <button class="primary" data-pk="wordmark-mono-light" data-fmt="svg">SVG · white</button>
+          <button data-pk="wordmark-mono-dark"  data-fmt="png" data-size="400">PNG 400 · ink</button>
+          <button data-pk="wordmark-mono-light" data-fmt="png" data-size="400">PNG 400 · white</button>
+          <button data-pk="wordmark-mono-dark"  data-fmt="png" data-size="800">PNG 800 · ink</button>
+          <button data-pk="wordmark-mono-light" data-fmt="png" data-size="800">PNG 800 · white</button>
         </div>
       </div>
       <div class="pk-download" style="border-bottom:0;">
@@ -2351,14 +2461,63 @@ const MARK_DEFS = {
       <rect x="12" y="8"  width="8"  height="6"  fill="#FFFFFF"/>
       <rect x="6"  y="14" width="20" height="10" fill="#FFFFFF"/>
     </svg>`
-  }
+  },
+  /* Wordmark lockups · aspect ratio 150:40 (3.75:1) · use WW/HH for output dims */
+  'wordmark-light': {
+    name: 'Wordmark · full color light', w: 150, h: 40,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 40" width="WW" height="HH">
+      <rect x="0"  y="0"  width="20" height="20" fill="#2A4494"/>
+      <rect x="20" y="0"  width="20" height="20" fill="#F58549"/>
+      <rect x="20" y="20" width="20" height="20" fill="#7FB236"/>
+      <text x="50" y="29" font-family="'Space Grotesk',system-ui,sans-serif" font-size="22" font-weight="700" fill="#0A0A0A" letter-spacing="-0.4">ZopDev</text>
+    </svg>`
+  },
+  'wordmark-dark': {
+    name: 'Wordmark · full color dark', w: 150, h: 40,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 40" width="WW" height="HH">
+      <rect x="0"  y="0"  width="20" height="20" fill="#2A4494"/>
+      <rect x="20" y="0"  width="20" height="20" fill="#F58549"/>
+      <rect x="20" y="20" width="20" height="20" fill="#7FB236"/>
+      <text x="50" y="29" font-family="'Space Grotesk',system-ui,sans-serif" font-size="22" font-weight="700" fill="#F0EBDB" letter-spacing="-0.4">ZopDev</text>
+    </svg>`
+  },
+  'wordmark-mono-dark': {
+    name: 'Wordmark · mono ink', w: 150, h: 40,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 40" width="WW" height="HH">
+      <rect x="0"  y="0"  width="20" height="20" fill="#0A0A0A"/>
+      <rect x="20" y="0"  width="20" height="20" fill="#0A0A0A"/>
+      <rect x="20" y="20" width="20" height="20" fill="#0A0A0A"/>
+      <text x="50" y="29" font-family="'Space Grotesk',system-ui,sans-serif" font-size="22" font-weight="700" fill="#0A0A0A" letter-spacing="-0.4">ZopDev</text>
+    </svg>`
+  },
+  'wordmark-mono-light': {
+    name: 'Wordmark · mono white', w: 150, h: 40,
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 40" width="WW" height="HH">
+      <rect x="0"  y="0"  width="20" height="20" fill="#F0EBDB"/>
+      <rect x="20" y="0"  width="20" height="20" fill="#F0EBDB"/>
+      <rect x="20" y="20" width="20" height="20" fill="#F0EBDB"/>
+      <text x="50" y="29" font-family="'Space Grotesk',system-ui,sans-serif" font-size="22" font-weight="700" fill="#F0EBDB" letter-spacing="-0.4">ZopDev</text>
+    </svg>`
+  },
 };
 
 function downloadMark(key, fmt, size){
   const def = MARK_DEFS[key];
   if(!def) return;
+  /* Non-square wordmarks carry w/h aspect ratio; icons are square */
+  const pngW = size;
+  const pngH = (def.w && def.h) ? Math.round(size * def.h / def.w) : size;
+  const dimSuffix = pngH !== pngW ? pngW + 'x' + pngH : String(pngW);
+
+  function buildSvgStr(){
+    return def.svg
+      .replace(/SIZE/g, String(size))
+      .replace(/WW/g, String(pngW))
+      .replace(/HH/g, String(pngH));
+  }
+
   if(fmt === 'svg'){
-    const svgStr = def.svg.replace(/SIZE/g, '512');
+    const svgStr = buildSvgStr();
     const blob = new Blob([svgStr], {type:'image/svg+xml'});
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -2370,23 +2529,23 @@ function downloadMark(key, fmt, size){
     return;
   }
   /* PNG · render the SVG into a canvas at the requested size */
-  const svgStr = def.svg.replace(/SIZE/g, String(size));
+  const svgStr = buildSvgStr();
   const blob = new Blob([svgStr], {type:'image/svg+xml'});
   const url = URL.createObjectURL(blob);
   const img = new Image();
   img.onload = () => {
     const canvas = document.createElement('canvas');
-    canvas.width = size; canvas.height = size;
+    canvas.width = pngW; canvas.height = pngH;
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, size, size);
+    ctx.drawImage(img, 0, 0, pngW, pngH);
     canvas.toBlob(b => {
       const burl = URL.createObjectURL(b);
       const link = document.createElement('a');
-      link.download = 'zopdev-' + key + '-' + size + '.png';
+      link.download = 'zopdev-' + key + '-' + dimSuffix + '.png';
       link.href = burl;
       link.click();
       setTimeout(() => URL.revokeObjectURL(burl), 1000);
-      showToast('PNG downloaded · ' + def.name + ' · ' + size + '×' + size);
+      showToast('PNG downloaded · ' + def.name + ' · ' + pngW + '×' + pngH);
     }, 'image/png');
     URL.revokeObjectURL(url);
   };

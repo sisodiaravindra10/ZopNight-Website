@@ -39,11 +39,10 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 .wt-stat .v{font-size:48px;line-height:1;font-weight:700;letter-spacing:-0.025em;color:var(--zop-cream);font-variant-numeric:tabular-nums}
 .wt-stat .v em{font-style:normal;color:var(--zop-orange)}
 
-/* TOC · sticky table-of-contents that follows scroll */
+/* TOC · sticky table-of-contents that follows scroll. Solid paper bg per
+   token rules — no backdrop-filter blur outside the homepage nav. */
 .wt-toc{position:sticky;top:0;z-index:40;background:var(--paper);
-  border-bottom:1px solid var(--line);padding:14px 0;
-  -webkit-backdrop-filter:saturate(180%) blur(12px);
-  backdrop-filter:saturate(180%) blur(12px)}
+  border-bottom:1px solid var(--line);padding:14px 0}
 .wt-toc .inner{max-width:var(--max);margin:0 auto;padding:0 var(--gutter,32px);
   display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none}
 .wt-toc .inner::-webkit-scrollbar{display:none}
@@ -167,11 +166,11 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
       <p class="lede">Trimmed from 9 → 6 nav items. Security &amp; Compliance moves into Trust Center (footer). Community moves into Resources. Get Started becomes the right-side CTAs. Company collapses to footer + an About link.</p>
     </div>
     <div class="wt-pages">
-      <a class="wt-page" href="/product.html"><div class="path">Product</div><div class="wt-page-name">Product mega-menu</div><div class="wt-page-desc">ZopDay · ZopNight · Platform · Roadmap &amp; What's New</div></a>
+      <a class="wt-page" href="/product/zopnight.html"><div class="path">Product</div><div class="wt-page-name">Product mega-menu</div><div class="wt-page-desc">ZopDay · ZopNight · Platform · Roadmap &amp; What's New</div></a>
       <a class="wt-page" href="/solutions.html"><div class="path">Solutions</div><div class="wt-page-name">Solutions mega-menu</div><div class="wt-page-desc">By stage · industry · role · cloud · use case · deployment</div></a>
       <a class="wt-page" href="/customers.html"><div class="path">Customers</div><div class="wt-page-name">Customers</div><div class="wt-page-desc">Promoted to top-nav · #1 conversion driver for enterprise</div></a>
       <a class="wt-page" href="/pricing.html"><div class="path">Pricing</div><div class="wt-page-name">Pricing</div><div class="wt-page-desc">Tiers · marketplaces · feature matrix · vs competitors</div></a>
-      <a class="wt-page" href="/resources.html"><div class="path">Resources</div><div class="wt-page-name">Resources mega-menu</div><div class="wt-page-desc">Blog · benchmarks · videos · templates · glossary · university</div></a>
+      <a class="wt-page" href="/blog.html"><div class="path">Resources</div><div class="wt-page-name">Resources mega-menu</div><div class="wt-page-desc">Blog · benchmarks · videos · templates · glossary · university</div></a>
       <a class="wt-page" href="/developers.html"><div class="path">Developers</div><div class="wt-page-name">Developers hub</div><div class="wt-page-desc">API · SDKs · CLI · Terraform · MCP · webhooks · tutorials</div></a>
     </div>
 
@@ -402,7 +401,7 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
     </div>
 
     <div class="wt-pages">
-      <a class="wt-page" href="/resources.html"><div class="path">/resources</div><div class="wt-page-name">Resources hub</div></a>
+      <a class="wt-page" href="/blog.html"><div class="path">/resources</div><div class="wt-page-name">Resources hub</div></a>
       <a class="wt-page" href="/resources/blog.html"><div class="path">/resources/blog</div><div class="wt-page-name">Blog</div></a>
       <a class="wt-page" href="/resources/architecture.html"><div class="path">/resources/architecture</div><div class="wt-page-name">Architecture &amp; Best Practices</div></a>
       <a class="wt-page" href="/resources/whitepapers.html"><div class="path">/resources/whitepapers</div><div class="wt-page-name">Compliance &amp; Security Whitepapers</div></a>
@@ -465,10 +464,10 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
       <a class="wt-page" href="/developers/sdks.html"><div class="path">/developers/sdks</div><div class="wt-page-name">SDKs</div></a>
       <a class="wt-page" href="/developers/cli.html"><div class="path">/developers/cli</div><div class="wt-page-name">CLI <span class="new">new</span></div></a>
       <a class="wt-page" href="/developers/terraform.html"><div class="path">/developers/terraform</div><div class="wt-page-name">Terraform Provider <span class="new">new</span></div></a>
-      <a class="wt-page" href="/developers/mcp.html"><div class="path">/developers/mcp</div><div class="wt-page-name">MCP Server <span class="new">flagship</span></div></a>
+      <a class="wt-page" href="/developers.html"><div class="path">/developers/mcp</div><div class="wt-page-name">MCP Server <span class="new">flagship</span></div></a>
       <a class="wt-page" href="/developers/github-actions.html"><div class="path">/developers/github-actions</div><div class="wt-page-name">GitHub Actions <span class="new">new</span></div></a>
       <a class="wt-page" href="/developers/gitlab-ci.html"><div class="path">/developers/gitlab-ci</div><div class="wt-page-name">GitLab CI <span class="new">new</span></div></a>
-      <a class="wt-page" href="/developers/webhooks.html"><div class="path">/developers/webhooks</div><div class="wt-page-name">Webhooks</div></a>
+      <a class="wt-page" href="/developers.html"><div class="path">/developers/webhooks</div><div class="wt-page-name">Webhooks</div></a>
       <a class="wt-page" href="/developers/tutorials.html"><div class="path">/developers/tutorials</div><div class="wt-page-name">Tutorials</div></a>
       <a class="wt-page" href="/developers/recipes.html"><div class="path">/developers/recipes</div><div class="wt-page-name">Recipes / Cookbook</div></a>
       <a class="wt-page" href="/developers/changelog-api.html"><div class="path">/developers/changelog-api</div><div class="wt-page-name">API Changelog</div></a>
@@ -539,7 +538,7 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
     <div class="wt-pages">
       <a class="wt-page" href="/about.html"><div class="path">/about</div><div class="wt-page-name">About</div></a>
       <a class="wt-page" href="/company/careers.html"><div class="path">/company/careers</div><div class="wt-page-name">Careers &amp; Culture</div></a>
-      <a class="wt-page" href="/company/press.html"><div class="path">/company/press</div><div class="wt-page-name">Press &amp; News</div></a>
+      <a class="wt-page" href="/brand-kit.html"><div class="path">/company/press</div><div class="wt-page-name">Press &amp; News</div></a>
       <a class="wt-page" href="/company/leadership.html"><div class="path">/company/leadership</div><div class="wt-page-name">Leadership <span class="new">new</span></div></a>
       <a class="wt-page" href="/company/investors.html"><div class="path">/company/investors</div><div class="wt-page-name">Investors <span class="new">new</span></div></a>
       <a class="wt-page" href="/company/advisors.html"><div class="path">/company/advisors</div><div class="wt-page-name">Advisory Board <span class="new">new</span></div></a>
@@ -547,15 +546,15 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
       <a class="wt-page" href="/company/sustainability.html"><div class="path">/company/sustainability</div><div class="wt-page-name">Sustainability / ESG <span class="new">new</span></div></a>
       <a class="wt-page" href="/company/responsible-ai.html"><div class="path">/company/responsible-ai</div><div class="wt-page-name">Responsible AI <span class="new">new</span></div></a>
       <a class="wt-page" href="/company/accessibility.html"><div class="path">/company/accessibility</div><div class="wt-page-name">Accessibility <span class="new">new</span></div></a>
-      <a class="wt-page" href="/company/contact.html"><div class="path">/company/contact</div><div class="wt-page-name">Contact</div></a>
+      <a class="wt-page" href="/contact.html"><div class="path">/company/contact</div><div class="wt-page-name">Contact</div></a>
       <a class="wt-page" href="/company/offices.html"><div class="path">/company/offices</div><div class="wt-page-name">Offices <span class="new">new</span></div></a>
     </div>
 
     <div class="wt-sub">
       <h3><span class="num">10.1</span> Legal</h3>
       <div class="wt-pages">
-        <a class="wt-page" href="/legal/privacy.html"><div class="path">/legal/privacy</div><div class="wt-page-name">Privacy Policy</div></a>
-        <a class="wt-page" href="/legal/terms.html"><div class="path">/legal/terms</div><div class="wt-page-name">Terms of Service</div></a>
+        <a class="wt-page" href="/trust.html"><div class="path">/legal/privacy</div><div class="wt-page-name">Privacy Policy</div></a>
+        <a class="wt-page" href="/trust.html"><div class="path">/legal/terms</div><div class="wt-page-name">Terms of Service</div></a>
         <a class="wt-page" href="/legal/cookies.html"><div class="path">/legal/cookies</div><div class="wt-page-name">Cookie Policy</div></a>
         <a class="wt-page" href="/legal/aup.html"><div class="path">/legal/aup</div><div class="wt-page-name">Acceptable Use <span class="new">new</span></div></a>
         <a class="wt-page" href="/legal/dmca.html"><div class="path">/legal/dmca</div><div class="wt-page-name">DMCA <span class="new">new</span></div></a>
@@ -650,20 +649,66 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 </section>
 
 <!-- ============ FOOTER ============ -->
-<footer class="wt-foot">
-  <div class="inner">
-    <div>
-      <div class="wm">Zop<em>Dev</em></div>
-      <div style="margin-top:6px">// site walkthrough · sitemap v2 · all 13 sections</div>
+<footer>
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="/product/zopnight.html">ZopNight</a></li>
+        <li><a href="/product/zopday.html">ZopDay</a></li>
+        <li><a href="/product/zopcloud.html">ZopCloud</a></li>
+        <li><a href="/integrations.html">Integrations</a></li>
+        <li><a href="/pricing.html">Pricing</a></li>
+        <li><a href="/status.html">Status</a></li></ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/free-ebooks.html">Ebooks</a></li>
+        <li><a href="/customers.html">Case studies</a></li>
+        <li><a href="/solutions.html">Use cases by industry</a></li>
+        <li><a href="/walkthrough.html">Product guide</a></li>
+        <li><a href="/devops-hub.html">DevOps hub</a></li>
+        <li><a href="/kubernetes-guide.html">Kubernetes guide</a></li>
+        <li><a href="/ci-cd-best-practices.html">CI/CD best practices</a></li>
+        <li><a href="/changelog.html">Changelog</a></li>
+        <li><a href="/roadmap.html">Roadmap</a></li></ul></div>
+      <div class="foot-col"><h3>developers</h3><ul>
+        <li><a href="/developers.html">Documentation</a></li>
+        <li><a href="/developers.html">API reference</a></li>
+        <li><a href="/developers.html">MCP server</a></li>
+        <li><a href="/developers.html">SDK &amp; CLI</a></li>
+        <li><a href="/developers.html">Webhooks</a></li>
+        <li><a href="https://github.com/zopdev">GitHub</a></li></ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/company/careers.html">Careers</a></li>
+        <li><a href="/community.html">Community</a></li>
+        <li><a href="/brand-kit.html">Brand kit</a></li>
+        <li><a href="/brand-kit.html">Press kit</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/partners.html">Partners</a></li>
+        <li><a href="/trust.html">Trust center</a></li></ul></div>
     </div>
-    <div style="display:flex;gap:18px;flex-wrap:wrap">
-      <a href="#top">↑ top</a>
-      <a href="/index.html">homepage</a>
-      <a href="/site-map.html">site map</a>
-      <a href="/brand-launch.html">brand launch</a>
+
+    <div class="foot-bottom" style="padding-top:20px; border-top:1px solid var(--line);">
+      <div>© <span data-year>2026</span> ZopDev, Inc. · all rights reserved · <a href="/trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">privacy</a> · <a href="/trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">terms</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
     </div>
   </div>
 </footer>
+<!-- ============================================================
+     ECLIPSE-STRIPE WORDMARK · the massive ZopDev brand anchor.
+     Sits beneath the footer on every page — theme-locked dark
+     slab, blends with the footer's #0A0A0A canvas.
+     ============================================================ -->
+<section class="eclipse-stripe" aria-label="ZopDev brand mark">
+  <div class="eclipse-mark">
+    <span class="eclipse-word">ZopDev</span><svg class="eclipse-glyph" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopdev"/></svg>
+  </div>
+</section>
+
 
 <script>
 /* TOC scroll-spy · highlights the active section in the sticky nav */

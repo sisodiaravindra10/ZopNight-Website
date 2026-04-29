@@ -60,6 +60,8 @@
     '.mob-nav-link:hover{background:var(--g-100,#ECE7D7);border-left-color:var(--zop-orange,#F58549)}'+
     '.mob-nav-link:focus-visible{outline:none;background:var(--g-100,#ECE7D7);border-left-color:var(--zop-orange,#F58549)}'+
     '.mob-nav-link[aria-current="page"]{color:var(--zop-orange,#F58549);border-left-color:var(--zop-orange,#F58549)}'+
+    '.mob-nav-link.is-sub{padding-left:44px;font-size:14px;font-weight:400;color:var(--ink-3,#707070);min-height:38px}'+
+    '.mob-nav-link.is-sub:hover{color:var(--ink,#0A0A0A)}'+
     '.mob-nav-link .arrow{font-family:var(--mono,"JetBrains Mono",monospace);color:var(--g-500,#707070);font-size:14px;transition:transform .16s,color .16s}'+
     '.mob-nav-link:hover .arrow{color:var(--zop-orange,#F58549);transform:translateX(3px)}'+
     '.mob-nav-foot{padding:20px 24px;border-top:1px solid var(--line,#D9D3BF);display:flex;flex-direction:column;gap:12px;background:var(--g-50,#F0EBDB);flex-shrink:0}'+
@@ -75,18 +77,29 @@
      Build the link set: mirror the desktop nav-links + nav-cta, but adapt
      for the drawer format. Each section has a label and a list of links.
      ------------------------------------------------------------------------- */
+  /* primary · matches the desktop nav-links order:
+     Product · Resources · Pricing · Company · Community.
+     Mobile drawer is flat (no dropdown panes), so each top-level
+     entry plus its key sub-pages get their own row. */
   var primary = [
-    { href: '/product.html',     label: 'Product' },
-    { href: '/solutions.html',   label: 'Solutions' },
-    { href: '/customers.html',   label: 'Customers' },
-    { href: '/pricing.html',     label: 'Pricing' },
-    { href: '/resources.html',   label: 'Resources' },
-    { href: '/developers.html',  label: 'Developers' }
+    { href: '/product.html',           label: 'Product' },
+    { href: '/product/zopnight.html',  label: 'ZopNight',  sub: true },
+    { href: '/product/zopday.html',    label: 'ZopDay',    sub: true },
+    { href: '/product/zopcloud.html',  label: 'ZopCloud',  sub: true },
+    { href: '/resources.html',         label: 'Resources' },
+    { href: '/blog.html',              label: 'Blog',      sub: true },
+    { href: '/customers.html',         label: 'Case studies', sub: true },
+    { href: '/changelog.html',         label: 'Changelog', sub: true },
+    { href: '/pricing.html',           label: 'Pricing' },
+    { href: '/about.html',             label: 'Company' },
+    { href: '/company/careers.html',   label: 'Careers',   sub: true },
+    { href: '/community.html',         label: 'Community' }
   ];
+  /* secondary · the right-side nav-cta, plus utility links */
   var secondary = [
+    { href: '/status.html',      label: 'Status' },
     { href: '/playground.html',  label: 'Playground' },
     { href: '/trust.html',       label: 'Trust Center' },
-    { href: '/about.html',       label: 'About' },
     { href: '/signin.html',      label: 'Sign in' }
   ];
 
@@ -121,9 +134,9 @@
   drawer.setAttribute('aria-label', 'Site menu');
   drawer.setAttribute('aria-hidden', 'true');
 
-  function linkRow(href, label, isCurrent){
+  function linkRow(href, label, isCurrent, isSub){
     return ''
-      + '<a class="mob-nav-link" href="' + href + '"'
+      + '<a class="mob-nav-link' + (isSub ? ' is-sub' : '') + '" href="' + href + '"'
       + (isCurrent ? ' aria-current="page"' : '') + '>'
       +   '<span>' + label + '</span>'
       +   '<span class="arrow" aria-hidden="true">→</span>'
@@ -138,8 +151,8 @@
     }catch(_){ return false; }
   }
 
-  var primaryHTML = primary.map(function(l){ return linkRow(l.href, l.label, isCurrent(l.href)); }).join('');
-  var secondaryHTML = secondary.map(function(l){ return linkRow(l.href, l.label, isCurrent(l.href)); }).join('');
+  var primaryHTML = primary.map(function(l){ return linkRow(l.href, l.label, isCurrent(l.href), l.sub); }).join('');
+  var secondaryHTML = secondary.map(function(l){ return linkRow(l.href, l.label, isCurrent(l.href), l.sub); }).join('');
 
   drawer.innerHTML = ''
     + '<div class="mob-nav-head">'
