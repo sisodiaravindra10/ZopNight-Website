@@ -1302,6 +1302,81 @@ html[data-theme="dark"] .tone-orange.lit .pcb-chip-box { animation-name:chip-hit
 .price ul li::before{content:'+'; position:absolute; left:0; top:5px; color:var(--zop-blue); font-weight:700; font-family:var(--mono)}
 .price .cta{margin-top:28px}
 
+/* Product switcher · sits over the pricing grid so visitors can flip
+   between ZopNight / ZopDay / ZopCloud pricing without leaving the
+   section. ZopDay + ZopCloud are pre-launch, so their panes show
+   indicative pricing + a waitlist CTA instead of the live tiers. */
+.prod-switch{
+  display:inline-flex; gap:6px;
+  margin:0 0 24px;
+  padding:6px;
+  border:1px solid var(--line);
+  background:var(--zop-white);
+}
+.ps-tab{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:10px 18px;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--g-700);
+  font-family:var(--font); font-size:14px; font-weight:500;
+  cursor:pointer; line-height:1;
+  transition:background var(--dur-fast) var(--ease-out),
+             color var(--dur-fast) var(--ease-out),
+             border-color var(--dur-fast) var(--ease-out),
+             box-shadow var(--dur-med) var(--ease-out),
+             transform var(--dur-med) var(--ease-out);
+}
+.ps-tab:hover{ color:var(--ink); }
+.ps-tab.is-active{
+  background:var(--paper);
+  color:var(--ink);
+  border-color:var(--line);
+  box-shadow:0 4px 0 -2px var(--ink);
+  transform:translateY(-1px);
+}
+.ps-tab:focus-visible{ outline:2px solid var(--zop-orange); outline-offset:2px; }
+.ps-mark{ width:16px; height:16px; display:inline-flex; flex-shrink:0; }
+.ps-mark svg{ width:100%; height:100%; display:block; }
+.ps-name{ font-weight:600; letter-spacing:-0.01em; }
+.ps-status{
+  font-family:var(--mono); font-size:9px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase;
+  padding:3px 6px;
+  border:1px solid var(--line); color:var(--g-500);
+}
+.ps-status.live{ color:#7FB236; border-color:#7FB236; }
+
+/* Soon panel · same shell as `.pricing` (border + zop-white bg) so the
+   section height doesn't shift when the switcher flips, just the content
+   inside collapses to a centered waitlist message. */
+.pricing-soon{
+  border:1px solid var(--line);
+  background:var(--zop-white);
+  padding:80px 40px;
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  text-align:center; min-height:520px; justify-content:center;
+}
+.pricing-soon .ps-soon-mark{ width:48px; height:48px; margin-bottom:8px; }
+.pricing-soon h3{ font-size:32px; font-weight:700; letter-spacing:-0.03em; line-height:1.1; margin:0; }
+.pricing-soon .lede{ color:var(--g-600); max-width:520px; line-height:1.55; font-size:15px; margin:0; }
+.pricing-soon .ps-eta{
+  font-family:var(--mono); font-size:11px; color:var(--g-500);
+  letter-spacing:.14em; text-transform:uppercase;
+  padding:6px 10px; border:1px solid var(--line);
+  margin-top:4px;
+}
+.pricing-soon .cta-row{ display:flex; gap:12px; margin-top:8px; flex-wrap:wrap; justify-content:center; }
+
+.pricing-panes [data-product][hidden]{ display:none; }
+
+@media (max-width:760px){
+  .prod-switch{ display:flex; flex-direction:column; width:100%; }
+  .ps-tab{ justify-content:flex-start; }
+  .pricing-soon{ padding:56px 24px; min-height:auto; }
+  .pricing-soon h3{ font-size:24px; }
+}
+
 /* =================================================================
    CASES BENTO, merged customers + journey · adopts feature-bento style
    Individual tiles with gaps, card-lift hover, expand-button affordance.
@@ -6750,7 +6825,32 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
         <p class="sub">Flat, predictable, tied to value. Not usage traps. (Sound familiar?)</p>
       </div>
     </div>
-    <div class="pricing">
+    <div class="prod-switch" role="tablist" aria-label="Pricing by product">
+      <button class="ps-tab is-active" type="button" role="tab" data-product="zopnight" aria-selected="true" aria-controls="pricing-zopnight">
+        <span class="ps-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><rect width="32" height="32" fill="#2A4494"/><circle cx="16" cy="16" r="8" fill="#FFFFFF"/></svg>
+        </span>
+        <span class="ps-name">ZopNight</span>
+        <span class="ps-status live">live</span>
+      </button>
+      <button class="ps-tab" type="button" role="tab" data-product="zopday" aria-selected="false" aria-controls="pricing-zopday" tabindex="-1">
+        <span class="ps-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><rect width="32" height="32" fill="#F58549"/><circle cx="16" cy="16" r="8" fill="#FFFFFF"/></svg>
+        </span>
+        <span class="ps-name">ZopDay</span>
+        <span class="ps-status">soon</span>
+      </button>
+      <button class="ps-tab" type="button" role="tab" data-product="zopcloud" aria-selected="false" aria-controls="pricing-zopcloud" tabindex="-1">
+        <span class="ps-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><rect width="32" height="32" fill="#2A4494"/><rect x="12" y="8" width="8" height="6" fill="#FFFFFF"/><rect x="6" y="14" width="20" height="10" fill="#FFFFFF"/></svg>
+        </span>
+        <span class="ps-name">ZopCloud</span>
+        <span class="ps-status">soon</span>
+      </button>
+    </div>
+
+    <div class="pricing-panes">
+    <div class="pricing" id="pricing-zopnight" role="tabpanel" data-product="zopnight" aria-labelledby="ps-tab-zopnight">
       <div class="price">
         <div class="tag"> starter</div>
         <h3>Starter</h3>
@@ -6795,6 +6895,29 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
         </ul>
         <a class="btn btn-secondary cta" href="demo.html">Talk to sales</a>
       </div>
+    </div>
+
+    <div class="pricing-soon" id="pricing-zopday" role="tabpanel" data-product="zopday" aria-labelledby="ps-tab-zopday" hidden>
+      <svg class="ps-soon-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#F58549"/><circle cx="16" cy="16" r="8" fill="#FFFFFF"/></svg>
+      <h3>ZopDay pricing — coming soon.</h3>
+      <p class="lede">Deployment orchestration and release management. We're tuning pricing alongside the private preview so the first published tiers reflect what teams actually use, not what we'd guess at.</p>
+      <span class="ps-eta">private preview · h2 2026</span>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="signin.html">Join the waitlist →</a>
+        <a class="btn btn-secondary" href="/product/zopday.html">Learn more</a>
+      </div>
+    </div>
+
+    <div class="pricing-soon" id="pricing-zopcloud" role="tabpanel" data-product="zopcloud" aria-labelledby="ps-tab-zopcloud" hidden>
+      <svg class="ps-soon-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#2A4494"/><rect x="12" y="8" width="8" height="6" fill="#FFFFFF"/><rect x="6" y="14" width="20" height="10" fill="#FFFFFF"/></svg>
+      <h3>ZopCloud pricing — coming soon.</h3>
+      <p class="lede">A live multi-cloud resource graph across AWS, GCP, and Azure. Pricing will track resources mapped, not seats — same model as ZopNight, separate plan lines.</p>
+      <span class="ps-eta">private preview · h2 2026</span>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="signin.html">Join the waitlist →</a>
+        <a class="btn btn-secondary" href="/product/zopcloud.html">Learn more</a>
+      </div>
+    </div>
     </div>
   </div>
 </section>
@@ -11820,6 +11943,40 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 
   var obs = new MutationObserver(function(){ render(0); });
   obs.observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+})();
+</script>
+
+<!-- Product switcher · pricing section -->
+<script>
+(function(){
+  var tabs = document.querySelectorAll('.prod-switch .ps-tab');
+  if(!tabs.length) return;
+  var panes = document.querySelectorAll('.pricing-panes [data-product]');
+
+  function activate(target){
+    var product = target.dataset.product;
+    tabs.forEach(function(t){
+      var on = t === target;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.setAttribute('tabindex', on ? '0' : '-1');
+    });
+    panes.forEach(function(p){
+      if(p.dataset.product === product) p.removeAttribute('hidden');
+      else p.setAttribute('hidden', '');
+    });
+  }
+
+  tabs.forEach(function(tab, i){
+    tab.addEventListener('click', function(){ activate(tab); });
+    tab.addEventListener('keydown', function(e){
+      if(e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length];
+      next.focus();
+      activate(next);
+    });
+  });
 })();
 </script>
 

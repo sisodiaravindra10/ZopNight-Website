@@ -582,10 +582,7 @@
   if(!html.getAttribute('data-theme')) html.setAttribute('data-theme','light');
   var btn = document.getElementById('theme-toggle');
   if(btn){
-    btn.addEventListener('click', function(){
-      var cur = html.getAttribute('data-theme');
-      html.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
-    });
+      /* click handler moved to chrome-mobilenav.js (global) */
   }
 })();
 

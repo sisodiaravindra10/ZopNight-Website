@@ -202,7 +202,12 @@ code, .mono{font-family:var(--mono); letter-spacing:0}
 .nav-links a:hover{color:var(--ink)}
 .nav-cta{display:flex; align-items:center; gap:10px; white-space:nowrap}
 .nav-cta > *{ white-space:nowrap; flex-shrink:0 }
-.nav-cta a.sign{font-weight:500; font-size:14px; color:var(--g-700); padding:6px 4px}
+.nav-cta a.sign{
+  font-weight:500; font-size:14px; color:var(--g-700);
+  height:36px; padding:0 8px;
+  display:inline-flex; align-items:center;
+  box-sizing:border-box;
+}
 .nav-cta a.sign:hover{ color:var(--ink) }
 .nav-cta .btn{padding:9px 16px; font-size:13px; font-weight:600; height:36px; display:inline-flex; align-items:center; gap:6px; line-height:1}
 .nav-cta .btn .arrow{ font-size:14px; transition:transform var(--dur-fast) var(--ease-out) }
@@ -424,7 +429,8 @@ html[data-theme="dark"] .np-promo-row a:hover{ background:var(--paper); color:va
    notch warmer. Solid fills only — no glow, per token rules. */
 .nav-status{
   display:inline-flex; align-items:center; gap:7px;
-  padding:7px 11px;
+  height:36px; padding:0 12px;
+  box-sizing:border-box;
   font-family:var(--mono); font-size:10.5px; font-weight:600;
   letter-spacing:.12em; text-transform:uppercase;
   color:var(--ink);
@@ -434,8 +440,11 @@ html[data-theme="dark"] .np-promo-row a:hover{ background:var(--paper); color:va
   transition:background .14s var(--ease-out), border-color .14s var(--ease-out);
 }
 .nav-status:hover{ background:var(--g-50); border-color:var(--ink); }
-html[data-theme="dark"] .nav-status{ color:var(--paper); border-color:#2a2a30; }
-html[data-theme="dark"] .nav-status:hover{ background:#1a1a1e; border-color:var(--paper); }
+/* Dark mode · cream text on the dark canvas (was var(--paper) which is
+   #0F0F12 in dark mode — invisible). Border picks up a slightly elevated
+   line so the pill still reads as a tappable shape. */
+html[data-theme="dark"] .nav-status{ color:var(--ink); border-color:#3A3A46; }
+html[data-theme="dark"] .nav-status:hover{ background:#1a1a1e; border-color:var(--ink); color:var(--ink); }
 .nav-status-dot{
   width:7px; height:7px; border-radius:var(--r-pill);
   background:var(--ok, #34d399);
@@ -455,9 +464,17 @@ html[data-theme="dark"] .nav-status:hover{ background:#1a1a1e; border-color:var(
 }
 
 /* =================================================================
-   FOOTER
+   FOOTER · theme-locked dark on every page
+   -----------------------------------------------------------------
+   Pinned to ink hex (#0A0A0A) regardless of theme so the footer +
+   eclipse-stripe wordmark below it read as one continuous brand
+   anchor. This was previously `background:var(--paper)`, which made
+   the footer flip cream in light mode while chrome.css's higher-
+   specificity child rules stayed cream-on-cream and went invisible.
+   The homepage's own inline `<style>` already locks it dark; this
+   brings every subpage in line.
    ================================================================= */
-footer{background:var(--paper); border-top:1px solid var(--line); padding:56px 0 28px}
+footer{background:#0A0A0A; color:#F0EBDB; padding:56px 0 28px}
 .foot-grid{display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr; gap:40px; margin-bottom:40px}
 .foot-brand .logo-lockup{margin-bottom:18px}
 .foot-brand p{color:var(--g-600); font-size:13px; max-width:300px; line-height:1.55}

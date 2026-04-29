@@ -636,26 +636,338 @@
   </div>
 </nav>
 <main class="page">
-<div class="crumb"><a href="index.html">home</a> <span class="sep">/</span> free-ebooks</div>
+<div class="crumb"><a href="/">home</a> <span class="sep">/</span> ebooks</div>
+
 <style>
-.std-hero{ padding:var(--sp-10) 0 var(--sp-10); max-width:960px; margin:0 auto; padding-left:var(--gutter); padding-right:var(--gutter); border-bottom:1px solid var(--line); }
-.std-hero .meta{ font-family:var(--mono); font-size:var(--t-11); color:var(--zop-orange); letter-spacing:var(--ls-meta); text-transform:uppercase; margin-bottom:var(--sp-4); display:inline-flex; align-items:center; gap:var(--sp-2); }
-.std-hero .meta::before{ content:''; width:10px; height:10px; background:var(--zop-orange); }
-.std-hero h1{ font-size:clamp(34px,4.4vw,60px); font-weight:var(--fw-bold); letter-spacing:var(--ls-display); line-height:1.08; margin:0 0 var(--sp-5); }
-.std-hero p.sub{ font-size:var(--t-19, 19px); color:var(--ink-3); line-height:1.5; margin:0 0 var(--sp-6); max-width:760px; }
-.std-body{ max-width:760px; margin:0 auto; padding:var(--sp-10) var(--gutter); }
+/* ── Ebook library page · listing of every free PDF ──────────────── */
+.eblib-hero{ padding:var(--sp-12) 0 var(--sp-10); border-bottom:1px solid var(--line); }
+.eblib-hero .container{ max-width:var(--max); margin:0 auto; padding:0 var(--gutter); }
+.eblib-hero .meta{
+  font-family:var(--mono); font-size:var(--t-11); color:var(--zop-orange);
+  letter-spacing:var(--ls-meta); text-transform:uppercase; margin-bottom:var(--sp-4);
+  display:inline-flex; align-items:center; gap:var(--sp-2);
+}
+.eblib-hero .meta::before{ content:''; width:8px; height:8px; background:var(--zop-orange); }
+.eblib-hero h1{
+  font-size:clamp(40px,5.6vw,80px); font-weight:var(--fw-bold);
+  letter-spacing:var(--ls-display); line-height:var(--lh-display);
+  margin:0 0 var(--sp-5); max-width:920px;
+}
+.eblib-hero h1 em{ color:var(--zop-orange); font-style:normal; }
+.eblib-hero .sub{
+  font-size:var(--t-17); color:var(--ink-3); line-height:1.55;
+  margin:0; max-width:680px;
+}
+.eblib-hero .sub strong{ color:var(--ink); font-weight:var(--fw-medium); }
+
+/* Section grid */
+.eblib-section{ padding:var(--sp-14) 0; border-bottom:1px solid var(--line); }
+.eblib-section:last-child{ border-bottom:0; }
+.eblib-section .container{ max-width:var(--max); margin:0 auto; padding:0 var(--gutter); }
+.eblib-sec-head{
+  display:flex; justify-content:space-between; align-items:flex-end;
+  margin-bottom:var(--sp-8); gap:var(--sp-6);
+}
+.eblib-sec-head h2{
+  font-size:clamp(28px,3.6vw,44px); margin:0;
+  letter-spacing:var(--ls-heading); line-height:1.15;
+}
+.eblib-sec-head .count{
+  font-family:var(--mono); font-size:var(--t-11); color:var(--ink-4);
+  letter-spacing:var(--ls-meta); text-transform:uppercase;
+}
+
+/* Featured · 2-col big card · cover on the left like a real book */
+.eblib-featured{
+  display:grid; grid-template-columns:auto 1fr;
+  gap:0; border:1px solid var(--line);
+  align-items:stretch;
+}
+@media (max-width:980px){ .eblib-featured{ grid-template-columns:1fr; } }
+.eblib-featured-cover-wrap{
+  padding:var(--sp-10);
+  display:flex; align-items:center; justify-content:center;
+  border-right:1px solid var(--line); background:var(--bg-1);
+}
+@media (max-width:980px){ .eblib-featured-cover-wrap{ border-right:0; border-bottom:1px solid var(--line); } }
+/* The book itself · portrait 3:4, dark cover, hover lifts with hard offset shadow */
+.eblib-cover{
+  width:280px; aspect-ratio:3/4;
+  background:#0A0A0A; border:1px solid var(--line);
+  position:relative; overflow:hidden;
+  transition:transform .25s var(--ease-out), box-shadow .25s var(--ease-out);
+  flex-shrink:0;
+}
+.eblib-cover:hover{ transform:translate(-4px, -4px); box-shadow:8px 8px 0 0 var(--zop-orange); }
+.eblib-cover svg{ width:100%; height:100%; display:block; }
+.eblib-featured-body{
+  padding:var(--sp-10) var(--sp-10) var(--sp-10) var(--sp-12);   /* extra left padding so text doesn't kiss the divider */
+  display:flex; flex-direction:column; gap:var(--sp-4); justify-content:center;
+  min-width:0;
+}
+.eblib-featured-body .tag{
+  font-family:var(--mono); font-size:var(--t-10); color:var(--zop-orange);
+  letter-spacing:var(--ls-meta); text-transform:uppercase;
+  display:inline-flex; align-items:center; gap:var(--sp-2);
+}
+.eblib-featured-body .tag::before{ content:''; width:8px; height:8px; background:var(--zop-orange); }
+.eblib-featured-body h3{
+  font-size:clamp(28px,3.2vw,40px); margin:0;
+  letter-spacing:var(--ls-heading); line-height:1.15;
+}
+.eblib-featured-body h3 a{ color:var(--ink); }
+.eblib-featured-body h3 a:hover{ color:var(--zop-orange); }
+.eblib-featured-body p{ color:var(--ink-3); font-size:var(--t-15); line-height:var(--lh-body); margin:0; max-width:520px; }
+.eblib-featured-body .meta-row{
+  display:flex; flex-wrap:wrap; gap:var(--sp-3);
+  font-family:var(--mono); font-size:var(--t-11);
+  color:var(--ink-4); letter-spacing:var(--ls-meta-tight);
+  padding-top:var(--sp-3);
+}
+.eblib-featured-body .meta-row strong{ color:var(--ink-2); font-weight:var(--fw-medium); }
+.eblib-featured-body .cta{
+  font-family:var(--mono); font-size:var(--t-11); font-weight:var(--fw-semibold);
+  letter-spacing:var(--ls-meta); text-transform:uppercase;
+  color:var(--zop-orange);
+  display:inline-flex; align-items:center; gap:var(--sp-2);
+  margin-top:var(--sp-3);
+}
+.eblib-featured-body .cta::after{ content:'→'; transition:transform .14s; }
+.eblib-featured:hover .cta::after{ transform:translateX(4px); }
+
+/* Card grid · 3-column */
+.eblib-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr);
+  gap:0; border:1px solid var(--line); background:var(--line);
+}
+@media (max-width:980px){ .eblib-grid{ grid-template-columns:repeat(2, 1fr); } }
+@media (max-width:560px){ .eblib-grid{ grid-template-columns:1fr; } }
+.eblib-card{
+  background:var(--bg-1); padding:var(--sp-7);
+  display:flex; flex-direction:column; gap:var(--sp-4);
+  text-decoration:none; color:inherit;
+  transition:background .14s var(--ease-out);
+}
+.eblib-card:hover{ background:var(--bg-2); }
+/* Mini book covers · portrait 3:4 · hover lifts with hard offset shadow.
+   The card hover triggers the cover lift via the descendant selector. */
+.eblib-card .cover{
+  aspect-ratio:3/4; background:#0A0A0A;
+  border:1px solid var(--line);
+  position:relative; overflow:hidden;
+  align-self:center; max-width:200px; width:100%;
+  transition:transform .25s var(--ease-out), box-shadow .25s var(--ease-out);
+}
+.eblib-card:hover .cover{ transform:translate(-3px, -3px); box-shadow:6px 6px 0 0 var(--zop-orange); }
+.eblib-card .cover svg{ width:100%; height:100%; display:block; }
+.eblib-card .cat{
+  font-family:var(--mono); font-size:var(--t-10); color:var(--zop-orange);
+  letter-spacing:var(--ls-meta); text-transform:uppercase;
+}
+.eblib-card h3{ font-size:var(--t-17); margin:0; letter-spacing:var(--ls-heading); line-height:1.25; }
+.eblib-card h3 a{ color:var(--ink); }
+.eblib-card h3 a:hover{ color:var(--zop-orange); }
+.eblib-card p{ color:var(--ink-3); font-size:var(--t-13); line-height:1.55; margin:0; flex:1; }
+.eblib-card .when{
+  font-family:var(--mono); font-size:var(--t-10); color:var(--ink-4);
+  letter-spacing:var(--ls-meta-tight); padding-top:var(--sp-3);
+  margin-top:auto; border-top:1px solid var(--line);
+  display:flex; justify-content:space-between;
+}
+
+/* Subscribe strip */
+.eblib-sub{
+  background:var(--bg-1); border:1px solid var(--line);
+  padding:var(--sp-10); display:grid; grid-template-columns:1fr 1fr;
+  gap:var(--sp-8); align-items:center;
+}
+@media (max-width:780px){ .eblib-sub{ grid-template-columns:1fr; padding:var(--sp-7); } }
+.eblib-sub h2{ font-size:clamp(24px,2.8vw,36px); margin:0 0 var(--sp-3); letter-spacing:var(--ls-heading); }
+.eblib-sub h2 em{ color:var(--zop-orange); font-style:normal; }
+.eblib-sub p{ color:var(--ink-3); margin:0; font-size:var(--t-14); }
+.eblib-sub-form{ display:flex; gap:var(--sp-2); }
+.eblib-sub-form input{ flex:1; padding:var(--sp-3) var(--sp-4); background:var(--bg-2); border:1px solid var(--line); color:var(--ink); font-family:var(--font); font-size:var(--t-14); }
+.eblib-sub-form input::placeholder{ color:var(--ink-5); }
+.eblib-sub-form input:focus{ outline:none; border-color:var(--zop-orange); }
+.eblib-sub-form button{ padding:var(--sp-3) var(--sp-5); background:var(--zop-orange); color:#0A0A0A; font-family:var(--mono); font-size:var(--t-11); letter-spacing:var(--ls-meta); text-transform:uppercase; font-weight:var(--fw-semibold); cursor:pointer; border:0; transition:transform .14s, box-shadow .14s; }
+.eblib-sub-form button:hover{ transform:translateY(-2px); box-shadow:0 8px 0 -4px var(--ink); }
 </style>
-<header class="std-hero"><div class="meta">free-ebooks</div><h1>Free Ebooks</h1><p class="sub">Practical, in-depth technical ebooks on DevOps and platform engineering, all free to download.</p></header><div class="std-body post-body"><p>Our ebook library covers the topics that engineering teams need most, from DevOps fundamentals to advanced Kubernetes patterns. Every ebook is written by practicing engineers, reviewed for accuracy, and updated as the ecosystem evolves.</p>
-<h2>What You Will Find</h2>
-<ul><li><strong>DevOps Fundamentals.</strong> Core principles, culture, practices, and tooling for teams starting their DevOps journey.</li><li><strong>Kubernetes &amp; Containers.</strong> From first cluster to production-grade operations, architecture, networking, security, and scaling.</li><li><strong>CI/CD Pipelines.</strong> Pipeline design, testing strategies, deployment patterns, and automation best practices.</li><li><strong>Infrastructure as Code.</strong> Terraform, Pulumi, and CloudFormation guides for managing infrastructure declaratively.</li><li><strong>Observability.</strong> Monitoring, logging, tracing, and alerting strategies for modern distributed systems.</li><li><strong>Platform Engineering.</strong> Building internal developer platforms, self-service infrastructure, and golden paths.</li></ul>
-<h2>Our Library</h2>
-<div class="post-tbl-wrap"><table class="post-tbl"><tbody><tr><td><strong>20+</strong></td><td>Ebooks Published</td></tr><tr><td><strong>6</strong></td><td>Topic Categories</td></tr><tr><td><strong>10K+</strong></td><td>Downloads</td></tr><tr><td><strong>100%</strong></td><td>Free Forever</td></tr></tbody></table></div>
-<h2>Browse Ebooks</h2>
-<p>Head over to our <a href="/ebooks">Ebooks</a> section to browse the full collection. Each ebook includes chapter-by-chapter reading, code examples, and practical exercises.</p>
-<aside class="callout callout-info"><div class="callout-tag">TIP</div><div class="callout-body"><p>New to DevOps? Start with our DevOps Fundamentals ebook, then explore CI/CD and Kubernetes as you build your skills.</p></div></aside>
-<h2>Get Notified About New Ebooks</h2>
-<p>Be the first to know when we publish a new ebook. No spam, just a quick email when fresh content drops.</p>
-<aside class="callout callout-info"><div class="callout-tag">SUBSCRIBE</div><div class="callout-body"><p>Subscribe to our newsletter at <a href="../../resources.html">resources</a> for new posts.</p></div></aside></div>
+
+<!-- HERO -->
+<header class="eblib-hero">
+  <div class="container">
+    <div class="meta">free ebooks · library</div>
+    <h1>Field-tested playbooks. <em>No card required.</em></h1>
+    <p class="sub"><strong>20+ free PDFs</strong> on FinOps, Kubernetes, CDCR, and the boring engineering details that actually save you money. Written by people who've shipped this in production.</p>
+  </div>
+</header>
+
+<!-- FEATURED EBOOK · State of Cloud Waste 2026 -->
+<section class="eblib-section">
+  <div class="container">
+    <div class="eblib-sec-head">
+      <h2>Featured release</h2>
+      <span class="count">just dropped · Apr 2026</span>
+    </div>
+
+    <a class="eblib-featured" href="/free-ebooks/state-of-cloud-waste-2026.html">
+      <div class="eblib-featured-cover">
+        <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <rect width="300" height="400" fill="#0A0A0A"/>
+          <rect x="40" y="240" width="28" height="100" fill="#F58549"/>
+          <rect x="78" y="200" width="28" height="140" fill="#F58549" opacity="0.85"/>
+          <rect x="116" y="160" width="28" height="180" fill="#F58549" opacity="0.7"/>
+          <rect x="154" y="120" width="28" height="220" fill="#F58549" opacity="0.55"/>
+          <rect x="192" y="180" width="28" height="160" fill="#F58549" opacity="0.4"/>
+          <rect x="230" y="220" width="28" height="120" fill="#F58549" opacity="0.25"/>
+          <text x="40" y="80" font-family="Space Grotesk" font-size="28" font-weight="700" fill="#F0EBDB" letter-spacing="-1">State of</text>
+          <text x="40" y="112" font-family="Space Grotesk" font-size="28" font-weight="700" fill="#F0EBDB" letter-spacing="-1">Cloud Waste</text>
+          <text x="40" y="146" font-family="JetBrains Mono" font-size="14" fill="#F58549" letter-spacing="3">2026</text>
+          <text x="40" y="378" font-family="JetBrains Mono" font-size="9" fill="#A8A195" letter-spacing="2">ZOPDEV RESEARCH</text>
+        </svg>
+      </div>
+      <div class="eblib-featured-body">
+        <span class="tag">Annual report · ZopDev research</span>
+        <h3>State of Cloud Waste 2026</h3>
+        <p>We analysed <strong>4,200 production accounts</strong> across AWS, GCP, and Azure. Non-prod runs 24/7 in 71% of them. Right-sizing alone left $312M on the table. The full per-pattern breakdown.</p>
+        <div class="meta-row">
+          <span><strong>PDF</strong></span><span>·</span>
+          <span><strong>64</strong> pages</span><span>·</span>
+          <span><strong>~28</strong> min read</span><span>·</span>
+          <span>By Priya Mittal + the data team</span>
+        </div>
+        <span class="cta">Read the report</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- LIBRARY · 6 cards -->
+<section class="eblib-section">
+  <div class="container">
+    <div class="eblib-sec-head">
+      <h2>The full library</h2>
+      <span class="count">21 ebooks · all free</span>
+    </div>
+
+    <div class="eblib-grid">
+
+      <article class="eblib-card">
+        <div class="cover">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <rect width="240" height="160" fill="#0E0E12"/>
+            <rect x="40" y="40" width="40" height="80" fill="#7FB236"/>
+            <rect x="90" y="60" width="40" height="60" fill="#7FB236" opacity="0.7"/>
+            <rect x="140" y="30" width="40" height="90" fill="#7FB236" opacity="0.5"/>
+            <text x="120" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#A8A195" letter-spacing="2">FINOPS PLAYBOOK</text>
+          </svg>
+        </div>
+        <span class="cat">FinOps · 48 pages</span>
+        <h3><a href="#">The FinOps playbook for series-B engineering teams</a></h3>
+        <p>How to set up showback, run monthly cost reviews, and not become the bottleneck.</p>
+        <div class="when"><span>Released · Mar 2026</span><span>~22 min</span></div>
+      </article>
+
+      <article class="eblib-card">
+        <div class="cover">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <rect width="240" height="160" fill="#0E0E12"/>
+            <polygon points="120,30 180,60 180,120 120,150 60,120 60,60" fill="none" stroke="#2A4494" stroke-width="3"/>
+            <circle cx="120" cy="90" r="14" fill="#2A4494"/>
+            <text x="120" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#A8A195" letter-spacing="2">K8S COST GUIDE</text>
+          </svg>
+        </div>
+        <span class="cat">Kubernetes · 52 pages</span>
+        <h3><a href="#">Kubernetes cost optimization · the operator's guide</a></h3>
+        <p>VPA, HPA, Karpenter, spot pools, and the configuration choices that pay back week one.</p>
+        <div class="when"><span>Released · Feb 2026</span><span>~26 min</span></div>
+      </article>
+
+      <article class="eblib-card">
+        <div class="cover">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <rect width="240" height="160" fill="#0E0E12"/>
+            <circle cx="80" cy="80" r="35" fill="none" stroke="#F58549" stroke-width="3"/>
+            <path d="M 65 80 L 80 95 L 110 65" stroke="#F58549" stroke-width="4" fill="none"/>
+            <text x="160" y="60" font-family="Space Grotesk" font-size="22" font-weight="700" fill="#F0EBDB">CDCR</text>
+            <text x="160" y="82" font-family="JetBrains Mono" font-size="10" fill="#A8A195">FIELD GUIDE</text>
+          </svg>
+        </div>
+        <span class="cat">Autonomous cloud · 36 pages</span>
+        <h3><a href="#">CDCR field guide · the autonomous loop, demystified</a></h3>
+        <p>Detect, evaluate, remediate, audit. The dispositions that drive it. The exemptions that protect you.</p>
+        <div class="when"><span>Released · Jan 2026</span><span>~18 min</span></div>
+      </article>
+
+      <article class="eblib-card">
+        <div class="cover">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <rect width="240" height="160" fill="#0E0E12"/>
+            <path d="M40 100 L80 60 L120 90 L160 50 L200 80" stroke="#F58549" stroke-width="3" fill="none"/>
+            <line x1="40" y1="120" x2="200" y2="120" stroke="#5A5A62" stroke-width="1"/>
+            <text x="120" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#A8A195" letter-spacing="2">RIGHT-SIZING HANDBOOK</text>
+          </svg>
+        </div>
+        <span class="cat">Cost optimization · 44 pages</span>
+        <h3><a href="#">The right-sizing handbook · family by family</a></h3>
+        <p>T3, M5, R5, C7g — the burstable trap and how to spot it. With confidence intervals, not vibes.</p>
+        <div class="when"><span>Released · Dec 2025</span><span>~22 min</span></div>
+      </article>
+
+      <article class="eblib-card">
+        <div class="cover">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <rect width="240" height="160" fill="#0E0E12"/>
+            <rect x="50" y="60" width="40" height="60" stroke="#2A4494" stroke-width="2" fill="none"/>
+            <rect x="100" y="60" width="40" height="60" stroke="#2A4494" stroke-width="2" fill="none"/>
+            <rect x="150" y="60" width="40" height="60" stroke="#2A4494" stroke-width="2" fill="none"/>
+            <line x1="90" y1="90" x2="100" y2="90" stroke="#F58549" stroke-width="2"/>
+            <line x1="140" y1="90" x2="150" y2="90" stroke="#F58549" stroke-width="2"/>
+            <text x="120" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#A8A195" letter-spacing="2">MULTI-CLOUD ARCHITECTURE</text>
+          </svg>
+        </div>
+        <span class="cat">Architecture · 56 pages</span>
+        <h3><a href="#">Multi-cloud architecture · without doubling your bill</a></h3>
+        <p>When multi-cloud actually pays off and when it just doubles your operational surface area.</p>
+        <div class="when"><span>Released · Nov 2025</span><span>~28 min</span></div>
+      </article>
+
+      <article class="eblib-card">
+        <div class="cover">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <rect width="240" height="160" fill="#0E0E12"/>
+            <circle cx="80" cy="80" r="30" fill="none" stroke="#7FB236" stroke-width="2"/>
+            <circle cx="160" cy="80" r="30" fill="none" stroke="#7FB236" stroke-width="2"/>
+            <line x1="110" y1="80" x2="130" y2="80" stroke="#F58549" stroke-width="2"/>
+            <text x="120" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#A8A195" letter-spacing="2">CI/CD COST PATTERNS</text>
+          </svg>
+        </div>
+        <span class="cat">CI/CD · 38 pages</span>
+        <h3><a href="#">CI/CD cost patterns · spot fleets &amp; ephemeral runners</a></h3>
+        <p>The 73% cost cut from moving non-critical CI to spot. Plus the failure-handling pattern that makes it safe.</p>
+        <div class="when"><span>Released · Oct 2025</span><span>~19 min</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- SUBSCRIBE -->
+<section class="eblib-section">
+  <div class="container">
+    <div class="eblib-sub">
+      <div>
+        <h2>Get notified when a new ebook <em>drops.</em></h2>
+        <p>One email per release. No drip campaigns. Unsubscribe with one click — we'd rather lose subscribers than waste their inbox.</p>
+      </div>
+      <form class="eblib-sub-form" onsubmit="event.preventDefault(); var b=this.querySelector('button'); b.textContent='✓ subscribed'; b.disabled=true;">
+        <input type="email" placeholder="you@team.com" required/>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
 </main>
 <footer>
   <div class="container">
@@ -741,10 +1053,7 @@
   if(!html.getAttribute('data-theme')) html.setAttribute('data-theme','light');
   var btn = document.getElementById('theme-toggle');
   if(btn){
-    btn.addEventListener('click', function(){
-      var cur = html.getAttribute('data-theme');
-      html.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
-    });
+      /* click handler moved to chrome-mobilenav.js (global) */
   }
 })();
 

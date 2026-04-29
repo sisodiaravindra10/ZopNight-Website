@@ -1161,10 +1161,7 @@ html[data-theme="dark"] .cf-submit{ background:var(--ink); color:#0A0A0A; border
   if(!html.getAttribute('data-theme')) html.setAttribute('data-theme','light');
   var btn = document.getElementById('theme-toggle');
   if(btn){
-    btn.addEventListener('click', function(){
-      var cur = html.getAttribute('data-theme');
-      html.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
-    });
+      /* click handler moved to chrome-mobilenav.js (global) */
   }
 })();
 

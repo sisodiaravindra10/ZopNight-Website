@@ -246,3 +246,180 @@
   if(matcher.addEventListener){ matcher.addEventListener('change', onMediaChange); }
   else if(matcher.addListener){ matcher.addListener(onMediaChange); }
 })();
+
+
+/* ============================================================================
+   chrome-nav-scroll · auto-hide the sticky nav on scroll-down, restore on
+   scroll-up. Same behavior the homepage has — ported into the shared file
+   so every subpage gets it for free. Idempotent: bail if no .nav exists.
+   ============================================================================ */
+(function(){
+  var nav = document.querySelector('.nav');
+  if(!nav) return;
+  if(nav.dataset.scrollHideWired === '1') return;   /* idempotency guard */
+  nav.dataset.scrollHideWired = '1';
+
+  /* Inject the supporting CSS once — keeps the nav-scroll behavior
+     working even if a page omits homepage-chrome.css. */
+  if(!document.getElementById('zd-navscroll-css')){
+    var s = document.createElement('style');
+    s.id = 'zd-navscroll-css';
+    s.textContent =
+      '.nav{transition:transform .24s cubic-bezier(.65,0,.35,1),' +
+        ' background-color var(--dur-md,.4s) var(--ease-in-out,cubic-bezier(.65,0,.35,1)),' +
+        ' border-color var(--dur-md,.4s) var(--ease-in-out,cubic-bezier(.65,0,.35,1))}' +
+      '.nav.nav--hidden{transform:translateY(-110%)}';
+    document.head.appendChild(s);
+  }
+
+  var lastY   = 0;
+  var delta   = 0;          /* accumulated distance in current direction */
+  var HIDE_AT = 72;         /* px of downward scroll before hiding */
+  var SHOW_AT = 10;         /* px of upward scroll before showing */
+  var hidden  = false;
+  var ticking = false;
+
+  function update(){
+    ticking = false;
+    var y = window.pageYOffset;
+    var diff = y - lastY;
+    lastY = y;
+
+    /* Always show at the very top */
+    if(y <= 0){
+      if(hidden){ nav.classList.remove('nav--hidden'); hidden = false; }
+      delta = 0;
+      return;
+    }
+
+    if(diff > 0){
+      delta = (delta > 0 ? delta : 0) + diff;
+      if(!hidden && delta > HIDE_AT){
+        /* Close any open dropdown first so it doesn't tear off-screen */
+        var ov = document.getElementById('nav-overlay');
+        if(ov) ov.classList.remove('open');
+        nav.classList.add('nav--hidden');
+        hidden = true;
+        delta = 0;
+      }
+    } else {
+      delta = (delta < 0 ? delta : 0) + diff;
+      if(hidden && Math.abs(delta) > SHOW_AT){
+        nav.classList.remove('nav--hidden');
+        hidden = false;
+        delta = 0;
+      }
+    }
+  }
+
+  window.addEventListener('scroll', function(){
+    if(!ticking){ requestAnimationFrame(update); ticking = true; }
+  }, {passive:true});
+})();
+
+
+/* ============================================================================
+   chrome-nav-dropdown · global hover/focus dropdown wiring for the new
+   nav megamenu. Runs alongside any inline dropdown JS each page may have;
+   if a binding is already present, this just adds a second (idempotent)
+   handler that triggers the same showMenu / hideMenu logic. The flag on
+   #nav-overlay (data-dropdown-wired) prevents this IIFE from double-binding
+   if loaded twice (e.g. cached in a SPA reload).
+   ============================================================================ */
+(function(){
+  var overlay = document.getElementById('nav-overlay');
+  var navLinks = document.getElementById('nav-links');
+  if(!overlay || !navLinks) return;
+  if(overlay.dataset.dropdownWired === '1') return;
+  overlay.dataset.dropdownWired = '1';
+
+  var panes = {};
+  overlay.querySelectorAll('.nav-pane').forEach(function(p){ panes[p.dataset.pane] = p; });
+  var activeMenu = null;
+  var closeTimer = null;
+
+  function getLeft(navItem){
+    var navInner = navItem.closest('.nav-inner');
+    if(!navInner) return 0;
+    var niRect = navItem.getBoundingClientRect();
+    var innerRect = navInner.getBoundingClientRect();
+    var left = niRect.left - innerRect.left;
+    var overlayW = overlay.offsetWidth || 720;
+    var maxLeft = innerRect.width - overlayW - 16;
+    return Math.max(0, Math.min(left, maxLeft));
+  }
+  function showMenu(menuName, navItem){
+    clearTimeout(closeTimer);
+    overlay.style.left = getLeft(navItem) + 'px';
+    if(activeMenu !== menuName){
+      Object.keys(panes).forEach(function(k){ panes[k].classList.remove('active'); });
+      var incoming = panes[menuName];
+      if(incoming){
+        incoming.classList.add('active');
+        var panesEl = overlay.querySelector('.nav-panes');
+        if(panesEl) panesEl.style.height = incoming.offsetHeight + 'px';
+      }
+      activeMenu = menuName;
+    }
+    navLinks.querySelectorAll('.nav-item').forEach(function(ni){
+      ni.classList.toggle('open', ni.dataset.menu === menuName);
+    });
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden','false');
+  }
+  function hideMenu(){
+    closeTimer = setTimeout(function(){
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden','true');
+      navLinks.querySelectorAll('.nav-item').forEach(function(ni){ ni.classList.remove('open'); });
+      activeMenu = null;
+    }, 140);
+  }
+
+  navLinks.querySelectorAll('.nav-item[data-menu]').forEach(function(item){
+    item.addEventListener('mouseenter', function(){ showMenu(item.dataset.menu, item); });
+    item.addEventListener('mouseleave', hideMenu);
+    item.addEventListener('click', function(e){
+      // prevent navigation on click — these are non-href triggers
+      if(e.target.closest('a') && !e.target.closest('a').getAttribute('href')){
+        e.preventDefault();
+      }
+      showMenu(item.dataset.menu, item);
+    });
+    var a = item.querySelector('a');
+    if(a){
+      a.addEventListener('focus', function(){ showMenu(item.dataset.menu, item); });
+      a.addEventListener('blur', hideMenu);
+    }
+  });
+  overlay.addEventListener('mouseenter', function(){ clearTimeout(closeTimer); });
+  overlay.addEventListener('mouseleave', hideMenu);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ clearTimeout(closeTimer); hideMenu(); }
+  });
+})();
+
+
+/* ============================================================================
+   chrome-theme-toggle · global click handler for the sun/moon button
+   in .nav-cta. Runs on every page that loads this script. Idempotent —
+   the button itself carries a data flag so repeat loads don't double-bind.
+   ============================================================================ */
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  if(!btn) return;
+  if(btn.dataset.themeWired === '1') return;
+  btn.dataset.themeWired = '1';
+
+  var html = document.documentElement;
+  /* If a page forgot to declare a theme, default to dark so the design
+     reads correctly on first paint. Every subpage already gets dark
+     default via <html data-theme="dark"> from the earlier sweep, but
+     this is a safety net. */
+  if(!html.getAttribute('data-theme')) html.setAttribute('data-theme', 'dark');
+
+  btn.addEventListener('click', function(){
+    var cur = html.getAttribute('data-theme');
+    html.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+  });
+})();

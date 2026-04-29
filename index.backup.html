@@ -3905,7 +3905,7 @@ body.globe-cursor-active{ cursor:none; }
 }
 
 /* ── FAQ accordion ── */
-/* §FAQ, details/summary native accordion */
+/* FAQ, details/summary native accordion */
 .faq-list{
   display:flex; flex-direction:column;
   border:1px solid var(--line);
@@ -4388,8 +4388,22 @@ html[data-theme="dark"] .hero-mcp-pill .hmp-text{ color:var(--g-600); }
 .features-bento .feat-allfeatures.feat-allfeatures-sm .fa-prompt{
   color:var(--zop-orange); font-weight:600; margin-right:8px;
 }
+/* Reset the legacy button styling that the non-small variant uses
+   for .fa-arrow — in the catalog tile, the arrows are inline glyphs
+   inside the scrolling code stream, not button blocks. The orange-on-
+   hover treatment was bleeding through and painting boxes behind every
+   line of text. Keep the hover quiet here; the tile lift carries it. */
 .features-bento .feat-allfeatures.feat-allfeatures-sm .fa-arrow{
   color:rgba(245,242,232,.40); margin-right:8px;
+  padding:0; background:transparent; border:0;
+  display:inline; font-weight:inherit; letter-spacing:0;
+}
+.features-bento .feat-allfeatures.feat-allfeatures-sm:hover .fa-arrow{
+  background:transparent; color:rgba(245,242,232,.40); border-color:transparent;
+}
+.features-bento .feat-allfeatures.feat-allfeatures-sm .fa-arrow::after,
+.features-bento .feat-allfeatures.feat-allfeatures-sm:hover .fa-arrow::after{
+  content:none;
 }
 .features-bento .feat-allfeatures.feat-allfeatures-sm .fa-comment{
   color:rgba(245,242,232,.30); font-style:normal;
@@ -4827,7 +4841,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 }
 
 /* =========================================================================
-   PLAYGROUND, §PG · centered hero with pill-drop + mock app
+   PLAYGROUND, PG · centered hero with pill-drop + mock app
    ========================================================================= */
 .pg-wrap{
   /* === Playground · orange-dominant accent across the section (ZopDev's
@@ -5437,14 +5451,14 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
     </a>
     <div class="nav-links" id="nav-links">
       <div class="nav-item" data-menu="product">
-        <a href="/product.html">Product <span class="nav-caret" aria-hidden="true"></span></a>
+        <a>Product <span class="nav-caret" aria-hidden="true"></span></a>
       </div>
       <div class="nav-item" data-menu="resources">
-        <a href="/resources.html">Resources <span class="nav-caret" aria-hidden="true"></span></a>
+        <a>Resources <span class="nav-caret" aria-hidden="true"></span></a>
       </div>
       <a href="/pricing.html">Pricing</a>
       <div class="nav-item" data-menu="company">
-        <a href="/about.html">Company <span class="nav-caret" aria-hidden="true"></span></a>
+        <a>Company <span class="nav-caret" aria-hidden="true"></span></a>
       </div>
       <a href="/community.html">Community</a>
     </div>
@@ -5455,38 +5469,40 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 
         <!-- ═══════ PRODUCT · 3 sub-products ═══════ -->
         <div class="nav-pane" data-pane="product">
-          <div class="np-bento np-bento--stack2">
-            <a class="np-hero" href="/product/zopnight.html">
+          <!-- 3 equal cells. Inline grid-template-columns overrides the
+               default 1.3fr 1fr 1fr (which is built for a featured-hero
+               layout). All three products are equal here — no hero — so
+               no empty grid slots and no card stretches taller than its
+               siblings. -->
+          <div class="np-bento" style="grid-template-columns:1fr 1fr 1fr;">
+            <a class="np-cell" href="/product/zopnight.html">
               <span class="np-badge live">live</span>
-              <div class="np-hero-icon">
-                <svg width="44" height="44" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#2A4494"/><circle cx="16" cy="16" r="8" fill="#F0EBDB"/></svg>
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="0" y="0" width="32" height="32" fill="#2A4494"/><circle cx="16" cy="16" r="8" fill="#FFFFFF"/></svg>
               </div>
-              <div>
-                <div class="np-hero-title">ZopNight</div>
-                <p class="np-hero-desc">Cloud cost optimization on autopilot. 24/7 discovery and remediation across AWS, Azure, and GCP.</p>
-              </div>
-              <span class="np-hero-cta">Explore ZopNight</span>
+              <h3 class="np-cell-title">ZopNight</h3>
+              <p class="np-cell-desc">Cloud cost optimization on autopilot. AWS, Azure, GCP.</p>
             </a>
             <a class="np-cell" href="/product/zopday.html">
               <span class="np-badge soon">soon</span>
               <div class="np-cell-icon">
-                <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#F58549"/><path d="M8 16l5 5 11-11" stroke="#0A0A0A" stroke-width="3" fill="none" stroke-linecap="square"/></svg>
+                <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="0" y="0" width="32" height="32" fill="#F58549"/><circle cx="16" cy="16" r="8" fill="#FFFFFF"/></svg>
               </div>
               <h3 class="np-cell-title">ZopDay</h3>
-              <p class="np-cell-desc">Deployment orchestration and release management</p>
+              <p class="np-cell-desc">Deployment orchestration and release management.</p>
             </a>
             <a class="np-cell" href="/product/zopcloud.html">
               <span class="np-badge soon">soon</span>
               <div class="np-cell-icon">
-                <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#7FB236"/><rect x="10" y="8" width="12" height="6" fill="#0A0A0A"/><rect x="6" y="16" width="20" height="8" fill="#0A0A0A"/></svg>
+                <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="0" y="0" width="32" height="32" fill="#2A4494"/><rect x="12" y="8" width="8" height="6" fill="#FFFFFF"/><rect x="6" y="14" width="20" height="10" fill="#FFFFFF"/></svg>
               </div>
               <h3 class="np-cell-title">ZopCloud</h3>
-              <p class="np-cell-desc">Multi-cloud resource graph and topology view</p>
+              <p class="np-cell-desc">Multi-cloud resource graph and topology view.</p>
             </a>
           </div>
           <div class="np-promo-row">
             <span><strong>Live in Claude &amp; Codex</strong> · run ZopNight from your MCP client</span>
-            <a href="/developers/mcp.html">Try MCP →</a>
+            <a href="/developers.html">Try MCP →</a>
           </div>
         </div>
 
@@ -5559,22 +5575,22 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
           </div>
           <div class="np-promo-row">
             <span><strong>Weekly digest</strong> · waste signals, wins, war stories</span>
-            <a href="/resources.html">Subscribe →</a>
+            <a href="/blog.html">Subscribe →</a>
           </div>
         </div>
 
         <!-- ═══════ COMPANY · 2 items ═══════ -->
         <div class="nav-pane" data-pane="company">
-          <div class="np-bento np-bento--narrow">
-            <a class="np-hero" href="/about.html">
-              <div class="np-hero-icon">
-                <svg width="44" height="44" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#0A0A0A"/><rect x="6" y="6" width="8" height="20" fill="#F0EBDB"/><rect x="18" y="12" width="8" height="14" fill="#F58549"/></svg>
+          <!-- 2 equal cells. Same approach as Product: drop the hero
+               distinction so neither side stretches taller than the
+               other and the dropdown fills cleanly with no dead zone. -->
+          <div class="np-bento" style="grid-template-columns:1fr 1fr;">
+            <a class="np-cell" href="/about.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="0" y="0" width="32" height="32" fill="#0A0A0A"/><rect x="6" y="6" width="8" height="20" fill="#F0EBDB"/><rect x="18" y="12" width="8" height="14" fill="#F58549"/></svg>
               </div>
-              <div>
-                <div class="np-hero-title">About ZopDev</div>
-                <p class="np-hero-desc">Founded 2024. Building the autopilot for multi-cloud cost. Backed by operators who've run the bill.</p>
-              </div>
-              <span class="np-hero-cta">Our story</span>
+              <h3 class="np-cell-title">About</h3>
+              <p class="np-cell-desc">Founded 2024. The autopilot for multi-cloud cost.</p>
             </a>
             <a class="np-cell" href="/company/careers.html">
               <span class="np-badge">hiring</span>
@@ -5628,7 +5644,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
   <div class="container hero-inner">
     <div class="hero-grid-cloud">
       <div>
-        <a class="hero-mcp-pill" href="/developers/mcp.html" aria-label="MCP Server. Live in Claude & Codex">
+        <a class="hero-mcp-pill" href="/developers.html" aria-label="MCP Server. Live in Claude & Codex">
           <span class="hmp-status" aria-hidden="true">
             <span class="hmp-ring"></span>
             <span class="hmp-dot"></span>
@@ -5868,7 +5884,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 <section class="section" id="features">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-meta">§02 · capabilities</div>
+      <div class="sec-meta">02 · capabilities</div>
       <div>
         <h2>Six capabilities.<br/>One continuous loop.</h2>
         <p class="sub">Every feature is designed to act, not just show. No dashboards to stare at. Just outcomes delivered.</p>
@@ -6051,7 +6067,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
           </div>
         </div>
         <div class="fa-front">
-          <div class="fa-eyebrow">§ catalog</div>
+          <div class="fa-eyebrow">catalog</div>
           <h3>See every<br/>feature</h3>
           <div class="fa-cta">
             <span class="fa-cta-text">Browse all</span>
@@ -6069,7 +6085,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 <section class="section" id="cdcr">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-meta">§04 · cdcr</div>
+      <div class="sec-meta">04 · cdcr</div>
       <div>
         <h2>CDCR.<br/>Continuous Discovery.<br/>Continuous Remediation.</h2>
         <p class="sub">The loop that runs after your code ships. CI/CD for your cloud bill.</p>
@@ -6136,7 +6152,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 <section class="section" id="getting-started">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-meta">§05 · getting started</div>
+      <div class="sec-meta">05 · getting started</div>
       <div>
         <h2>Connect to savings.<br/>In under 10 minutes.</h2>
         <p class="sub">Four motions, one console. Click a step to see it play out in the product.</p>
@@ -6390,7 +6406,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 </section>
 
 <!-- ============================================================
-     PLAYGROUND, §PG · try ZopNight without an account
+     PLAYGROUND, PG · try ZopNight without an account
      ============================================================ -->
 <section class="pg-wrap" id="pg-section">
 
@@ -6497,7 +6513,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 <section class="section" id="integrations">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-meta">§07 · integrations</div>
+      <div class="sec-meta">07 · integrations</div>
       <div>
         <h2>Wired into your stack.<br/>Every cloud, every tool.</h2>
         <p class="sub">ZopNight sits at the center. Copper traces carry data, findings, and actions between your CI, your clouds, your on-call, and your finance stack.</p>
@@ -6728,7 +6744,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 <section class="section" id="pricing">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-meta">§08 · pricing</div>
+      <div class="sec-meta">08 · pricing</div>
       <div>
         <h2>Simple pricing.<br/>No surprises.</h2>
         <p class="sub">Flat, predictable, tied to value. Not usage traps. (Sound familiar?)</p>
@@ -6789,7 +6805,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 <section class="section" id="cases">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-meta">§09 · customers</div>
+      <div class="sec-meta">09 · customers</div>
       <div>
         <h2>From messy to handled.<br/>In 30 days.</h2>
         <p class="sub">Same story, every team. Day 0 connect, Day 7 first wins, Day 30 cloud cost becomes background noise.</p>
@@ -6999,7 +7015,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 <section class="section">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-meta">§11 · regions</div>
+      <div class="sec-meta">11 · regions</div>
       <div>
         <h2>Optimizing infrastructure<br/>across every region.</h2>
         <p class="sub">47 regions. 128 availability zones. Scanned every 4 minutes.</p>
@@ -7049,7 +7065,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 <section class="section" id="calculator">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-meta">§12 · savings calculator</div>
+      <div class="sec-meta">12 · savings calculator</div>
       <div>
         <h2>How much is your cloud wasting right now?</h2>
         <p class="sub">Most teams are overspending by 30–60%. Find out your number in 30 seconds.</p>
@@ -7173,12 +7189,12 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 </section>
 
 <!-- ============================================================
-     TRUST PILLARS · §13 · hidden for now
+     TRUST PILLARS · 13 · hidden for now
      ============================================================ -->
 <section class="section" style="display:none" aria-hidden="true">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-meta">§13 · security</div>
+      <div class="sec-meta">13 · security</div>
       <div>
         <h2>Built for teams that can't afford to get security wrong.</h2>
         <p class="sub">Read-only by default. Zero data storage. Every action logged, auditable, reversible.</p>
@@ -7258,7 +7274,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 <section class="section" id="faq">
   <div class="container">
     <div class="sec-head">
-      <div class="sec-meta">§ · faq</div>
+      <div class="sec-meta">faq</div>
       <div>
         <h2>Questions we get a lot.</h2>
         <p class="sub">If yours isn't here, <a href="demo.html" style="color:var(--zop-blue)">ask us directly</a>.</p>
@@ -7329,7 +7345,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
     </a>
     <div class="final-grid">
       <div>
-        <div class="sec-meta" style="color:var(--zop-orange); margin-bottom:20px">§ end · ready when you are</div>
+        <div class="sec-meta" style="color:var(--zop-orange); margin-bottom:20px">end · ready when you are</div>
         <h2>Stop watching the waste.<br/>Start cutting it.</h2>
         <p class="final-tag">See. Find. Fix. Automatic.</p>
         <p>Connect your first cloud account in under 5 minutes. See your first remediation in under 7. No credit card required.</p>
@@ -7404,52 +7420,51 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
 <!-- ============================================================
      FOOTER
      ============================================================ -->
+<!-- Footer · matches the original homepage design (4 equal columns, no
+     brand block — the eclipse-stripe wordmark below carries the brand).
+     Column contents updated to the new IA so every product, the blog,
+     community, careers, and status are reachable from here. -->
 <footer>
   <div class="container">
-    <!-- Brand block + tagline removed · the massive ZopDev wordmark in the
-         eclipse-stripe section below carries the brand identity. Footer
-         columns now spread evenly across the full width. -->
     <div class="foot-grid foot-grid--equal">
       <div class="foot-col"><h3>product</h3><ul>
-        <li><a href="/product/zopnight/atlas.html">Atlas</a></li>
-        <li><a href="/product/zopnight/mcp.html">MCP Server</a></li>
-        <li><a href="/product/zopnight/schedule.html">Schedule</a></li>
-        <li><a href="/product/zopnight/showback.html">Showback</a></li>
-        <li><a href="/product/zopnight/recommendation.html">Recommendations</a></li>
+        <li><a href="/product/zopnight.html">ZopNight</a></li>
+        <li><a href="/product/zopday.html">ZopDay</a></li>
+        <li><a href="/product/zopcloud.html">ZopCloud</a></li>
         <li><a href="/integrations.html">Integrations</a></li>
-        <li><a href="/pricing.html">Pricing</a></li></ul></div>
-      <div class="foot-col"><h3>solutions</h3><ul>
-        <li><a href="/solutions/finops.html">For FinOps</a></li>
-        <li><a href="/solutions/devops.html">For DevOps</a></li>
-        <li><a href="/solutions/cfo.html">For CFOs</a></li>
-        <li><a href="/solutions/aws.html">AWS</a></li>
-        <li><a href="/solutions/kubernetes.html">Kubernetes</a></li>
-        <li><a href="/solutions/rightsizing.html">Rightsizing</a></li>
-        <li><a href="/solutions/anomaly-detection.html">Anomaly detection</a></li></ul></div>
+        <li><a href="/pricing.html">Pricing</a></li>
+        <li><a href="/status.html">Status</a></li></ul></div>
       <div class="foot-col"><h3>resources</h3><ul>
-        <li><a href="/customers.html">Customers</a></li>
-        <li><a href="/resources/benchmarks.html">State of Cloud Waste</a></li>
-        <li><a href="/resources/blog.html">Blog</a></li>
-        <li><a href="/resources/glossary.html">Glossary</a></li>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/free-ebooks.html">Ebooks</a></li>
+        <li><a href="/customers.html">Case studies</a></li>
+        <li><a href="/solutions.html">Use cases by industry</a></li>
+        <li><a href="/walkthrough.html">Product guide</a></li>
+        <li><a href="/devops-hub.html">DevOps hub</a></li>
+        <li><a href="/kubernetes-guide.html">Kubernetes guide</a></li>
+        <li><a href="/ci-cd-best-practices.html">CI/CD best practices</a></li>
         <li><a href="/changelog.html">Changelog</a></li>
-        <li><a href="/roadmap.html">Roadmap</a></li>
-        <li><a href="/developers.html">Developers</a></li></ul></div>
+        <li><a href="/roadmap.html">Roadmap</a></li></ul></div>
+      <div class="foot-col"><h3>developers</h3><ul>
+        <li><a href="/developers.html">Documentation</a></li>
+        <li><a href="/developers.html">API reference</a></li>
+        <li><a href="/developers.html">MCP server</a></li>
+        <li><a href="/developers.html">SDK &amp; CLI</a></li>
+        <li><a href="/developers.html">Webhooks</a></li>
+        <li><a href="https://github.com/zopdev">GitHub</a></li></ul></div>
       <div class="foot-col"><h3>company</h3><ul>
         <li><a href="/about.html">About</a></li>
-        <li><a href="/company/leadership.html">Leadership</a></li>
         <li><a href="/company/careers.html">Careers</a></li>
-        <li><a href="/company/press.html">Press kit</a></li>
+        <li><a href="/community.html">Community</a></li>
         <li><a href="/brand-kit.html">Brand kit</a></li>
-        <li><a href="/company/contact.html">Contact</a></li>
-        <li><a href="/trust.html">Trust center</a></li>
-        <li><a href="/partners.html">Partners</a></li></ul></div>
+        <li><a href="/brand-kit.html">Press kit</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/partners.html">Partners</a></li>
+        <li><a href="/trust.html">Trust center</a></li></ul></div>
     </div>
 
-    <!-- compliance pills + duplicate legal-link row removed,
-         marquee carries the trust signal, columns carry the link tail -->
-
     <div class="foot-bottom" style="padding-top:20px; border-top:1px solid var(--line);">
-      <div>© <span data-year>2026</span> ZopDev, Inc. · all rights reserved · <a href="/legal/privacy.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">privacy</a> · <a href="/legal/terms.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">terms</a></div>
+      <div>© <span data-year>2026</span> ZopDev, Inc. · all rights reserved · <a href="/trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">privacy</a> · <a href="/trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">terms</a></div>
       <div class="foot-social">
         <a href="https://linkedin.com/company/zopdev">linkedin</a>
         <a href="https://twitter.com/zopdev">twitter</a>

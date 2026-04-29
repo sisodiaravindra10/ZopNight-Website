@@ -647,7 +647,7 @@
             <p class="case-outcome" style="margin-top:var(--sp-3);">
               Within two months, they had eliminated 78% of the identified waste using ZopNight's one-click remediation and Schedule feature for automated off-hours shutdown of non-production environments. Their cloud bill dropped by 31% without any code changes or architecture redesign.
             </p>
-            <a href="customers.html#northwind" class="case-link">Read full story <span class="arrow">→</span></a>
+            <a href="/customers/zopping.html" class="case-link">Read full story <span class="arrow">→</span></a>
           </div>
         </div>
 
@@ -982,10 +982,7 @@
   if(!html.getAttribute('data-theme')) html.setAttribute('data-theme','light');
   var btn = document.getElementById('theme-toggle');
   if(btn){
-    btn.addEventListener('click', function(){
-      var cur = html.getAttribute('data-theme');
-      html.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
-    });
+      /* click handler moved to chrome-mobilenav.js (global) */
   }
 })();
 
