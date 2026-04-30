@@ -573,8 +573,8 @@ body[data-product="zopnight"]{
 }
 body[data-product="zopday"]{
   --product-bg:#F58549; --product-ink:#0A0A0A;
-  --product-meta:rgba(10,10,10,.62); --product-line:rgba(0,0,0,.18);
-  --product-strong:rgba(0,0,0,.06);
+  --product-meta:rgba(10,10,10,.72); --product-line:rgba(0,0,0,.36);
+  --product-strong:rgba(0,0,0,.08);
 }
 body[data-product="zopcloud"]{
   --product-bg:#2A4494; --product-ink:#FAF7EC;
@@ -1148,20 +1148,20 @@ html[data-theme="dark"]{
   --zop-green:#B4E083;
 }
 html[data-theme="dark"] body{background:var(--paper); color:var(--ink)}
-html[data-theme="dark"] .nav{background:rgba(15,15,18,.85); border-bottom:1px solid var(--line)}
+html[data-theme="dark"] body:not(.is-tinted) .nav{background:rgba(15,15,18,.85); border-bottom:1px solid var(--line)}
 html[data-theme="dark"] footer{background:#0F0F12}
 html[data-theme="dark"] .btn-primary{background:var(--ink); color:var(--paper); border-color:var(--ink)}
 html[data-theme="dark"] .btn-primary:hover{background:transparent; color:var(--ink)}
 html[data-theme="dark"] .btn-secondary{border-color:var(--line); color:var(--ink)}
 html[data-theme="dark"] .btn-secondary:hover{border-color:var(--ink); background:#1a1a1e}
-html[data-theme="dark"] .live-strip{background:#0a0a0c}
-html[data-theme="dark"] .nav-cta a.sign,
-html[data-theme="dark"] .nav-links a{color:var(--g-700)}
-html[data-theme="dark"] .nav-links a:hover{color:var(--ink)}
+html[data-theme="dark"] body:not(.is-tinted) .live-strip{background:#0a0a0c}
+html[data-theme="dark"] body:not(.is-tinted) .nav-cta a.sign,
+html[data-theme="dark"] body:not(.is-tinted) .nav-links a{color:var(--g-700)}
+html[data-theme="dark"] body:not(.is-tinted) .nav-links a:hover{color:var(--ink)}
 html[data-theme="dark"] .sec-meta::before{background:var(--zop-orange)}
 html[data-theme="dark"] .btn-secondary{border-color:var(--line-strong)}
-html[data-theme="dark"] .theme-toggle{border-color:var(--line-strong); color:var(--g-600)}
-html[data-theme="dark"] .theme-toggle:hover{color:var(--ink); border-color:var(--ink)}
+html[data-theme="dark"] body:not(.is-tinted) .theme-toggle{border-color:var(--line-strong); color:var(--g-600)}
+html[data-theme="dark"] body:not(.is-tinted) .theme-toggle:hover{color:var(--ink); border-color:var(--ink)}
 html[data-theme="dark"] .foot-bottom{border-top-color:var(--line)}
 
 /* The 3-dot overflow nav menu (.nav-more) was removed: theme toggle,
@@ -1344,9 +1344,9 @@ html[data-theme="dark"] .theme-toggle .tt-moon:hover{ color:var(--paper); }
 .lt-chg.dn  { color:#f87171; }
 .lt-chg.flat{ color:#6b6b73; }
 
-html[data-theme="dark"] .live-strip,
-html[data-theme="dark"] .ls-anchor{ background:#0a0a0c; }
-html[data-theme="dark"] .live-strip{ border-bottom-color:rgba(255,255,255,0.08); }
+html[data-theme="dark"] body:not(.is-tinted) .live-strip,
+html[data-theme="dark"] body:not(.is-tinted) .ls-anchor{ background:#0a0a0c; }
+html[data-theme="dark"] body:not(.is-tinted) .live-strip{ border-bottom-color:rgba(255,255,255,0.08); }
 
 @media (max-width:640px){
   .ls-anchor{ gap:8px; padding:0 10px; }

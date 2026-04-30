@@ -90,30 +90,40 @@
      Product · Resources · Pricing · Company · Community.
      Mobile drawer is flat (no dropdown panes), so each top-level
      entry plus its key sub-pages get their own row. */
-  /* `/product.html` and `/resources.html` were the desktop dropdown
-     trigger labels — they don't exist as standalone pages, so the
-     mobile drawer's section headers route to the most-visited child
-     instead: ZopNight (live product) and Blog (resources hub). */
-  var primary = [
-    { href: 'zopnight.html',          label: 'Product' },
-    { href: 'zopnight.html',  label: 'ZopNight',  sub: true },
-    { href: 'zopday.html',    label: 'ZopDay',    sub: true },
-    { href: 'zopcloud.html',  label: 'ZopCloud',  sub: true },
-    { href: 'blog.html',              label: 'Resources' },
-    { href: 'blog.html',              label: 'Blog',      sub: true },
-    { href: 'customers.html',         label: 'Case studies', sub: true },
-    { href: 'changelog.html',         label: 'Changelog', sub: true },
-    { href: 'pricing.html',           label: 'Pricing' },
-    { href: 'about.html',             label: 'Company' },
-    { href: 'careers.html',   label: 'Careers',   sub: true },
-    { href: 'community.html',         label: 'Community' }
-  ];
-  /* secondary · the right-side nav-cta, plus utility links */
-  var secondary = [
-    { href: 'status.html',      label: 'Status' },
-    { href: 'playground.html',  label: 'Playground' },
-    { href: 'trust.html',       label: 'Trust Center' },
-    { href: 'signin.html',      label: 'Sign in' }
+  /* Drawer is grouped into labelled sections that mirror the desktop
+     megamenu panes (Product · Resources · Company) and a flat tail
+     for top-level links + utilities. */
+  var sections = [
+    { label: 'product', items: [
+      { href: 'zopnight.html', label: 'ZopNight' },
+      { href: 'zopday.html',   label: 'ZopDay' },
+      { href: 'zopcloud.html', label: 'ZopCloud' }
+    ]},
+    { label: 'resources', items: [
+      { href: 'blog.html',                  label: 'Blog' },
+      { href: 'free-ebooks.html',           label: 'Ebooks' },
+      { href: 'customers.html',             label: 'Case studies' },
+      { href: 'solutions.html',             label: 'Use cases by industry' },
+      { href: 'walkthrough.html',           label: 'Product guide' },
+      { href: 'devops-hub.html',            label: 'DevOps hub' },
+      { href: 'kubernetes-guide.html',      label: 'Kubernetes guide' },
+      { href: 'ci-cd-best-practices.html',  label: 'CI/CD best practices' },
+      { href: 'changelog.html',             label: 'Changelog' }
+    ]},
+    { label: 'company', items: [
+      { href: 'about.html',     label: 'About' },
+      { href: 'careers.html',   label: 'Careers' }
+    ]},
+    { label: 'menu', items: [
+      { href: 'pricing.html',   label: 'Pricing' },
+      { href: 'community.html', label: 'Community' }
+    ]},
+    { label: 'more', items: [
+      { href: 'status.html',      label: 'Status' },
+      { href: 'playground.html',  label: 'Playground' },
+      { href: 'trust.html',       label: 'Trust Center' },
+      { href: 'signin.html',      label: 'Sign in' }
+    ]}
   ];
 
   /* -------------------------------------------------------------------------
@@ -147,9 +157,9 @@
   drawer.setAttribute('aria-label', 'Site menu');
   drawer.setAttribute('aria-hidden', 'true');
 
-  function linkRow(href, label, isCurrent, isSub){
+  function linkRow(href, label, isCurrent){
     return ''
-      + '<a class="mob-nav-link' + (isSub ? ' is-sub' : '') + '" href="' + href + '"'
+      + '<a class="mob-nav-link" href="' + href + '"'
       + (isCurrent ? ' aria-current="page"' : '') + '>'
       +   '<span>' + label + '</span>'
       +   '<span class="arrow" aria-hidden="true">→</span>'
@@ -164,8 +174,13 @@
     }catch(_){ return false; }
   }
 
-  var primaryHTML = primary.map(function(l){ return linkRow(l.href, l.label, isCurrent(l.href), l.sub); }).join('');
-  var secondaryHTML = secondary.map(function(l){ return linkRow(l.href, l.label, isCurrent(l.href), l.sub); }).join('');
+  var sectionsHTML = sections.map(function(s){
+    var rows = s.items.map(function(l){ return linkRow(l.href, l.label, isCurrent(l.href)); }).join('');
+    return '<div class="mob-nav-section">'
+      + '<div class="mob-nav-section-label">// ' + s.label + '</div>'
+      + rows
+      + '</div>';
+  }).join('');
 
   drawer.innerHTML = ''
     + '<div class="mob-nav-head">'
@@ -188,14 +203,7 @@
     +   '</div>'
     + '</div>'
     + '<nav class="mob-nav-body" aria-label="Mobile">'
-    +   '<div class="mob-nav-section">'
-    +     '<div class="mob-nav-section-label">// menu</div>'
-    +     primaryHTML
-    +   '</div>'
-    +   '<div class="mob-nav-section">'
-    +     '<div class="mob-nav-section-label">// more</div>'
-    +     secondaryHTML
-    +   '</div>'
+    +   sectionsHTML
     + '</nav>'
     + '<div class="mob-nav-foot">'
     +   '<a class="btn-primary" href="/demo.html">'
