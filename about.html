@@ -210,6 +210,140 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 @media (max-width:768px){ .page > section{ padding:var(--sec-pad-sm) 0; } }
 
 /* =================================================================
+   ABOUT PAGE · friendly photo blocks
+   ----------------------------------------------------------------
+   Three image surfaces:
+     · .team-banner — one big 21:9 landscape, full-team photo,
+       sits right under the page head as the friendly first
+       impression.
+     · .story-with-image — pairs founding-story prose with one
+       portrait/squarish office shot.
+     · .office-grid — two office shots side-by-side in the
+       "inside the studio" section.
+
+   Each image lives inside a <figure class="image-frame"> so the
+   layout reserves space whether the photo file exists yet or not.
+   The placeholder gradient + caption hint show through until the
+   real <img> loads.
+   ================================================================= */
+.image-frame{
+  position:relative;
+  display:block;
+  margin:0;
+  overflow:hidden;
+  background:
+    linear-gradient(135deg, var(--bg-2) 0%, var(--bg-3) 100%);
+  border:1px solid var(--line);
+}
+.image-frame::after{
+  content:attr(data-placeholder);
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--mono); font-size:var(--t-11);
+  color:var(--ink-4);
+  letter-spacing:var(--ls-meta); text-transform:uppercase;
+  pointer-events:none; padding:var(--sp-4); text-align:center;
+}
+.image-frame img{
+  position:relative; z-index:1;
+  display:block; width:100%; height:100%;
+  object-fit:cover;
+}
+.image-frame figcaption{
+  position:absolute; left:0; right:0; bottom:0; z-index:2;
+  padding:var(--sp-3) var(--sp-4);
+  font-family:var(--mono); font-size:var(--t-11);
+  color:var(--paper); letter-spacing:var(--ls-meta);
+  text-transform:uppercase;
+  background:linear-gradient(180deg, transparent 0%, rgba(0,0,0,.6) 100%);
+  pointer-events:none;
+}
+
+/* Big team banner · full-bleed-feel landscape under the page head.
+   Override `.page > section { padding: var(--sec-pad) 0 }` so the photo
+   sits closer to the hero — the image is the visual continuation. */
+.team-banner{
+  border-bottom:1px solid var(--line);
+  padding:0 !important;
+}
+.team-banner .container{
+  max-width:var(--max); margin:0 auto;
+  padding:var(--sp-6) var(--gutter) var(--sp-10);
+}
+.team-banner .image-frame{ aspect-ratio: 21 / 9; }
+/* 10% zoom into the team photo · crops the dark frame edges and pushes
+   focus onto the people in the middle of the shot. */
+.team-banner .image-frame img{ transform:scale(1.1); transform-origin:center; }
+
+/* Founding story · text on the left, 3-photo stack on the right.
+   The right column stretches to match the text column's height
+   (default align-items: stretch), and each frame flexes to fill
+   one third of that height — so the stack ends exactly where the
+   text ends, no whitespace gap on either side. */
+.story-with-image{
+  display:grid; grid-template-columns:1.4fr 1fr;
+  gap:var(--sp-10);
+}
+.story-stack{
+  display:flex; flex-direction:column; gap:var(--sp-4);
+  height:100%;
+}
+.story-stack .image-frame{ flex:1 1 0; min-height:0; }
+@media (max-width:880px){
+  .story-with-image{ grid-template-columns:1fr; }
+  .story-stack{ flex-direction:row; gap:var(--sp-3); height:auto; }
+  .story-stack .image-frame{ flex:1 1 0; aspect-ratio: 4 / 3; }
+}
+@media (max-width:560px){
+  .story-stack{ flex-direction:column; }
+}
+
+/* Studio hero · wide landscape photo below the 3-up office grid. */
+.studio-hero{ margin-top:var(--sp-5); }
+.studio-hero .image-frame{ aspect-ratio: 16 / 7; }
+@media (max-width:560px){
+  .studio-hero .image-frame{ aspect-ratio: 4 / 3; }
+}
+
+/* Section + side-illustration · inline SVG diagrams paired with copy.
+   Used by sections 05 (team distribution) and 05b (open source). */
+.illust-layout{
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:var(--sp-10); align-items:center;
+}
+.illust-layout > div:first-child{ max-width:560px; }
+.illust-frame{
+  aspect-ratio: 4 / 3;
+  border:1px solid var(--line);
+  background:var(--bg-2);
+  display:flex; align-items:center; justify-content:center;
+  padding:var(--sp-6);
+}
+.illust-frame svg{ width:100%; height:auto; max-width:100%; }
+@media (max-width:880px){
+  .illust-layout{ grid-template-columns:1fr; gap:var(--sp-7); }
+}
+
+/* Inside-the-studio · 3 photos in a row + warm intro */
+.studio-intro{
+  max-width:760px;
+  font-size:var(--t-17); color:var(--ink-3);
+  line-height:1.65; margin:0 0 var(--sp-8);
+}
+.studio-intro strong{ color:var(--ink); font-weight:var(--fw-medium); }
+.office-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr);
+  gap:var(--sp-5);
+}
+.office-grid .image-frame{ aspect-ratio: 4 / 3; }
+@media (max-width:880px){
+  .office-grid{ grid-template-columns:1fr 1fr; }
+}
+@media (max-width:560px){
+  .office-grid{ grid-template-columns:1fr; }
+}
+
+/* =================================================================
    ABOUT PAGE · live styles for the actually-used class names
    ----------------------------------------------------------------
    The inline CSS above targets `.ab-*` selectors but the markup
@@ -493,6 +627,20 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
               <h3 class="np-cell-title">ZopCloud</h3>
               <p class="np-cell-desc">Multi-cloud resource graph and topology view.</p>
             </a>
+            <a class="np-cell" href="features.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="3" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="11" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="6" height="6" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="np-cell-title">Features</h3>
+              <p class="np-cell-desc">27 capabilities across discovery, scheduling, remediation.</p>
+            </a>
+            <a class="np-cell" href="sub-brands.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="5" height="5" stroke="currentColor" stroke-width="1.5"/><rect x="12" y="3" width="5" height="5" stroke="currentColor" stroke-width="1.5"/><rect x="7.5" y="12" width="5" height="5" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="np-cell-title">Sub-brands</h3>
+              <p class="np-cell-desc">One family · three products · three pillars.</p>
+            </a>
           </div>
           <div class="np-promo-row">
             <span><strong>Live in Claude &amp; Codex</strong> · run ZopNight from your MCP client</span>
@@ -531,11 +679,11 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
               <h3 class="np-cell-title">Use cases by industry</h3>
               <p class="np-cell-desc">SaaS · fintech · retail · health</p>
             </a>
-            <a class="np-cell" href="walkthrough.html">
+            <a class="np-cell" href="product-documentation.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 4h12v12H4z" stroke="currentColor" stroke-width="1.5"/><path d="M8 7l4 3-4 3z" fill="currentColor"/></svg>
               </div>
-              <h3 class="np-cell-title">Product guide</h3>
+              <h3 class="np-cell-title">Product documentation</h3>
               <p class="np-cell-desc">Walkthroughs · video tours</p>
             </a>
             <a class="np-cell" href="devops-hub.html">
@@ -566,6 +714,27 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
               <h3 class="np-cell-title">Changelog</h3>
               <p class="np-cell-desc">What shipped this week</p>
             </a>
+            <a class="np-cell" href="developer-documentation.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M7 6L3 10l4 4M13 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/></svg>
+              </div>
+              <h3 class="np-cell-title">Developer documentation</h3>
+              <p class="np-cell-desc">REST API · SDKs · webhooks · MCP</p>
+            </a>
+            <a class="np-cell" href="what-is-devops.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 10a7 7 0 0 1 14 0 7 7 0 0 1-14 0z" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </div>
+              <h3 class="np-cell-title">What is DevOps?</h3>
+              <p class="np-cell-desc">Principles, practice, payoff</p>
+            </a>
+            <a class="np-cell" href="platform-engineering-hub.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="4" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="9" width="14" height="4" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="15" width="14" height="2" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="np-cell-title">Platform engineering</h3>
+              <p class="np-cell-desc">Internal platforms · golden paths · DX</p>
+            </a>
           </div>
           <div class="np-promo-row">
             <span><strong>Weekly digest</strong> · waste signals, wins, war stories</span>
@@ -573,12 +742,11 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
           </div>
         </div>
 
-        <!-- ═══════ COMPANY · 2 items ═══════ -->
+        <!-- ═══════ COMPANY · 3 items ═══════ -->
         <div class="nav-pane" data-pane="company">
-          <!-- 2 equal cells. Same approach as Product: drop the hero
-               distinction so neither side stretches taller than the
-               other and the dropdown fills cleanly with no dead zone. -->
-          <div class="np-bento" style="grid-template-columns:1fr 1fr;">
+          <!-- 3 equal cells across. Hero distinction dropped so all three
+               sit at the same height and the dropdown fills cleanly. -->
+          <div class="np-bento" style="grid-template-columns:1fr 1fr 1fr;">
             <a class="np-cell" href="about.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="0" y="0" width="32" height="32" fill="#0A0A0A"/><rect x="6" y="6" width="8" height="20" fill="#F0EBDB"/><rect x="18" y="12" width="8" height="14" fill="#F58549"/></svg>
@@ -593,6 +761,13 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
               </div>
               <h3 class="np-cell-title">Careers</h3>
               <p class="np-cell-desc">Open roles · engineering, design, GTM</p>
+            </a>
+            <a class="np-cell" href="services.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 7h14v10H3z" stroke="currentColor" stroke-width="1.5"/><path d="M7 7V4h6v3" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="np-cell-title">Services</h3>
+              <p class="np-cell-desc">Onboarding · advisory · enterprise support</p>
             </a>
           </div>
           <div class="np-promo-row">
@@ -635,9 +810,19 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 
   <header class="page-head">
     <div class="meta">company · about</div>
-    <h1>Multi-cloud infrastructure automation. <em>Production-ready in 30 minutes.</em></h1>
-    <p class="lede">ZopDev is the unified platform for managing AWS, Azure, OCI, and GCP from a single interface. Security, compliance, observability, and automation come built-in, so engineering teams can focus on building products instead of wrangling infrastructure.</p>
+    <h1>The team building the <em>cloud autopilot.</em></h1>
+    <p class="lede">ZopDev is the unified platform for managing AWS, Azure, OCI, and GCP from a single interface. Security, compliance, observability, and automation come built-in &mdash; engineers focus on shipping product, not wrangling infrastructure. We're a small group, distributed across four markets, building in the open and shipping every week.</p>
   </header>
+
+  <!-- TEAM BANNER · full-team landscape photo -->
+  <section class="team-banner" aria-label="The ZopDev team">
+    <div class="container">
+      <figure class="image-frame" data-placeholder="full team · landscape photo · 21:9">
+        <img src="team-full.png" alt="The full ZopDev team together"/>
+        <figcaption>the team · 2026</figcaption>
+      </figure>
+    </div>
+  </section>
 
   <!-- 01 · mission -->
   <section>
@@ -699,19 +884,57 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
     </div>
   </section>
 
-  <!-- 02 · founding story -->
+  <!-- 02 · founding story · paired with an office shot -->
   <section>
     <div class="container">
       <div class="sec-meta">02 · founding story</div>
       <h2 class="sec-heading">Why we started.</h2>
-      <div class="story-block">
-        <p>ZopDev was founded in <strong>2024</strong> by a team that had spent years inside large engineering organizations, fixing cloud messes for Fortune 500 companies, watching teams struggle with DevOps bottlenecks and scaling issues that slowed innovation.</p>
-        <p>The pattern was always the same. A new project meant weeks of YAML, scripts, security reviews, and observability stitching before a single line of product code shipped. Multi-cloud meant the same problem multiplied by every provider in the stack. The compliance review at the end almost always sent the team back to start.</p>
-        <blockquote style="font-size:var(--t-20); color:var(--ink-2); line-height:1.55; margin:var(--sp-6) 0; padding-left:var(--sp-5); border-left:3px solid var(--zop-orange);">
-          "We built ZopDev as the shortcut we wished we had, where security, compliance, observability, and automation come built-in. Now developers can focus on building products instead of wrangling infrastructure."
-          <span style="display:block; margin-top:var(--sp-3); font-size:var(--t-13); font-family:var(--mono); letter-spacing:var(--ls-meta); color:var(--ink-4); text-transform:uppercase;">– Talvinder Singh, Co-founder &amp; CEO</span>
-        </blockquote>
-        <p>We started in markets where engineering teams move fastest, the <strong>USA, Singapore, and the UK</strong>, and have since expanded into <strong>India</strong>, one of the fastest-growing startup ecosystems globally. The mission stays the same everywhere: production-ready, fully compliant cloud infrastructure in under 30 minutes, with zero manual scripts.</p>
+      <div class="story-with-image">
+        <div class="story-block">
+          <p>ZopDev was founded in <strong>2024</strong> by a team that had spent years inside large engineering organizations, fixing cloud messes for Fortune 500 companies, watching teams struggle with DevOps bottlenecks and scaling issues that slowed innovation.</p>
+          <p>The pattern was always the same. A new project meant weeks of YAML, scripts, security reviews, and observability stitching before a single line of product code shipped. Multi-cloud meant the same problem multiplied by every provider in the stack. The compliance review at the end almost always sent the team back to start.</p>
+          <blockquote style="font-size:var(--t-20); color:var(--ink-2); line-height:1.55; margin:var(--sp-6) 0; padding-left:var(--sp-5); border-left:3px solid var(--zop-orange);">
+            "We built ZopDev as the shortcut we wished we had, where security, compliance, observability, and automation come built-in. Now developers can focus on building products instead of wrangling infrastructure."
+            <span style="display:block; margin-top:var(--sp-3); font-size:var(--t-13); font-family:var(--mono); letter-spacing:var(--ls-meta); color:var(--ink-4); text-transform:uppercase;">– Talvinder Singh, Co-founder &amp; CEO</span>
+          </blockquote>
+          <p>We started in markets where engineering teams move fastest, the <strong>USA, Singapore, and the UK</strong>, and have since expanded into <strong>India</strong>, one of the fastest-growing startup ecosystems globally. The mission stays the same everywhere: production-ready, fully compliant cloud infrastructure in under 30 minutes, with zero manual scripts.</p>
+        </div>
+        <div class="story-stack">
+          <figure class="image-frame" data-placeholder="founders · 1">
+            <img src="founders-2.jpg" alt="ZopDev founders, moment one"/>
+          </figure>
+          <figure class="image-frame" data-placeholder="founders · 2">
+            <img src="founders-3.jpg" alt="ZopDev founders, moment two"/>
+          </figure>
+          <figure class="image-frame" data-placeholder="founders · 3">
+            <img src="founders-4.jpg" alt="ZopDev founders, moment three"/>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02b · inside the studio · 3 office shots in a row -->
+  <section>
+    <div class="container">
+      <div class="sec-meta">02b · inside the studio</div>
+      <h2 class="sec-heading">Where the work happens.</h2>
+      <p class="studio-intro">We work async-first &mdash; <strong>writing before we meet, shipping every week</strong>. But when we're together it's loud, opinionated, and a little chaotic. Whiteboards stay full. The coffee is good. The dog visits sometimes.</p>
+      <div class="office-grid">
+        <figure class="image-frame" data-placeholder="office shot · 4:3">
+          <img src="office-2.jpeg" alt="ZopDev office, view one"/>
+        </figure>
+        <figure class="image-frame" data-placeholder="office shot · 4:3">
+          <img src="office-3.jpeg" alt="ZopDev office, view two"/>
+        </figure>
+        <figure class="image-frame" data-placeholder="office shot · 4:3">
+          <img src="office-4.jpeg" alt="ZopDev office, view three"/>
+        </figure>
+      </div>
+      <div class="studio-hero">
+        <figure class="image-frame" data-placeholder="founders · wide">
+          <img src="founders-1.jpg" alt="ZopDev founders together"/>
+        </figure>
       </div>
     </div>
   </section>
@@ -814,10 +1037,73 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
   <section>
     <div class="container">
       <div class="sec-meta">05 · team</div>
-      <h2 class="sec-heading">We're hiring.</h2>
-      <p style="font-size:var(--t-17); color:var(--ink-3); max-width:720px; line-height:1.6; margin:0 0 var(--sp-6);">ZopDev is a small team with outsized impact. We hire engineers who've lived the problem, people who've sat in the same compliance review for the third quarter in a row and thought "this should already be automated." We work async-first, write before we meet, and ship every week.</p>
-      <p style="font-size:var(--t-17); color:var(--ink-3); max-width:720px; line-height:1.6; margin:0 0 var(--sp-8);">We're hiring across backend infrastructure (Go, Kubernetes, multi-cloud control planes), product engineering, and solutions engineering. Distributed across the markets we serve, USA, Singapore, UK, and India. Competitive compensation with equity.</p>
-      <a class="btn btn-primary" href="careers.html"><span>View open roles</span> <span class="arrow">→</span></a>
+      <div class="illust-layout">
+        <div>
+          <h2 class="sec-heading">Come build with us.</h2>
+          <p style="font-size:var(--t-17); color:var(--ink-3); line-height:1.6; margin:0 0 var(--sp-6);">We're a small team with outsized impact &mdash; the kind of place where what you ship on Tuesday is in front of customers by Friday. We hire engineers who've lived the problem, people who've sat in the same compliance review for the third quarter in a row and thought "this should already be automated."</p>
+          <p style="font-size:var(--t-17); color:var(--ink-3); line-height:1.6; margin:0 0 var(--sp-8);">Open seats span backend infrastructure (Go, Kubernetes, multi-cloud control planes), product engineering, and solutions engineering &mdash; distributed across <strong>USA, Singapore, UK, and India</strong>. Competitive comp with equity, and a real say in the roadmap.</p>
+          <a class="btn btn-primary" href="careers.html"><span>View open roles</span> <span class="arrow">→</span></a>
+        </div>
+        <div class="illust-frame" aria-label="Distributed team across four regions">
+          <svg viewBox="0 0 480 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- world dotted backdrop -->
+            <g fill="var(--ink-5)" opacity=".4">
+              <circle cx="80" cy="100" r="1.5"/><circle cx="100" cy="80" r="1.5"/><circle cx="120" cy="100" r="1.5"/>
+              <circle cx="140" cy="120" r="1.5"/><circle cx="160" cy="100" r="1.5"/><circle cx="180" cy="80" r="1.5"/>
+              <circle cx="200" cy="100" r="1.5"/><circle cx="220" cy="120" r="1.5"/><circle cx="240" cy="100" r="1.5"/>
+              <circle cx="260" cy="80" r="1.5"/><circle cx="280" cy="100" r="1.5"/><circle cx="300" cy="120" r="1.5"/>
+              <circle cx="320" cy="100" r="1.5"/><circle cx="340" cy="80" r="1.5"/><circle cx="360" cy="100" r="1.5"/>
+              <circle cx="380" cy="120" r="1.5"/><circle cx="400" cy="100" r="1.5"/>
+              <circle cx="80" cy="180" r="1.5"/><circle cx="100" cy="200" r="1.5"/><circle cx="120" cy="180" r="1.5"/>
+              <circle cx="140" cy="200" r="1.5"/><circle cx="160" cy="180" r="1.5"/><circle cx="180" cy="200" r="1.5"/>
+              <circle cx="200" cy="180" r="1.5"/><circle cx="220" cy="200" r="1.5"/><circle cx="240" cy="180" r="1.5"/>
+              <circle cx="260" cy="200" r="1.5"/><circle cx="280" cy="180" r="1.5"/><circle cx="300" cy="200" r="1.5"/>
+              <circle cx="320" cy="180" r="1.5"/><circle cx="340" cy="200" r="1.5"/><circle cx="360" cy="180" r="1.5"/>
+              <circle cx="380" cy="200" r="1.5"/><circle cx="400" cy="180" r="1.5"/>
+              <circle cx="80" cy="260" r="1.5"/><circle cx="100" cy="280" r="1.5"/><circle cx="120" cy="260" r="1.5"/>
+              <circle cx="140" cy="280" r="1.5"/><circle cx="160" cy="260" r="1.5"/><circle cx="180" cy="280" r="1.5"/>
+              <circle cx="200" cy="260" r="1.5"/><circle cx="220" cy="280" r="1.5"/><circle cx="240" cy="260" r="1.5"/>
+              <circle cx="260" cy="280" r="1.5"/><circle cx="280" cy="260" r="1.5"/><circle cx="300" cy="280" r="1.5"/>
+              <circle cx="320" cy="260" r="1.5"/><circle cx="340" cy="280" r="1.5"/><circle cx="360" cy="260" r="1.5"/>
+              <circle cx="380" cy="280" r="1.5"/><circle cx="400" cy="280" r="1.5"/>
+            </g>
+            <!-- connecting lines between team nodes -->
+            <g stroke="var(--ink-4)" stroke-width="1" stroke-dasharray="3 4" opacity=".5">
+              <line x1="120" y1="160" x2="270" y2="100"/>
+              <line x1="270" y1="100" x2="380" y2="180"/>
+              <line x1="380" y1="180" x2="350" y2="280"/>
+              <line x1="350" y1="280" x2="120" y2="160"/>
+            </g>
+            <!-- 4 region nodes -->
+            <g>
+              <!-- USA · top-left blue -->
+              <rect x="100" y="140" width="40" height="40" fill="var(--zop-blue)"/>
+              <rect x="106" y="146" width="6" height="6" fill="#FFF"/>
+              <rect x="116" y="146" width="6" height="6" fill="#FFF"/>
+              <rect x="106" y="156" width="6" height="6" fill="#FFF"/>
+              <rect x="116" y="156" width="6" height="6" fill="#FFF"/>
+              <text x="120" y="200" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink)" font-weight="600">USA</text>
+              <!-- UK · top-right orange -->
+              <rect x="250" y="80" width="40" height="40" fill="var(--zop-orange)"/>
+              <rect x="262" y="92" width="16" height="6" fill="#FFF"/>
+              <rect x="262" y="102" width="16" height="6" fill="#FFF"/>
+              <text x="270" y="140" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink)" font-weight="600">UK</text>
+              <!-- Singapore · right green -->
+              <rect x="360" y="160" width="40" height="40" fill="var(--zop-green)"/>
+              <circle cx="380" cy="180" r="8" fill="#FFF"/>
+              <text x="380" y="220" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink)" font-weight="600">Singapore</text>
+              <!-- India · bottom blue -->
+              <rect x="330" y="260" width="40" height="40" fill="var(--zop-blue)"/>
+              <rect x="336" y="270" width="28" height="3" fill="#FFF"/>
+              <rect x="336" y="278" width="28" height="3" fill="#FFA500"/>
+              <rect x="336" y="286" width="28" height="3" fill="#7FB236"/>
+              <text x="350" y="320" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink)" font-weight="600">India</text>
+            </g>
+            <!-- caption -->
+            <text x="240" y="40" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="2" fill="var(--ink-4)">DISTRIBUTED · ASYNC-FIRST · 4 MARKETS</text>
+          </svg>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -825,9 +1111,47 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
   <section>
     <div class="container">
       <div class="sec-meta">05b · open source</div>
-      <h2 class="sec-heading">We build in the open.</h2>
-      <p style="font-size:var(--t-17); color:var(--ink-3); max-width:720px; line-height:1.6; margin:0 0 var(--sp-6);">Some of the foundation under ZopDev ships as open source. Our Go framework <strong>GoFr</strong>, used internally to build the platform's services, collapses ~200 lines of typical microservice boilerplate into ~50 lines and is available for any team to use, free.</p>
-      <a class="btn btn-secondary" href="https://github.com/zopdev"><span>github.com/zopdev</span> <span class="arrow">→</span></a>
+      <div class="illust-layout">
+        <div class="illust-frame" aria-label="GoFr terminal preview" style="order:1;">
+          <svg viewBox="0 0 480 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- terminal window chrome -->
+            <rect x="40" y="40" width="400" height="280" fill="#0A0A0A" stroke="var(--line-b)" stroke-width="1"/>
+            <rect x="40" y="40" width="400" height="28" fill="#15151A"/>
+            <circle cx="56" cy="54" r="4" fill="#F87171"/>
+            <circle cx="72" cy="54" r="4" fill="#FBBF24"/>
+            <circle cx="88" cy="54" r="4" fill="#34D399"/>
+            <text x="240" y="58" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#707070">~/zopdev/gofr · main.go</text>
+            <!-- terminal body content -->
+            <g font-family="JetBrains Mono, monospace" font-size="11">
+              <text x="60" y="98" fill="#F58549">package</text>
+              <text x="116" y="98" fill="#F0EBDB">main</text>
+              <text x="60" y="120" fill="#F58549">import</text>
+              <text x="106" y="120" fill="#F0EBDB">"gofr.dev/pkg/gofr"</text>
+              <text x="60" y="156" fill="#F58549">func</text>
+              <text x="96" y="156" fill="#7FB236">main</text>
+              <text x="124" y="156" fill="#F0EBDB">() {</text>
+              <text x="80" y="178" fill="#F0EBDB">app := gofr.New()</text>
+              <text x="80" y="208" fill="#F0EBDB">app.GET(</text>
+              <text x="138" y="208" fill="#34D399">"/hello"</text>
+              <text x="184" y="208" fill="#F0EBDB">, helloHandler)</text>
+              <text x="80" y="230" fill="#F0EBDB">app.Run()</text>
+              <text x="60" y="252" fill="#F0EBDB">}</text>
+              <text x="60" y="290" fill="#707070">// 50 lines · not 200</text>
+            </g>
+            <!-- caret -->
+            <rect x="138" y="298" width="7" height="14" fill="#F58549">
+              <animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite"/>
+            </rect>
+            <!-- caption -->
+            <text x="240" y="22" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="2" fill="var(--ink-4)">GOFR · OPEN SOURCE · APACHE-2.0</text>
+          </svg>
+        </div>
+        <div style="order:2;">
+          <h2 class="sec-heading">We build in the open.</h2>
+          <p style="font-size:var(--t-17); color:var(--ink-3); line-height:1.6; margin:0 0 var(--sp-6);">Some of the foundation under ZopDev ships as open source. Our Go framework <strong>GoFr</strong>, used internally to build the platform's services, collapses ~200 lines of typical microservice boilerplate into ~50 lines and is available for any team to use, free.</p>
+          <a class="btn btn-secondary" href="https://github.com/zopdev"><span>github.com/zopdev</span> <span class="arrow">→</span></a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -903,18 +1227,18 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
         <li><a href="free-ebooks.html">Ebooks</a></li>
         <li><a href="customers.html">Case studies</a></li>
         <li><a href="solutions.html">Use cases by industry</a></li>
-        <li><a href="walkthrough.html">Product guide</a></li>
+        <li><a href="product-documentation.html">Product documentation</a></li>
         <li><a href="devops-hub.html">DevOps hub</a></li>
         <li><a href="kubernetes-guide.html">Kubernetes guide</a></li>
         <li><a href="ci-cd-best-practices.html">CI/CD best practices</a></li>
         <li><a href="changelog.html">Changelog</a></li>
         <li><a href="roadmap.html">Roadmap</a></li></ul></div>
       <div class="foot-col"><h3>developers</h3><ul>
-        <li><a href="developers.html">Documentation</a></li>
-        <li><a href="developers.html">API reference</a></li>
-        <li><a href="developers.html">MCP server</a></li>
-        <li><a href="developers.html">SDK &amp; CLI</a></li>
-        <li><a href="developers.html">Webhooks</a></li>
+        <li><a href="developer-documentation.html">Documentation</a></li>
+        <li><a href="developer-documentation.html#endpoints">API reference</a></li>
+        <li><a href="developer-documentation.html#mcp-server">MCP server</a></li>
+        <li><a href="developer-documentation.html#sdks">SDK &amp; CLI</a></li>
+        <li><a href="developer-documentation.html#webhooks">Webhooks</a></li>
         <li><a href="https://github.com/zopdev">GitHub</a></li></ul></div>
       <div class="foot-col"><h3>company</h3><ul>
         <li><a href="about.html">About</a></li>

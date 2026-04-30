@@ -104,7 +104,7 @@
       { href: 'free-ebooks.html',           label: 'Ebooks' },
       { href: 'customers.html',             label: 'Case studies' },
       { href: 'solutions.html',             label: 'Use cases by industry' },
-      { href: 'walkthrough.html',           label: 'Product guide' },
+      { href: 'product-documentation.html',           label: 'Product documentation' },
       { href: 'devops-hub.html',            label: 'DevOps hub' },
       { href: 'kubernetes-guide.html',      label: 'Kubernetes guide' },
       { href: 'ci-cd-best-practices.html',  label: 'CI/CD best practices' },

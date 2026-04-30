@@ -588,66 +588,11 @@ body[data-product].is-tinted{
   color:var(--product-ink);
 }
 
-/* Nav · re-skinned while tinted, crossfades back as the hero exits. */
-body.is-tinted .nav{
-  background:var(--product-bg);
-  border-bottom-color:var(--product-line);
-}
-body.is-tinted .nav-links a,
-body.is-tinted .nav-cta a.sign,
-body.is-tinted .nav-item > a{ color:var(--product-ink); opacity:.95; }
-body.is-tinted .nav-links a:hover,
-body.is-tinted .nav-item > a:hover{ color:var(--product-ink); opacity:1; }
-body.is-tinted .nav-cta .chip-playground,
-body.is-tinted .nav-status,
-body.is-tinted .theme-toggle{
-  border-color:var(--product-line); color:var(--product-ink);
-}
-body.is-tinted .nav-status .nav-status-text,
-body.is-tinted .nav-cta a.sign{ color:var(--product-ink); }
-body.is-tinted .nav-cta .chip-playground:hover{
-  background:var(--product-strong); border-color:var(--product-ink); color:var(--product-ink);
-}
-/* `.btn-accent` while tinted: ink-block with the OPPOSITE-tone text so it
-   reads cleanly on every product. ZopDay's ink is black, so its accent
-   button needs cream text (orange-on-black is too muted). ZopNight and
-   ZopCloud have cream ink, so deep-blue text on cream still pops. */
-body.is-tinted .nav-cta .btn-accent{
-  background:var(--product-ink); color:var(--product-bg); border-color:var(--product-ink);
-}
-body[data-product="zopday"].is-tinted .nav-cta .btn-accent{
-  background:#0A0A0A; color:#FAF7EC; border-color:#0A0A0A;
-}
-body.is-tinted .nav-cta .btn-accent:hover{
-  background:transparent; color:var(--product-ink); border-color:var(--product-ink);
-}
-body[data-product="zopday"].is-tinted .nav-cta .btn-accent:hover{
-  background:transparent; color:#0A0A0A; border-color:#0A0A0A;
-}
-/* Hamburger toggle on tinted nav · the default `var(--line)` border is
-   barely visible against a saturated brand bg (especially ZopDay orange).
-   Use the per-product `--product-ink` so the toggle has a crisp outline. */
-body.is-tinted .mob-nav-toggle{
-  border-color:var(--product-ink);
-  color:var(--product-ink);
-}
-body.is-tinted .mob-nav-toggle:hover{
-  background:var(--product-strong);
-  border-color:var(--product-ink);
-}
-body.is-tinted .logo-lockup{ color:var(--product-ink); }
-/* Brand-mark tiles inside the logo · the orange quadrant of the 2×2
-   tile uses a hard-coded #F58549 fill, which is identical to ZopDay's
-   tinted bg and disappears. Swap the matching tile to ink so the brand
-   mark is always readable on tinted nav. Same trick for ZopNight /
-   ZopCloud (blue-on-blue would vanish too). */
-body[data-product="zopday"].is-tinted .logo-lockup svg [fill="#F58549"]{
-  fill:#0A0A0A;
-}
-body[data-product="zopnight"].is-tinted .logo-lockup svg [fill="#2A4494"],
-body[data-product="zopcloud"].is-tinted .logo-lockup svg [fill="#2A4494"]{
-  fill:#FAF7EC;
-}
+/* Nav stays in its default site theme on tinted product pages — only the
+   page body + hero pick up the brand tint. Keeping the nav neutral was a
+   readability call (saturated brand bg made chips, sign-in, and the
+   hamburger toggle hard to read). The hero band below carries the brand
+   color; the nav looks identical to every other page. */
 body.is-tinted .ann-bar{
   background:var(--product-strong); color:var(--product-ink);
   border-bottom-color:var(--product-line);
@@ -796,24 +741,9 @@ body.is-tinted .zc-form button{
   position:relative;
   overflow:hidden;
 }
-.page-head::after,
-.pi-head::after,
-.fp-head::after,
-.ds-pagehead::after{
-  content:'';
-  position:absolute; bottom:0; left:-30%;
-  width:30%; height:2px;
-  background:linear-gradient(90deg,
-    transparent 0%,
-    var(--zop-orange) 50%,
-    transparent 100%);
-  filter:drop-shadow(0 0 8px rgba(245,133,73,.4));
-  animation:mg-pagehead-pulse 5.5s cubic-bezier(.65, 0, .35, 1) infinite;
-}
-@keyframes mg-pagehead-pulse{
-  0%   { left:-30%; }
-  100% { left:130%; }
-}
+/* page-head bottom gradient strip removed — wasn't part of the design
+   system, read as decorative noise. Page-head still gets a clean
+   1px var(--line) bottom border from its own rule. */
 
 /* ── 2 · Section divider · subtle dotted line that drifts between
    adjacent .section blocks. Adds rhythm to long-form pages without
@@ -975,7 +905,6 @@ body.is-tinted .zc-form button{
 
 /* Reduced motion · pause every motion-graphic loop */
 @media (prefers-reduced-motion: reduce){
-  .page-head::after, .pi-head::after, .fp-head::after, .ds-pagehead::after,
   .section + .section::before,
   .mg-bg-grid::before,
   .mg-pulse-border::before, .mg-pulse-border::after,
@@ -1160,8 +1089,9 @@ html[data-theme="dark"] body:not(.is-tinted) .nav-links a{color:var(--g-700)}
 html[data-theme="dark"] body:not(.is-tinted) .nav-links a:hover{color:var(--ink)}
 html[data-theme="dark"] .sec-meta::before{background:var(--zop-orange)}
 html[data-theme="dark"] .btn-secondary{border-color:var(--line-strong)}
-html[data-theme="dark"] body:not(.is-tinted) .theme-toggle{border-color:var(--line-strong); color:var(--g-600)}
-html[data-theme="dark"] body:not(.is-tinted) .theme-toggle:hover{color:var(--ink); border-color:var(--ink)}
+/* dark-theme adapt for theme-toggle handled in the .theme-toggle block
+   above — keep this slot empty so the edgy hover (orange + offset
+   shadow) isn't overwritten on dark canvases. */
 html[data-theme="dark"] .foot-bottom{border-top-color:var(--line)}
 
 /* The 3-dot overflow nav menu (.nav-more) was removed: theme toggle,
@@ -1210,38 +1140,36 @@ html[data-theme="dark"] .nav-variants-menu{
 .nav-variants-menu a.current{ border-left-color:var(--zop-orange); background:rgba(245,133,73,.04); }
 
 /* =================================================================
-   THEME TOGGLE — segmented pill with sliding thumb
+   THEME TOGGLE — edgy single-icon square button
+   -----------------------------------------------------------------
+   Compact 36px square showing only the "switch to" target icon:
+     · light mode → moon (click to go dark)
+     · dark mode  → sun (click to go light)
+   Sharp brand treatment: ink border, orange accent on hover, hard
+   offset shadow on lift (matches the rest of the system).
    ================================================================= */
 .theme-toggle{
-  position:relative; display:inline-flex; padding:3px; gap:0;
-  border:1px solid var(--line); border-radius:999px; background:transparent;
-  cursor:pointer; line-height:0;
-  transition:border-color .2s var(--ease-out), box-shadow .2s var(--ease-out);
+  position:relative; display:inline-flex;
+  align-items:center; justify-content:center;
+  width:36px; height:36px; padding:0;
+  border:1px solid var(--line); background:transparent;
+  color:var(--zop-orange); cursor:pointer; line-height:0;
+  transition:transform .14s var(--ease-out),
+             border-color .14s var(--ease-out),
+             color .14s var(--ease-out),
+             box-shadow .14s var(--ease-out);
 }
-.theme-toggle:hover{ border-color:var(--ink); box-shadow:0 2px 0 -1px var(--ink); }
+.theme-toggle:hover{
+  border-color:var(--zop-orange); color:var(--zop-orange);
+  transform:translate(-1px, -1px);
+  box-shadow:3px 3px 0 -1px var(--zop-orange);
+}
 .theme-toggle:focus-visible{ outline:2px solid var(--zop-orange); outline-offset:2px; }
-.theme-toggle .tt-opt{
-  width:26px; height:26px; border-radius:999px;
-  display:inline-flex; align-items:center; justify-content:center;
-  color:var(--g-500);
-  position:relative; z-index:1;
-  transition:color .28s var(--ease-out);
-}
-.theme-toggle .tt-opt svg{ display:block; width:14px; height:14px; }
-.theme-toggle::before{
-  content:''; position:absolute; top:3px; left:3px;
-  width:26px; height:26px; border-radius:999px;
-  background:var(--ink);
-  transition:transform .32s cubic-bezier(.22,1,.36,1);
-  z-index:0;
-}
-html[data-theme="light"] .theme-toggle::before{ transform:translateX(0); }
-html[data-theme="dark"] .theme-toggle::before{ transform:translateX(26px); }
-html[data-theme="light"] .theme-toggle .tt-sun{ color:var(--paper); }
-html[data-theme="dark"] .theme-toggle .tt-moon{ color:var(--paper); }
-.theme-toggle .tt-opt:hover{ color:var(--ink); }
-html[data-theme="light"] .theme-toggle .tt-sun:hover,
-html[data-theme="dark"] .theme-toggle .tt-moon:hover{ color:var(--paper); }
+.theme-toggle:active{ transform:translate(0,0); box-shadow:1px 1px 0 -1px var(--zop-orange); }
+.theme-toggle .tt-opt{ display:none; line-height:0; align-items:center; justify-content:center; }
+.theme-toggle .tt-opt svg{ display:block; width:18px; height:18px; }
+html[data-theme="light"] .theme-toggle .tt-moon{ display:inline-flex; }
+html[data-theme="dark"] .theme-toggle .tt-sun{ display:inline-flex; }
 
 /* =================================================================
    LIVE-OPS STRIP — stock-exchange ticker (homepage variant)

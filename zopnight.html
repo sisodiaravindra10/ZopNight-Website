@@ -104,7 +104,7 @@
 .zn-hero{ background:var(--bg-1); border-bottom:1px solid var(--line); }
 .zn-hero-inner{
   display:grid; grid-template-columns:1.4fr 1fr; gap:var(--sp-12);
-  align-items:center; padding:var(--sp-16) 0 var(--sp-14);
+  align-items:center; padding-block:var(--sp-16) var(--sp-14);
 }
 @media (max-width:980px){ .zn-hero-inner{ grid-template-columns:1fr; gap:var(--sp-8); } }
 .zn-tag{
@@ -514,6 +514,20 @@
               <h3 class="np-cell-title">ZopCloud</h3>
               <p class="np-cell-desc">Multi-cloud resource graph and topology view.</p>
             </a>
+            <a class="np-cell" href="features.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="3" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="11" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="6" height="6" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="np-cell-title">Features</h3>
+              <p class="np-cell-desc">27 capabilities across discovery, scheduling, remediation.</p>
+            </a>
+            <a class="np-cell" href="sub-brands.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="5" height="5" stroke="currentColor" stroke-width="1.5"/><rect x="12" y="3" width="5" height="5" stroke="currentColor" stroke-width="1.5"/><rect x="7.5" y="12" width="5" height="5" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="np-cell-title">Sub-brands</h3>
+              <p class="np-cell-desc">One family · three products · three pillars.</p>
+            </a>
           </div>
           <div class="np-promo-row">
             <span><strong>Live in Claude &amp; Codex</strong> · run ZopNight from your MCP client</span>
@@ -552,11 +566,11 @@
               <h3 class="np-cell-title">Use cases by industry</h3>
               <p class="np-cell-desc">SaaS · fintech · retail · health</p>
             </a>
-            <a class="np-cell" href="walkthrough.html">
+            <a class="np-cell" href="product-documentation.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 4h12v12H4z" stroke="currentColor" stroke-width="1.5"/><path d="M8 7l4 3-4 3z" fill="currentColor"/></svg>
               </div>
-              <h3 class="np-cell-title">Product guide</h3>
+              <h3 class="np-cell-title">Product documentation</h3>
               <p class="np-cell-desc">Walkthroughs · video tours</p>
             </a>
             <a class="np-cell" href="devops-hub.html">
@@ -587,6 +601,27 @@
               <h3 class="np-cell-title">Changelog</h3>
               <p class="np-cell-desc">What shipped this week</p>
             </a>
+            <a class="np-cell" href="developer-documentation.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M7 6L3 10l4 4M13 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/></svg>
+              </div>
+              <h3 class="np-cell-title">Developer documentation</h3>
+              <p class="np-cell-desc">REST API · SDKs · webhooks · MCP</p>
+            </a>
+            <a class="np-cell" href="what-is-devops.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 10a7 7 0 0 1 14 0 7 7 0 0 1-14 0z" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </div>
+              <h3 class="np-cell-title">What is DevOps?</h3>
+              <p class="np-cell-desc">Principles, practice, payoff</p>
+            </a>
+            <a class="np-cell" href="platform-engineering-hub.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="4" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="9" width="14" height="4" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="15" width="14" height="2" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="np-cell-title">Platform engineering</h3>
+              <p class="np-cell-desc">Internal platforms · golden paths · DX</p>
+            </a>
           </div>
           <div class="np-promo-row">
             <span><strong>Weekly digest</strong> · waste signals, wins, war stories</span>
@@ -594,12 +629,11 @@
           </div>
         </div>
 
-        <!-- ═══════ COMPANY · 2 items ═══════ -->
+        <!-- ═══════ COMPANY · 3 items ═══════ -->
         <div class="nav-pane" data-pane="company">
-          <!-- 2 equal cells. Same approach as Product: drop the hero
-               distinction so neither side stretches taller than the
-               other and the dropdown fills cleanly with no dead zone. -->
-          <div class="np-bento" style="grid-template-columns:1fr 1fr;">
+          <!-- 3 equal cells across. Hero distinction dropped so all three
+               sit at the same height and the dropdown fills cleanly. -->
+          <div class="np-bento" style="grid-template-columns:1fr 1fr 1fr;">
             <a class="np-cell" href="about.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="0" y="0" width="32" height="32" fill="#0A0A0A"/><rect x="6" y="6" width="8" height="20" fill="#F0EBDB"/><rect x="18" y="12" width="8" height="14" fill="#F58549"/></svg>
@@ -614,6 +648,13 @@
               </div>
               <h3 class="np-cell-title">Careers</h3>
               <p class="np-cell-desc">Open roles · engineering, design, GTM</p>
+            </a>
+            <a class="np-cell" href="services.html">
+              <div class="np-cell-icon">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 7h14v10H3z" stroke="currentColor" stroke-width="1.5"/><path d="M7 7V4h6v3" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="np-cell-title">Services</h3>
+              <p class="np-cell-desc">Onboarding · advisory · enterprise support</p>
             </a>
           </div>
           <div class="np-promo-row">
@@ -671,7 +712,7 @@
       <div>
         <div class="zn-tag">ZopNight · live · GA</div>
         <h1>Your dev environments cost money <em>while everyone sleeps.</em></h1>
-        <p class="lead">Non-prod resources run 24/7 even though your team works 10 hours a day &mdash; that's <strong>58% pure waste</strong>. ZopNight stops them when no one's using them, restarts before anyone notices, and right-sizes what's left. <strong>Five-minute setup. Read-only by default.</strong></p>
+        <p class="lead">Non-prod resources run 24/7 even though your team works 10 hours a day. ZopNight is the multi-cloud resource scheduler and FinOps automation platform that cuts cloud spend by up to <strong>60%</strong> via scheduled shutdowns, right-sizing, and 337+ audit rules. <strong>Save $60K+/year. 5-minute setup. Stop/start only — never deletes.</strong></p>
         <div class="zn-cta">
           <a class="btn btn-primary" href="demo.html">
             <svg class="btn-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopnight"/></svg>
@@ -706,19 +747,19 @@
   <section class="zn-stats">
     <div class="container">
       <div class="zn-stat">
-        <span class="k">avg savings</span>
-        <div class="v"><em>70%</em></div>
-        <div class="l">cut from non-prod cloud spend</div>
+        <span class="k">cost cut</span>
+        <div class="v">up to 60<em>%</em></div>
+        <div class="l">cloud spend reduced via schedules</div>
       </div>
       <div class="zn-stat">
         <span class="k">setup</span>
         <div class="v">&lt; 5<em>min</em></div>
-        <div class="l">read-only connect, no agents</div>
+        <div class="l">multi-cloud, no agents</div>
       </div>
       <div class="zn-stat">
-        <span class="k">discovery</span>
-        <div class="v">14<em>d</em></div>
-        <div class="l">CPU, network, disk metrics analysed</div>
+        <span class="k">audit rules</span>
+        <div class="v">337<em>+</em></div>
+        <div class="l">across AWS, GCP, Azure providers</div>
       </div>
       <div class="zn-stat">
         <span class="k">api surface</span>
@@ -778,7 +819,7 @@
       <div class="zn-sec-head">
         <div>
           <div class="meta">capabilities</div>
-          <h2>Six ways ZopNight finds <em>the money you're losing.</em></h2>
+          <h2>Nine ways ZopNight finds <em>the money you're losing.</em></h2>
         </div>
         <p class="sub">Scheduling is the headline. The rest is what keeps you saving after week one.</p>
       </div>
@@ -789,12 +830,12 @@
           <div class="zn-feat-icon">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
           </div>
-          <h3>Smart scheduling</h3>
-          <p>Cron rules per environment, dependency-aware so DBs come up before services. Production stays armed against accidental shutdown.</p>
+          <h3>Schedules &amp; resource groups</h3>
+          <p>5-field cron with per-schedule IANA timezones. Resource groups run in tiered execution order (DBs tier 1, app servers tier 2). Scheduler evaluates every minute.</p>
           <ul>
-            <li>Per-env timezones</li>
-            <li>Dependency ordering</li>
-            <li>Holiday calendars</li>
+            <li>Per-schedule timezones</li>
+            <li>Tiered dependency ordering</li>
+            <li>Business-hours / weekend presets</li>
           </ul>
         </article>
 
@@ -802,12 +843,12 @@
           <div class="zn-feat-icon">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 17V7l7-4 7 4v10z" stroke="currentColor" stroke-width="1.5"/><path d="M3 11h14" stroke="currentColor" stroke-width="1.3"/></svg>
           </div>
-          <h3>Idle resource detection</h3>
-          <p>14 days of CPU, network, and disk metrics surface VMs and DBs that are running but doing nothing &mdash; the silent $200&ndash;500 drain per account.</p>
+          <h3>Recommendations engine</h3>
+          <p>337+ audit rules across AWS (155), GCP (75), Azure (107). Seven categories: idle, rightsizing, schedule, orphan, compliance, discount, governance. Five severity tiers from Info to Critical.</p>
           <ul>
-            <li>14-day lookback</li>
-            <li>Per-resource confidence</li>
-            <li>One-click stop</li>
+            <li>14-day metric lookback</li>
+            <li>Per-resource savings estimates</li>
+            <li>open → applied / dismissed flow</li>
           </ul>
         </article>
 
@@ -815,25 +856,51 @@
           <div class="zn-feat-icon">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 16h14M5 13l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
           </div>
-          <h3>Right-sizing</h3>
-          <p>Spotted that t3.xlarge running at 8% CPU? ZopNight matches actual usage to the right family + size. <strong>30&ndash;50%</strong> per over-provisioned resource.</p>
+          <h3>VM autoscaling</h3>
+          <p>Three modes: Monitor (what-if), Recommend (one-click apply), or Autopilot (auto within bounds). Targets ASGs, ECS, MIGs, VMSS, Databricks. Smart defaults from p95 CPU history.</p>
           <ul>
-            <li>Family + size match</li>
-            <li>Burstable-aware</li>
-            <li>RI / SP friendly</li>
+            <li>Min / max / target CPU policies</li>
+            <li>Cooldown + source-aware tolerance</li>
+            <li>Schedule-driven scale presets</li>
           </ul>
         </article>
 
         <article class="zn-feat">
           <div class="zn-feat-icon">
-            <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M6 10h8M10 6v8" stroke="currentColor" stroke-width="1.5"/></svg>
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 14l5-7 4 5 5-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><circle cx="13" cy="14" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
           </div>
-          <h3>Orphan cleanup</h3>
-          <p>Unattached EBS volumes, forgotten snapshots, idle NAT gateways. The forensics nobody has time for. <strong>$50&ndash;300/mo</strong> per account, week one.</p>
+          <h3>Cost anomaly detection</h3>
+          <p>Catches deviations across account, service, resource type, and team/tag dimensions. Four severity tiers (Info / Warning / Critical / Emergency) with root-cause attribution and 7-day dedup.</p>
           <ul>
-            <li>Volumes &amp; snapshots</li>
-            <li>NAT &amp; load balancers</li>
-            <li>Reserved IPs</li>
+            <li>Resize, restart, lapse attribution</li>
+            <li>20%-200%+ deviation thresholds</li>
+            <li>Suppressed-dot UI dedup</li>
+          </ul>
+        </article>
+
+        <article class="zn-feat">
+          <div class="zn-feat-icon">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 4h12v12H4z" stroke="currentColor" stroke-width="1.5"/><path d="M7 8h6M7 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </div>
+          <h3>Dashboards &amp; reports</h3>
+          <p>Four preset dashboards (Executive, Engineering, FinOps, All) plus 10 widgets, 12 report types, and Sankey / treemap visualizations. CSV, PNG, and shareable URL exports.</p>
+          <ul>
+            <li>Cost trend, breakdown, showback</li>
+            <li>Top costly · quick insights · budget health</li>
+            <li>50 dashboards · 50 widgets each</li>
+          </ul>
+        </article>
+
+        <article class="zn-feat">
+          <div class="zn-feat-icon">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 6h14v8H3z" stroke="currentColor" stroke-width="1.5"/><path d="M7 14v3M13 14v3M5 17h10" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Auto-tagging</h3>
+          <p>Deterministic rule-based prediction (no ML) for prod / staging / dev plus a noStop operational flag. Confidence 1-100 with reasoning. Bulk-accept high, individually review medium, hide low.</p>
+          <ul>
+            <li>Confidence-tiered review flow</li>
+            <li>Non-destructive accept/reject</li>
+            <li>Filter by provider, type, status</li>
           </ul>
         </article>
 
@@ -841,25 +908,38 @@
           <div class="zn-feat-icon">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="4" y="6" width="12" height="10" stroke="currentColor" stroke-width="1.5"/><path d="M7 6V4a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.5"/></svg>
           </div>
-          <h3>RBAC &amp; audit</h3>
-          <p>Role-based permissions, SSO via Okta / Google / Azure AD, full action log. Per-team budgets and threshold alerts before someone breaches.</p>
+          <h3>RBAC, SSO &amp; audit</h3>
+          <p>Role-based permissions with read-only access preview. SSO via Google, GitHub, SAML. AES-256-GCM token encryption. Production auto-protected. Full audit trail of who, what, when, why.</p>
           <ul>
-            <li>SAML / OIDC SSO</li>
-            <li>Per-team budgets</li>
-            <li>Immutable audit log</li>
+            <li>read_only / read_write tiers</li>
+            <li>OIDC discovery for Azure WIF</li>
+            <li>Per-team budgets &amp; alerts</li>
           </ul>
         </article>
 
         <article class="zn-feat">
           <div class="zn-feat-icon">
-            <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M6 7l-3 3 3 3M14 7l3 3-3 3M11 5l-2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 10h4l2-3 2 6 2-3h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/></svg>
           </div>
-          <h3>API + webhooks</h3>
-          <p>80+ REST endpoints, webhooks for every state transition. Pipe scheduling decisions into your CI/CD, your Slack, your incident tooling.</p>
+          <h3>Notifications</h3>
+          <p>Slack, Microsoft Teams, Google Chat, and email channels. 8 event types from <code>resource.started</code> to <code>budget.exceeded</code>. Subscription scoping at org / account / group / resource level.</p>
           <ul>
-            <li>REST &amp; gRPC</li>
-            <li>Webhooks</li>
-            <li>Terraform provider</li>
+            <li>4 channels · 8 event types</li>
+            <li>Bulk subscription updates</li>
+            <li>Per-user opt-in / opt-out</li>
+          </ul>
+        </article>
+
+        <article class="zn-feat">
+          <div class="zn-feat-icon">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M7 8l3 4 3-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </div>
+          <h3>MCP server (AI integration)</h3>
+          <p>43 read-only tools exposed over JSON-RPC 2.0. Query infrastructure, costs, schedules, recommendations, budgets, audit logs from Cursor, Claude Code, Codex, Windsurf, and Antigravity.</p>
+          <ul>
+            <li>Streamable HTTP transport</li>
+            <li>Read-only · web UI for writes</li>
+            <li>Personal Access Token auth</li>
           </ul>
         </article>
 
@@ -883,50 +963,50 @@
       <div class="zn-clouds">
 
         <div class="zn-cloud">
-          <h3><span class="swatch" style="background:#FF9900"></span> AWS</h3>
+          <h3><span class="swatch" style="background:#FF9900"></span> AWS · 64 types · 16 executable</h3>
           <ul>
-            <li>EC2 &amp; Auto Scaling</li>
-            <li>RDS &amp; ElastiCache</li>
-            <li>EKS &amp; ECS</li>
-            <li>Lambda &amp; Redshift</li>
-            <li>EBS / Snapshots</li>
-            <li>NAT &amp; ELB / ALB</li>
+            <li>EC2 · ASG · Lambda · EMR</li>
+            <li>EKS · ECS</li>
+            <li>RDS · ElastiCache · Redshift</li>
+            <li>SageMaker · OpenSearch</li>
+            <li>S3 · EBS · Snapshots · VPC</li>
+            <li>NAT · ELB / ALB</li>
           </ul>
         </div>
 
         <div class="zn-cloud">
-          <h3><span class="swatch" style="background:#4285F4"></span> Google Cloud</h3>
+          <h3><span class="swatch" style="background:#4285F4"></span> GCP · 36 types · 6 executable</h3>
           <ul>
-            <li>Compute Engine</li>
-            <li>Cloud SQL &amp; Memorystore</li>
+            <li>Compute Engine · Cloud Run</li>
             <li>GKE clusters</li>
-            <li>Cloud Run &amp; BigQuery</li>
-            <li>Persistent disks</li>
-            <li>Cloud NAT</li>
+            <li>Cloud SQL · Memorystore</li>
+            <li>BigQuery · Artifact Registry</li>
+            <li>Cloud Storage · Persistent Disks</li>
+            <li>VPCs</li>
           </ul>
         </div>
 
         <div class="zn-cloud">
-          <h3><span class="swatch" style="background:#0078D4"></span> Azure</h3>
+          <h3><span class="swatch" style="background:#0078D4"></span> Azure · 53 types · 8 executable</h3>
           <ul>
-            <li>VMs &amp; Scale Sets</li>
-            <li>Azure SQL Database</li>
-            <li>AKS clusters</li>
-            <li>Functions &amp; Containers</li>
-            <li>Managed disks</li>
-            <li>App Service plans</li>
+            <li>VMs · VM Scale Sets</li>
+            <li>AKS · Container Apps</li>
+            <li>Function Apps</li>
+            <li>SQL Database · ML Compute</li>
+            <li>Databricks · Container Registry</li>
+            <li>Storage · Managed Disks · VNets</li>
           </ul>
         </div>
 
         <div class="zn-cloud">
-          <h3><span class="swatch" style="background:#326CE5"></span> Kubernetes</h3>
+          <h3><span class="swatch" style="background:#326CE5"></span> Kubernetes · EKS / GKE / AKS</h3>
           <ul>
-            <li>EKS · GKE · AKS</li>
-            <li>Node pool scaling</li>
-            <li>StatefulSet-aware</li>
-            <li>Dependency ordering</li>
-            <li>HPA / VPA hints</li>
-            <li>Karpenter friendly</li>
+            <li>Deployments · StatefulSets</li>
+            <li>DaemonSets · Jobs · CronJobs</li>
+            <li>ReplicaSets · Pods · Nodes</li>
+            <li>Namespaces · Roles · Bindings</li>
+            <li>Services &amp; networking objects</li>
+            <li>Node-pool &amp; HPA scaling</li>
           </ul>
         </div>
 
@@ -1129,18 +1209,18 @@
         <li><a href="free-ebooks.html">Ebooks</a></li>
         <li><a href="customers.html">Case studies</a></li>
         <li><a href="solutions.html">Use cases by industry</a></li>
-        <li><a href="walkthrough.html">Product guide</a></li>
+        <li><a href="product-documentation.html">Product documentation</a></li>
         <li><a href="devops-hub.html">DevOps hub</a></li>
         <li><a href="kubernetes-guide.html">Kubernetes guide</a></li>
         <li><a href="ci-cd-best-practices.html">CI/CD best practices</a></li>
         <li><a href="changelog.html">Changelog</a></li>
         <li><a href="roadmap.html">Roadmap</a></li></ul></div>
       <div class="foot-col"><h3>developers</h3><ul>
-        <li><a href="developers.html">Documentation</a></li>
-        <li><a href="developers.html">API reference</a></li>
-        <li><a href="developers.html">MCP server</a></li>
-        <li><a href="developers.html">SDK &amp; CLI</a></li>
-        <li><a href="developers.html">Webhooks</a></li>
+        <li><a href="developer-documentation.html">Documentation</a></li>
+        <li><a href="developer-documentation.html#endpoints">API reference</a></li>
+        <li><a href="developer-documentation.html#mcp-server">MCP server</a></li>
+        <li><a href="developer-documentation.html#sdks">SDK &amp; CLI</a></li>
+        <li><a href="developer-documentation.html#webhooks">Webhooks</a></li>
         <li><a href="https://github.com/zopdev">GitHub</a></li></ul></div>
       <div class="foot-col"><h3>company</h3><ul>
         <li><a href="about.html">About</a></li>
