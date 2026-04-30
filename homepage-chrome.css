@@ -152,8 +152,9 @@ code, .mono{font-family:var(--mono); letter-spacing:0}
   border-color:var(--ink);
   box-shadow:0 8px 0 -4px var(--zop-orange);
 }
-/* accent — orange fill (nav CTA, key conversion points) */
-.btn-accent{ background:var(--zop-orange); color:var(--paper); border-color:var(--zop-orange); font-weight:700; }
+/* accent — orange fill (nav CTA, key conversion points)
+   Black text on orange · ~7:1 (AAA) vs the cream-on-orange ~2.4:1 we had before. */
+.btn-accent{ background:var(--zop-orange); color:#0A0A0A; border-color:var(--zop-orange); font-weight:700; }
 .btn-accent:hover{
   transform:translateY(-4px);
   border-color:var(--zop-orange);
@@ -474,11 +475,15 @@ html[data-theme="dark"] .nav-status:hover{ background:#1a1a1e; border-color:var(
    The homepage's own inline `<style>` already locks it dark; this
    brings every subpage in line.
    ================================================================= */
+/* All footer text colors are theme-locked cream/cream-grey to match the
+   theme-locked dark background. Without this lock, `var(--g-700)` etc.
+   resolve to dark grey in light mode and the column links go invisible
+   on the dark footer (the bug that prompted the lock). */
 footer{background:#0A0A0A; color:#F0EBDB; padding:56px 0 28px}
 .foot-grid{display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr; gap:40px; margin-bottom:40px}
 .foot-brand .logo-lockup{margin-bottom:18px}
-.foot-brand p{color:var(--g-600); font-size:13px; max-width:300px; line-height:1.55}
-.foot-col h3{font-family:var(--mono); font-size:10px; font-weight:600; color:var(--g-500);
+.foot-brand p{color:#9C9588; font-size:13px; max-width:300px; line-height:1.55}
+.foot-col h3{font-family:var(--mono); font-size:10px; font-weight:600; color:#9C9588;
   letter-spacing:.16em; text-transform:uppercase; margin-bottom:18px}
 .foot-col ul{list-style:none; padding:0; margin:0}
 .foot-col li{padding:5px 0}
@@ -486,7 +491,7 @@ footer{background:#0A0A0A; color:#F0EBDB; padding:56px 0 28px}
    Uses a pseudo-element arrow that grows in on hover instead of a
    stale text-decoration underline. */
 .foot-col a{
-  color:var(--g-700); font-size:13px;
+  color:#D4CDB5; font-size:13px;
   position:relative; display:inline-block;
   transition:color .18s var(--ease-out), transform .18s var(--ease-out);
 }
@@ -499,14 +504,14 @@ footer{background:#0A0A0A; color:#F0EBDB; padding:56px 0 28px}
   transition:opacity .18s var(--ease-out), transform .18s var(--ease-out);
 }
 .foot-col a:hover{
-  color:var(--ink);
+  color:#F0EBDB;
   transform:translateX(2px);
 }
 .foot-col a:hover::after{
   opacity:1; transform:translateX(0);
 }
-.foot-bottom{display:flex; justify-content:space-between; padding-top:24px; border-top:1px solid var(--line);
-  font-family:var(--mono); font-size:11px; color:var(--g-500); letter-spacing:.05em; flex-wrap:wrap; gap:16px}
+.foot-bottom{display:flex; justify-content:space-between; padding-top:24px; border-top:1px solid rgba(255,255,255,.08);
+  font-family:var(--mono); font-size:11px; color:#9C9588; letter-spacing:.05em; flex-wrap:wrap; gap:16px}
 
 /* =========================================================================
    FIRST-FOLD DARK MODE · scoped via `[data-theme="dark"]` attribute.
@@ -553,6 +558,215 @@ footer{background:#0A0A0A; color:#F0EBDB; padding:56px 0 28px}
 [data-theme="dark"] .btn-primary:hover{
   background:var(--zop-orange); border-color:var(--zop-orange); color:#0a0a0c;
 }
+/* =========================================================================
+   PRODUCT-PAGE TINT · saturated brand band that wraps nav + hero on
+   /product/zopnight, zopday, zopcloud. Toggled by IntersectionObserver
+   in each product page's inline init script — `is-tinted` while the
+   hero is in view, removed once it scrolls out so the rest of the page
+   reverts to paper. ZopNight + ZopCloud share blue (differentiated by
+   the big mark in the hero, per spec); ZopDay is orange.
+   ========================================================================= */
+body[data-product="zopnight"]{
+  --product-bg:#2A4494; --product-ink:#FAF7EC;
+  --product-meta:rgba(250,247,236,.7); --product-line:rgba(255,255,255,.18);
+  --product-strong:rgba(255,255,255,.10);
+}
+body[data-product="zopday"]{
+  --product-bg:#F58549; --product-ink:#0A0A0A;
+  --product-meta:rgba(10,10,10,.62); --product-line:rgba(0,0,0,.18);
+  --product-strong:rgba(0,0,0,.06);
+}
+body[data-product="zopcloud"]{
+  --product-bg:#2A4494; --product-ink:#FAF7EC;
+  --product-meta:rgba(250,247,236,.7); --product-line:rgba(255,255,255,.18);
+  --product-strong:rgba(255,255,255,.10);
+}
+
+body[data-product]{ transition:background-color 480ms cubic-bezier(.4,0,.2,1); }
+body[data-product].is-tinted{
+  background:var(--product-bg);
+  color:var(--product-ink);
+}
+
+/* Nav · re-skinned while tinted, crossfades back as the hero exits. */
+body.is-tinted .nav{
+  background:var(--product-bg);
+  border-bottom-color:var(--product-line);
+}
+body.is-tinted .nav-links a,
+body.is-tinted .nav-cta a.sign,
+body.is-tinted .nav-item > a{ color:var(--product-ink); opacity:.95; }
+body.is-tinted .nav-links a:hover,
+body.is-tinted .nav-item > a:hover{ color:var(--product-ink); opacity:1; }
+body.is-tinted .nav-cta .chip-playground,
+body.is-tinted .nav-status,
+body.is-tinted .theme-toggle{
+  border-color:var(--product-line); color:var(--product-ink);
+}
+body.is-tinted .nav-status .nav-status-text,
+body.is-tinted .nav-cta a.sign{ color:var(--product-ink); }
+body.is-tinted .nav-cta .chip-playground:hover{
+  background:var(--product-strong); border-color:var(--product-ink); color:var(--product-ink);
+}
+/* `.btn-accent` while tinted: ink-block with the OPPOSITE-tone text so it
+   reads cleanly on every product. ZopDay's ink is black, so its accent
+   button needs cream text (orange-on-black is too muted). ZopNight and
+   ZopCloud have cream ink, so deep-blue text on cream still pops. */
+body.is-tinted .nav-cta .btn-accent{
+  background:var(--product-ink); color:var(--product-bg); border-color:var(--product-ink);
+}
+body[data-product="zopday"].is-tinted .nav-cta .btn-accent{
+  background:#0A0A0A; color:#FAF7EC; border-color:#0A0A0A;
+}
+body.is-tinted .nav-cta .btn-accent:hover{
+  background:transparent; color:var(--product-ink); border-color:var(--product-ink);
+}
+body[data-product="zopday"].is-tinted .nav-cta .btn-accent:hover{
+  background:transparent; color:#0A0A0A; border-color:#0A0A0A;
+}
+/* Hamburger toggle on tinted nav · the default `var(--line)` border is
+   barely visible against a saturated brand bg (especially ZopDay orange).
+   Use the per-product `--product-ink` so the toggle has a crisp outline. */
+body.is-tinted .mob-nav-toggle{
+  border-color:var(--product-ink);
+  color:var(--product-ink);
+}
+body.is-tinted .mob-nav-toggle:hover{
+  background:var(--product-strong);
+  border-color:var(--product-ink);
+}
+body.is-tinted .logo-lockup{ color:var(--product-ink); }
+/* Brand-mark tiles inside the logo · the orange quadrant of the 2×2
+   tile uses a hard-coded #F58549 fill, which is identical to ZopDay's
+   tinted bg and disappears. Swap the matching tile to ink so the brand
+   mark is always readable on tinted nav. Same trick for ZopNight /
+   ZopCloud (blue-on-blue would vanish too). */
+body[data-product="zopday"].is-tinted .logo-lockup svg [fill="#F58549"]{
+  fill:#0A0A0A;
+}
+body[data-product="zopnight"].is-tinted .logo-lockup svg [fill="#2A4494"],
+body[data-product="zopcloud"].is-tinted .logo-lockup svg [fill="#2A4494"]{
+  fill:#FAF7EC;
+}
+body.is-tinted .ann-bar{
+  background:var(--product-strong); color:var(--product-ink);
+  border-bottom-color:var(--product-line);
+}
+body.is-tinted .live-strip{
+  background:var(--product-strong); color:var(--product-ink);
+  border-bottom-color:var(--product-line);
+}
+
+/* Hero · sit on the brand bg, no extra elevation/border. */
+body.is-tinted .zn-hero,
+body.is-tinted .zd-hero,
+body.is-tinted .zc-hero{
+  background:transparent; border-bottom:0; color:var(--product-ink);
+  position:relative; overflow:hidden;
+}
+body.is-tinted .crumb,
+body.is-tinted .crumb a{ color:var(--product-meta); }
+body.is-tinted .crumb a:hover{ color:var(--product-ink); }
+body.is-tinted .crumb .sep{ color:var(--product-line); }
+
+body.is-tinted .zn-tag,
+body.is-tinted .zd-tag,
+body.is-tinted .zc-tag{ color:var(--product-ink); opacity:.85; }
+body.is-tinted .zn-tag::before,
+body.is-tinted .zd-tag::before,
+body.is-tinted .zc-tag::before{ background:var(--product-ink); }
+
+body.is-tinted .zn-hero h1,
+body.is-tinted .zd-hero h1,
+body.is-tinted .zc-hero h1{ color:var(--product-ink); }
+/* Neutralize the orange `<em>` highlight — on a saturated bg the
+   accent color clashes (orange-on-orange on ZopDay especially). Keep
+   the emphasis as a softer tint of product-ink so the headline still
+   rhythms but the contrast stays AA. */
+body.is-tinted .zn-hero h1 em,
+body.is-tinted .zd-hero h1 em,
+body.is-tinted .zc-hero h1 em{
+  color:var(--product-ink); opacity:.65; font-style:normal;
+}
+body.is-tinted .zn-hero .lead,
+body.is-tinted .zd-hero .lead,
+body.is-tinted .zc-hero .lead{ color:var(--product-meta); }
+body.is-tinted .zn-hero .lead strong,
+body.is-tinted .zd-hero .lead strong,
+body.is-tinted .zc-hero .lead strong{ color:var(--product-ink); }
+
+/* Hero CTA buttons re-skinned for the saturated bg */
+body.is-tinted .zn-hero .btn-primary,
+body.is-tinted .zd-hero .btn-primary,
+body.is-tinted .zc-hero .btn-primary{
+  background:var(--product-ink); color:var(--product-bg); border-color:var(--product-ink);
+}
+body.is-tinted .zn-hero .btn-primary:hover,
+body.is-tinted .zd-hero .btn-primary:hover,
+body.is-tinted .zc-hero .btn-primary:hover{
+  background:transparent; color:var(--product-ink);
+}
+body.is-tinted .zn-hero .btn-secondary,
+body.is-tinted .zd-hero .btn-secondary,
+body.is-tinted .zc-hero .btn-secondary{
+  border-color:var(--product-line); color:var(--product-ink); background:transparent;
+}
+body.is-tinted .zn-hero .btn-secondary:hover,
+body.is-tinted .zd-hero .btn-secondary:hover,
+body.is-tinted .zc-hero .btn-secondary:hover{
+  border-color:var(--product-ink); background:var(--product-strong);
+}
+
+/* Hero side panels · stay readable on the brand bg */
+body.is-tinted .zn-savings,
+body.is-tinted .zd-waitlist,
+body.is-tinted .zc-graph{
+  background:var(--product-strong); border-color:var(--product-line); color:var(--product-ink);
+}
+body.is-tinted .zn-savings .lab,
+body.is-tinted .zd-waitlist .lab,
+body.is-tinted .zc-graph .lab{ color:var(--product-meta); }
+body.is-tinted .zn-savings .row{ border-color:var(--product-line); color:var(--product-ink); }
+body.is-tinted .zn-savings .row .v,
+body.is-tinted .zn-savings .row .k{ color:var(--product-ink); }
+body.is-tinted .zn-savings .row.win .v{ color:#7FB236; }
+body.is-tinted .zn-savings .row.delta{
+  background:rgba(255,255,255,.16); border:1px solid var(--product-ink); margin-top:12px;
+}
+body.is-tinted .zn-savings .row.delta .v{ color:var(--product-ink); }
+body.is-tinted .zd-waitlist .num,
+body.is-tinted .zd-waitlist h3,
+body.is-tinted .zd-waitlist p{ color:var(--product-ink); }
+body.is-tinted .zd-waitlist input{
+  background:var(--product-strong); border:1px solid var(--product-line); color:var(--product-ink);
+}
+body.is-tinted .zd-waitlist input::placeholder{ color:var(--product-meta); }
+body.is-tinted .zd-waitlist button,
+body.is-tinted .zc-graph + form button,
+body.is-tinted .zc-form button{
+  background:var(--product-ink); color:var(--product-bg); border:1px solid var(--product-ink);
+}
+
+/* Big product mark behind the hero · the visual differentiator for
+   ZopCloud (which shares blue with ZopNight). Each product page
+   inserts a `.product-hero-mark` SVG. */
+.product-hero-mark{
+  position:absolute;
+  top:50%; right:max(2vw, 32px);
+  transform:translateY(-50%);
+  width:clamp(220px, 28vw, 420px);
+  height:auto; opacity:.14;
+  pointer-events:none; z-index:0;
+}
+.product-hero-mark svg{ width:100%; height:auto; display:block; }
+.zn-hero-inner, .zd-hero-inner, .zc-hero-inner{ position:relative; z-index:1; }
+@media (max-width:980px){ .product-hero-mark{ display:none; } }
+
+/* Btn mark · small product icon prefixed to primary CTAs */
+.btn-mark{ width:14px; height:14px; flex-shrink:0; display:inline-block; margin-right:6px; vertical-align:-2px; }
+.btn .btn-mark{ margin-right:8px; }
+
+
 [data-theme="dark"] .btn-secondary{
   border-color:rgba(240,235,219,.3); color:var(--ink);
 }
@@ -1354,6 +1568,33 @@ html[data-theme="dark"] .live-strip{ border-bottom-color:rgba(255,255,255,0.08);
 @media (max-width:960px){
   .mob-nav-toggle{ display:inline-flex; }
   body.mob-nav-open{ overflow:hidden; }
+  /* Hide desktop nav-links + dropdown overlay; the drawer carries them. */
+  .nav .nav-links{ display:none !important; }
+  .nav .nav-overlay{ display:none !important; }
+  /* Inside the right-side cluster, hide everything except "Book a demo".
+     The hamburger sits next to it. Status / theme / playground / sign-in
+     all live in the drawer. */
+  .nav-cta .nav-status,
+  .nav-cta .theme-toggle,
+  .nav-cta .chip-playground,
+  .nav-cta .sign{ display:none !important; }
+  /* Tighten nav-inner so it fits the smaller surface */
+  .nav-inner{ padding-left:16px; padding-right:16px; gap:10px; }
+  /* Push the right-side cluster (Book a demo + hamburger toggle, which
+     gets appended after .nav-cta by chrome-mobilenav.js) to the far right
+     so the layout reads logo|space|demo+toggle instead of evenly spaced. */
+  .nav-cta{ gap:8px; margin-left:auto; }
+  .nav-cta .btn-accent{ padding:8px 12px; font-size:12px; height:36px; }
+  .nav-cta .btn-accent .arrow{ display:none; }   /* save horizontal room */
+}
+@media (max-width:520px){
+  /* On the smallest screens, even Book a demo collapses to icon-only
+     so the row never overflows. The drawer's footer still has the full
+     CTA so users have an easy way to act. */
+  .nav-cta .btn-accent span:first-child{
+    /* "Book a demo" → "Demo" */
+    font-size:12px;
+  }
 }
 
 /* prefers-reduced-motion: collapse drawer slide */
@@ -1365,3 +1606,129 @@ html[data-theme="dark"] .live-strip{ border-bottom-color:rgba(255,255,255,0.08);
    stays paper-themed because the drawer is fixed and lives outside that
    scope. Explicit override only for ::before/scrim contrast on dark fold */
 html[data-theme="dark"] .mob-nav-toggle{ color:var(--ink); }
+
+/* =================================================================
+   FINAL CTA · `.final` slab · theme-locked dark on every page
+   ----------------------------------------------------------------
+   Lifted out of index.html so any page that drops `<section class="final">`
+   gets the same dark slab + grid + stat column without inlining the
+   ~50 lines of CSS. Theme-locked dark intentionally — the slab sits
+   above the (also theme-locked) footer and reads as one continuous
+   brand anchor.
+   ================================================================= */
+.final{
+  background:#0A0A0A;
+  color:#F0EBDB;
+  padding:96px 0;
+  border:0;
+  position:relative;
+}
+.final h2{
+  color:#F0EBDB;
+  font-size:clamp(36px,4vw,56px); font-weight:700;
+  line-height:1; letter-spacing:-0.04em; margin-bottom:20px;
+}
+.final p{ font-size:16px; color:#B8B0A0; max-width:460px; margin-bottom:28px; }
+.final .final-tag{ color:#F0EBDB; }
+.final-grid{ display:grid; grid-template-columns:2fr 1fr; gap:60px; align-items:center; }
+.final .final-cta{ display:flex; gap:12px; flex-wrap:wrap; }
+.final .btn-primary{ background:#F0EBDB; color:#0A0A0A; border-color:#F0EBDB; }
+.final .btn-primary:hover{ background:transparent; color:#F0EBDB; }
+.final .btn-secondary{ border-color:rgba(255,255,255,.3); color:#F0EBDB; }
+.final .btn-secondary:hover{ border-color:#F0EBDB; background:rgba(255,255,255,.05); }
+.final-stats{
+  display:flex; flex-direction:column; gap:20px;
+  font-family:var(--mono); font-size:12px;
+  border-left:1px solid rgba(255,255,255,.18); padding-left:32px;
+}
+.final-stats div{ color:#9C9588; letter-spacing:.05em; }
+.final-stats strong{
+  display:block; color:#F0EBDB; font-size:24px;
+  letter-spacing:-0.02em; font-family:var(--font); font-weight:700;
+  margin-bottom:4px;
+}
+.final-mark{
+  position:absolute; top:0; right:0;
+  width:88px; height:88px;
+  display:flex; align-items:center; justify-content:center;
+  z-index:2;
+  transition:opacity var(--dur-med);
+}
+.final-mark svg{ width:100%; height:100%; display:block; }
+.final-mark:hover{ opacity:0.85; }
+.final-mark:focus-visible{ outline:2px solid var(--zop-orange); outline-offset:-2px; }
+
+@media (max-width:760px){
+  .final{ padding:64px 0; }
+  .final-grid{ grid-template-columns:1fr; gap:32px; }
+  .final-stats{ border-left:0; border-top:1px solid rgba(255,255,255,.18); padding-left:0; padding-top:24px; }
+  .final-mark{ width:64px; height:64px; }
+}
+
+/* =================================================================
+   BRIDGE MARQUEE · cream slab between dark CTA and dark footer
+   ================================================================= */
+.bridge-marquee{
+  background:#F0EBDB;
+  color:#0A0A0A;
+  height:56px;
+  display:flex; align-items:center; overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%);
+          mask-image:linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%);
+}
+.bridge-track{
+  display:flex; gap:32px; align-items:center; width:max-content;
+  animation:bridge-roll 24s linear infinite;
+  font-family:var(--mono); font-size:14px; letter-spacing:.06em;
+  white-space:nowrap;
+  padding:0 32px;
+}
+.bridge-marquee:hover .bridge-track{ animation-play-state:paused; }
+.bridge-track .acc{ color:var(--zop-orange); font-weight:700; }
+@keyframes bridge-roll{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(calc(-50% - 16px)); }
+}
+@media (prefers-reduced-motion:reduce){
+  .bridge-track{ animation:none; }
+}
+@media (max-width:760px){
+  .bridge-marquee{ height:44px; }
+  .bridge-track{ font-size:12px; gap:24px; padding:0 16px; }
+}
+
+/* =================================================================
+   ECLIPSE-STRIPE WORDMARK · last section of every page
+   ================================================================= */
+.eclipse-stripe{
+  position:relative;
+  background:#0A0A0A;
+  padding:0 32px;
+  height:300px;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.eclipse-mark{
+  position:relative; z-index:1;
+  font-family:var(--font);
+  font-size:clamp(120px, 20vw, 340px);
+  font-weight:700;
+  letter-spacing:-.055em; line-height:.85;
+  margin:0; color:#F0EBDB;
+  pointer-events:none;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+  display:inline-flex; align-items:center; gap:.06em;
+}
+.eclipse-mark .eclipse-word{ display:inline-block; }
+.eclipse-mark .eclipse-glyph{
+  display:inline-block;
+  width:0.72em; height:0.72em;
+  flex-shrink:0;
+  margin-left:.04em; margin-bottom:-.02em;
+  vertical-align:baseline;
+}
+@media (max-width:760px){
+  .eclipse-stripe{ height:160px; padding:0 16px; }
+  .eclipse-mark{ font-size:clamp(72px, 18vw, 120px); }
+}

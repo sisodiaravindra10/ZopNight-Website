@@ -47,6 +47,15 @@
     '.mob-nav-head{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--line,#D9D3BF);flex-shrink:0}'+
     '.mob-nav-head .mob-wm{font-family:var(--font,"Space Grotesk",sans-serif);font-weight:700;font-size:18px;letter-spacing:-0.025em;color:var(--ink,#0A0A0A)}'+
     '.mob-nav-head .mob-wm em{font-style:normal;color:var(--zop-orange,#F58549)}'+
+    '.mob-nav-head-actions{display:flex;align-items:center;gap:8px}'+
+    '.mob-nav-theme{width:36px;height:36px;padding:0;background:transparent;border:1px solid var(--line,#D9D3BF);color:var(--ink,#0A0A0A);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .16s,border-color .16s,color .16s}'+
+    '.mob-nav-theme:hover{background:var(--g-100,#ECE7D7);border-color:var(--ink,#0A0A0A)}'+
+    '.mob-nav-theme:focus-visible{outline:2px solid var(--zop-orange,#F58549);outline-offset:2px}'+
+    '.mob-nav-theme svg{width:14px;height:14px}'+
+    '.mob-nav-theme .mt-sun{display:none}'+
+    '.mob-nav-theme .mt-moon{display:block}'+
+    'html[data-theme="light"] .mob-nav-theme .mt-sun{display:block}'+
+    'html[data-theme="light"] .mob-nav-theme .mt-moon{display:none}'+
     '.mob-nav-close{width:36px;height:36px;padding:0;background:transparent;border:1px solid var(--line,#D9D3BF);color:var(--ink,#0A0A0A);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .16s,border-color .16s}'+
     '.mob-nav-close:hover{background:var(--g-100,#ECE7D7);border-color:var(--ink,#0A0A0A)}'+
     '.mob-nav-close:focus-visible{outline:2px solid var(--zop-orange,#F58549);outline-offset:2px}'+
@@ -81,26 +90,30 @@
      Product · Resources · Pricing · Company · Community.
      Mobile drawer is flat (no dropdown panes), so each top-level
      entry plus its key sub-pages get their own row. */
+  /* `/product.html` and `/resources.html` were the desktop dropdown
+     trigger labels — they don't exist as standalone pages, so the
+     mobile drawer's section headers route to the most-visited child
+     instead: ZopNight (live product) and Blog (resources hub). */
   var primary = [
-    { href: '/product.html',           label: 'Product' },
-    { href: '/product/zopnight.html',  label: 'ZopNight',  sub: true },
-    { href: '/product/zopday.html',    label: 'ZopDay',    sub: true },
-    { href: '/product/zopcloud.html',  label: 'ZopCloud',  sub: true },
-    { href: '/resources.html',         label: 'Resources' },
-    { href: '/blog.html',              label: 'Blog',      sub: true },
-    { href: '/customers.html',         label: 'Case studies', sub: true },
-    { href: '/changelog.html',         label: 'Changelog', sub: true },
-    { href: '/pricing.html',           label: 'Pricing' },
-    { href: '/about.html',             label: 'Company' },
-    { href: '/company/careers.html',   label: 'Careers',   sub: true },
-    { href: '/community.html',         label: 'Community' }
+    { href: 'zopnight.html',          label: 'Product' },
+    { href: 'zopnight.html',  label: 'ZopNight',  sub: true },
+    { href: 'zopday.html',    label: 'ZopDay',    sub: true },
+    { href: 'zopcloud.html',  label: 'ZopCloud',  sub: true },
+    { href: 'blog.html',              label: 'Resources' },
+    { href: 'blog.html',              label: 'Blog',      sub: true },
+    { href: 'customers.html',         label: 'Case studies', sub: true },
+    { href: 'changelog.html',         label: 'Changelog', sub: true },
+    { href: 'pricing.html',           label: 'Pricing' },
+    { href: 'about.html',             label: 'Company' },
+    { href: 'careers.html',   label: 'Careers',   sub: true },
+    { href: 'community.html',         label: 'Community' }
   ];
   /* secondary · the right-side nav-cta, plus utility links */
   var secondary = [
-    { href: '/status.html',      label: 'Status' },
-    { href: '/playground.html',  label: 'Playground' },
-    { href: '/trust.html',       label: 'Trust Center' },
-    { href: '/signin.html',      label: 'Sign in' }
+    { href: 'status.html',      label: 'Status' },
+    { href: 'playground.html',  label: 'Playground' },
+    { href: 'trust.html',       label: 'Trust Center' },
+    { href: 'signin.html',      label: 'Sign in' }
   ];
 
   /* -------------------------------------------------------------------------
@@ -157,11 +170,22 @@
   drawer.innerHTML = ''
     + '<div class="mob-nav-head">'
     +   '<span class="mob-wm">Zop<em>Dev</em></span>'
-    +   '<button class="mob-nav-close" type="button" aria-label="Close menu">'
-    +     '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square">'
-    +       '<path d="M2 2 L12 12 M12 2 L2 12"/>'
-    +     '</svg>'
-    +   '</button>'
+    +   '<div class="mob-nav-head-actions">'
+    +     '<button class="mob-nav-theme" type="button" aria-label="Toggle theme">'
+    +       '<svg class="mt-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">'
+    +         '<circle cx="8" cy="8" r="3" fill="currentColor" stroke="none"/>'
+    +         '<path d="M8 1.5v1.3M8 13.2v1.3M1.5 8h1.3M13.2 8h1.3M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"/>'
+    +       '</svg>'
+    +       '<svg class="mt-moon" viewBox="0 0 16 16" fill="currentColor">'
+    +         '<path d="M12.8 10.1a5.5 5.5 0 0 1-7-7 .5.5 0 0 0-.7-.6A6.5 6.5 0 1 0 13.4 10.8a.5.5 0 0 0-.6-.7z"/>'
+    +       '</svg>'
+    +     '</button>'
+    +     '<button class="mob-nav-close" type="button" aria-label="Close menu">'
+    +       '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square">'
+    +         '<path d="M2 2 L12 12 M12 2 L2 12"/>'
+    +       '</svg>'
+    +     '</button>'
+    +   '</div>'
     + '</div>'
     + '<nav class="mob-nav-body" aria-label="Mobile">'
     +   '<div class="mob-nav-section">'
@@ -221,6 +245,17 @@
   btn.addEventListener('click', toggle);
   scrim.addEventListener('click', close);
   drawer.querySelector('.mob-nav-close').addEventListener('click', close);
+
+  /* In-drawer theme toggle · same behavior as the desktop sun/moon button.
+     Keep `lastFocused` semantics intact: clicking this won't close the drawer. */
+  var mobTheme = drawer.querySelector('.mob-nav-theme');
+  if(mobTheme){
+    mobTheme.addEventListener('click', function(){
+      var html = document.documentElement;
+      var cur = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+    });
+  }
 
   /* ESC closes when drawer is open */
   document.addEventListener('keydown', function(e){

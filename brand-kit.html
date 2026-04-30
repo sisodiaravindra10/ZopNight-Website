@@ -2640,8 +2640,8 @@ window.addEventListener('resize', () => {
   resizeTimer = setTimeout(renderTemplate, 100);
 });
 
-/* Wait one tick after fonts/SVG defs to be sure dims are accurate */
-requestAnimationFrame(init);
+/* Double-RAF: first frame lets the grid layout settle, second measures it */
+requestAnimationFrame(() => requestAnimationFrame(init));
 </script>
 
 </body>

@@ -21,13 +21,24 @@
    purely visual, not motion.
    ============================================================================ */
 (function(){
-  /* Run as soon as we can find the elements · IO-style, no DOMContentLoaded
-     wait needed since this script is loaded with `defer`. */
-  var sel = '.page-head, .pi-head, .fp-head, .ds-pagehead';
-  document.querySelectorAll(sel).forEach(function(el){
-    /* Only mark if not already themed (so a page can opt out by setting
-       data-theme="light" explicitly). */
-    if(el.hasAttribute('data-theme')) return;
-    el.setAttribute('data-theme', 'dark');
-  });
+  /* Skip when the document is in light mode — otherwise the subpage hero
+     renders as a "black box" on cream paper. In dark mode the page is
+     already dark, so the attr is mainly a scoped-token contract for any
+     descendant rule that resolves --paper/--ink against the header. */
+  function applyFold(){
+    var docTheme = document.documentElement.getAttribute('data-theme');
+    var sel = '.page-head, .pi-head, .fp-head, .ds-pagehead';
+    document.querySelectorAll(sel).forEach(function(el){
+      if(docTheme === 'light'){
+        if(el.getAttribute('data-theme') === 'dark') el.removeAttribute('data-theme');
+        return;
+      }
+      if(el.hasAttribute('data-theme')) return;
+      el.setAttribute('data-theme', 'dark');
+    });
+  }
+  applyFold();
+  /* Re-apply on theme toggle so the hero follows the document. */
+  new MutationObserver(applyFold).observe(document.documentElement,
+    { attributes:true, attributeFilter:['data-theme'] });
 })();

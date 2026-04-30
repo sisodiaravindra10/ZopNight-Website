@@ -76,8 +76,40 @@
   --ok:   #34d399;   /* live · healthy · applied */
   --warn: #FBBF24;   /* attention · pending */
   --err:  #F87171;   /* boundary · "what we're not" */
+}
 
 
+/* =========================================================================
+   COLOR · light theme overrides
+   -------------------------------------------------------------------------
+   The :root scale above is dark-canvas first. Subpages flip to light via
+   the global theme toggle (which sets `data-theme="light"` on <html>) and
+   without this block every elevation, line, and muted text token still
+   resolves to its dark hex — leaving cards as black boxes and body text
+   as low-contrast taupe on cream. Here we re-point the surface ladder,
+   muted ink scale, and line tokens to light-canvas equivalents so any
+   component built on them adapts. Brand accents (orange/blue/green) and
+   pure --ink stay where they are; the theme inversion of those is
+   handled by `homepage-chrome.css`.
+   ========================================================================= */
+html[data-theme="light"]{
+  --bg-0: #FAF7EC;   /* paper canvas */
+  --bg-1: #F0EBDB;   /* section-lift · card surface */
+  --bg-2: #ECE7D7;   /* card-hover surface */
+  --bg-3: #E2DDCD;   /* nested · icon bg */
+  --bg-4: #D9D3BF;   /* highest · pill bg */
+
+  --ink-2: #2a2a2a;
+  --ink-3: #525252;  /* body · AA dark grey on cream */
+  --ink-4: #707070;  /* meta · captions */
+  --ink-5: #9C9588;
+
+  --line:   #D9D3BF;
+  --line-2: #C9C4B5;
+  --line-b: #707070;
+}
+
+:root{
   /* =======================================================================
      2 · TYPE
      ---------------------------------------------------------------------
@@ -244,7 +276,7 @@
   border-radius: var(--r-sharp);
 }
 
-html{ scroll-behavior: smooth; }
+html{ scroll-behavior: smooth; overflow-x: clip; }
 
 body{
   margin: 0;
@@ -257,6 +289,12 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "ss01" 0, "tnum" 1;
+  /* `overflow:clip` (not `hidden`) — same horizontal-scroll prevention,
+     but does NOT establish a scroll container, so descendant
+     `position:sticky` keeps working (e.g. the homepage globe-zoom
+     dashboard reveal). `hidden` was silently breaking sticky. */
+  overflow-x: clip;
+  max-width: 100vw;
 }
 
 img, svg{ display: block; max-width: 100%; }

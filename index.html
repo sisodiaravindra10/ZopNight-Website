@@ -75,13 +75,18 @@
   --dur-xxl: 2560ms;
 }
 *,*::before,*::after{box-sizing:border-box; border-radius:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth; overflow-x:clip}
 body{
   margin:0; font-family:var(--font); color:var(--ink);
   background:var(--paper); letter-spacing:-0.02em;
   -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   font-size:15px; line-height:1.55;
   transition: background-color var(--dur-md) var(--ease-in-out), color var(--dur-md) var(--ease-in-out);
+  /* `overflow:clip` instead of `hidden` — clip prevents horizontal scroll
+     bleed WITHOUT establishing a scroll container, which is required so
+     descendant `position:sticky` (e.g. the globe-zoom dashboard reveal)
+     keeps working. `hidden` would silently break sticky. */
+  overflow-x:clip; max-width:100vw;
 }
 /* Cross-page transitions, native View Transitions API + fallback fade-in */
 @view-transition { navigation: auto; }
@@ -190,7 +195,7 @@ code, .mono{font-family:var(--mono); letter-spacing:0}
   box-shadow:0 8px 0 -4px var(--zop-orange);
 }
 /* accent, orange fill (nav CTA, key conversion points) */
-.btn-accent{ background:var(--zop-orange); color:var(--paper); border-color:var(--zop-orange); font-weight:700; }
+.btn-accent{ background:var(--zop-orange); color:#0A0A0A; border-color:var(--zop-orange); font-weight:700; }
 .btn-accent:hover{
   transform:translateY(-4px);
   border-color:var(--zop-orange);
@@ -1311,7 +1316,7 @@ html[data-theme="dark"] .tone-orange.lit .pcb-chip-box { animation-name:chip-hit
   margin:0 0 24px;
   padding:6px;
   border:1px solid var(--line);
-  background:var(--zop-white);
+  background:var(--bg-1);
 }
 .ps-tab{
   display:inline-flex; align-items:center; gap:10px;
@@ -1352,11 +1357,15 @@ html[data-theme="dark"] .tone-orange.lit .pcb-chip-box { animation-name:chip-hit
    inside collapses to a centered waitlist message. */
 .pricing-soon{
   border:1px solid var(--line);
-  background:var(--zop-white);
+  background:var(--bg-1);
+  color:var(--ink);
   padding:80px 40px;
   display:flex; flex-direction:column; align-items:center; gap:14px;
   text-align:center; min-height:520px; justify-content:center;
 }
+.pricing-soon h3{ color:var(--ink); }
+.pricing-soon .lede{ color:var(--ink-3); }
+.pricing-soon .ps-eta{ color:var(--ink-4); border-color:var(--line); }
 .pricing-soon .ps-soon-mark{ width:48px; height:48px; margin-bottom:8px; }
 .pricing-soon h3{ font-size:32px; font-weight:700; letter-spacing:-0.03em; line-height:1.1; margin:0; }
 .pricing-soon .lede{ color:var(--g-600); max-width:520px; line-height:1.55; font-size:15px; margin:0; }
@@ -5407,6 +5416,288 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
   .pg-overlay{ padding:80px var(--gutter,20px); height:auto; }
   .pg-text{ max-width:100%; }
 }
+
+/* =================================================================
+   HOMEPAGE · MOBILE-RESPONSIVE FIXES (appended)
+   ----------------------------------------------------------------
+   Section-specific overrides for the seven homepage components that
+   weren't designed for narrow viewports. Each block is tagged so it
+   matches the user-reported issue list one-to-one.
+   ================================================================= */
+
+/* 1 · STATS BAND after the statement
+   The 4-column stats grid above the globe-zoom needs to stack to
+   2×2, then 1-col on the smallest screens. Without this it overflows
+   horizontally because each .stat tile won't shrink below ~150px. */
+@media (max-width:760px){
+  .stats{ grid-template-columns:repeat(2, 1fr); }
+  .stats .stat{ padding:24px 18px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .stats .stat:nth-child(2n){ border-right:0; }
+  .stats .stat:nth-last-child(-n+2){ border-bottom:0; }
+}
+@media (max-width:440px){
+  .stats{ grid-template-columns:1fr; }
+  .stats .stat{ border-right:0; }
+}
+
+/* GLOBE-ZOOM PRODUCT REVEAL · keep the scroll-driven dashboard reveal
+   ENABLED on mobile too · earlier mobile-only rules were turning off
+   `.zoom-product` and breaking sticky positioning, which made both the
+   statement and the dashboard disappear from mobile. Now we just scale
+   the dashboard down and let it render in its own scrollable column.
+   The desktop behavior is untouched — sticky stays, statements fade in
+   on scroll, dashboard panels assemble panel-by-panel as before.
+
+   `overflow-x:clip` on body (instead of the previous `hidden`) is the
+   companion fix · `hidden` silently broke sticky by establishing a new
+   scroll container, which is why the reveal disappeared even on desktop. */
+@media (max-width:900px){
+  /* Tighten the statement type on phones · same fade/slide animation,
+     but smaller glyphs and tighter padding so it doesn't dominate. */
+  .zoom-statement{ padding:32px 18px; }
+  .zoom-statement .zl{ font-size:clamp(28px, 8vw, 56px); }
+  /* Scale the assembled dashboard frame so it fits without horizontal
+     bleed · same chrome, just smaller. */
+  .zoom-product{ transform:scale(.55); transform-origin:center top; }
+  .zp-frame{ width:760px; max-width:none; }
+}
+@media (max-width:560px){
+  .zoom-product{ transform:scale(.42); }
+}
+
+/* 2 · FEATURES (.features-bento grid · 6 .feature articles + see-all)
+   Default desktop is a 3-col bento with explicit row spans (lines 4386+).
+   On phones the spans collapse, every card stacks full-width, and the
+   see-all "fa-codebg" stream chrome is replaced with a flat button so
+   it stops looking like a 7th feature. */
+@media (max-width:900px){
+  .features.features-bento{
+    display:flex; flex-direction:column;
+    grid-template-columns:none;
+    grid-template-rows:none;
+  }
+  .features.features-bento > .feature{
+    grid-column:auto !important; grid-row:auto !important;
+    border-right:0;
+    border-bottom:1px solid var(--line);
+    padding:28px 22px;
+    min-height:auto;
+  }
+  .features.features-bento > .feature:last-of-type{ border-bottom:0; }
+  .features.features-bento > .feature .feat-visual{
+    /* the canvas-driven visuals burn battery and look squished — kill them */
+    display:none;
+  }
+  .features.features-bento > .feature p{ max-width:none; }
+  /* See-all tile · render as a real button rather than a bento card */
+  .features.features-bento .feat-allfeatures.feat-allfeatures-sm{
+    grid-column:auto !important; grid-row:auto !important;
+    background:var(--ink); color:var(--paper);
+    padding:18px 22px;
+    display:flex; align-items:center; justify-content:space-between;
+    border:0; border-top:1px solid var(--line);
+    min-height:auto;
+  }
+  .features.features-bento .feat-allfeatures.feat-allfeatures-sm .fa-codebg,
+  .features.features-bento .feat-allfeatures.feat-allfeatures-sm .fa-stream,
+  .features.features-bento .feat-allfeatures.feat-allfeatures-sm .fa-codeline:not(:first-child){
+    display:none;
+  }
+  .features.features-bento .feat-allfeatures.feat-allfeatures-sm .fa-cta-head,
+  .features.features-bento .feat-allfeatures.feat-allfeatures-sm .fa-cta-arrow{
+    color:var(--paper);
+  }
+}
+
+/* 3 · CDCR LOOP DIAGRAM · `.topology` is the 2-col grid (`.topo-copy`
+   left, `.topo-graph.loop-grid` right). On phones the loop SVG shrinks
+   below useful, so stack and let the SVG keep its natural square ratio. */
+@media (max-width:880px){
+  /* `minmax(0, 1fr)` so the column can actually shrink below min-content.
+     Plain `1fr` (= minmax(auto, 1fr)) lets the SVG / loop nodes force the
+     column wider than the viewport, blowing out horizontal layout. */
+  .topology{ grid-template-columns:minmax(0, 1fr); }
+  .topo-copy{ border-right:0; border-bottom:1px solid var(--line); padding:32px 22px; min-width:0; }
+  .topo-copy h2{ font-size:clamp(22px, 6vw, 32px); }
+  .topo-graph.loop-grid{ padding:32px; aspect-ratio:1/1; min-height:auto; min-width:0; }
+  .cdcr-steps{ padding-left:0; }
+  .cdcr-steps li{
+    display:grid; grid-template-columns:32px minmax(0, 1fr);
+    grid-template-rows:auto auto;
+    gap:2px 14px; padding:14px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .cdcr-steps li:last-child{ border-bottom:0; }
+  .cdcr-steps .s-num{
+    grid-column:1; grid-row:1 / span 2; align-self:start;
+    font-family:var(--mono); color:var(--g-500); font-size:12px;
+    display:block;
+  }
+  .cdcr-steps .s-name{
+    grid-column:2; grid-row:1; align-self:start;
+    display:block; font-weight:600; font-size:15px; color:var(--ink);
+  }
+  .cdcr-steps .s-desc{
+    grid-column:2; grid-row:2; align-self:start;
+    display:block; color:var(--g-600); font-size:13px; line-height:1.5;
+  }
+}
+@media (max-width:560px){
+  .topo-graph.loop-grid{ padding:20px; }
+  .topo-graph.loop-grid .loop-node{ font-size:11px; }
+}
+
+/* 4 · GETTING-STARTED · 4 connect screens (.gs-grid)
+   Originally a 2-col grid (pointers list + UI mockup). On mobile the
+   UI mockup is too small to read · stack the pointers ABOVE a
+   horizontally-scrollable mockup carousel so each step stays legible. */
+@media (max-width:880px){
+  .gs-grid{ grid-template-columns:minmax(0, 1fr); }
+  /* Force column stack — there's an earlier @media rule (line ~1022)
+     that sets flex-direction:row + overflow-x:auto for horizontal scroll
+     of the steps · we want vertical stack on phones, not a sideways carousel. */
+  .gs-pointers{
+    border-right:0; border-bottom:1px solid var(--line);
+    padding:12px 0;
+    flex-direction:column !important;
+    overflow-x:visible !important;
+    gap:0;
+  }
+  .gs-pt{
+    display:grid; grid-template-columns:32px minmax(0, 1fr); grid-template-rows:auto auto;
+    align-items:flex-start; gap:2px 14px; padding:14px 16px;
+    border-bottom:1px solid var(--line);
+    min-width:0;
+  }
+  .gs-pt:last-child{ border-bottom:0; }
+  .gs-pt-num{ grid-column:1; grid-row:1 / span 2; align-self:start; }
+  .gs-pt-body{ grid-column:2; grid-row:1 / span 2; min-width:0; }
+  .gs-pt-head{ font-size:15px; }
+  .gs-pt-desc{ font-size:13px; }
+  .gs-pt-bar{ grid-column:1 / -1; }
+  .gs-ui{ min-height:380px; min-width:0; }
+  .gs-ui-body{ padding:14px 14px; overflow-x:auto; }
+  .gs-clouds{ grid-template-columns:1fr; gap:8px; }
+  .gs-state-head{ flex-direction:column; align-items:flex-start; }
+}
+@media (max-width:560px){
+  .gs-ui{ min-height:320px; }
+  .gs-pt-num{ font-size:14px; }
+  .gs-pt-head{ font-size:14px; }
+}
+
+/* 5 · PLAYGROUND PREVIEW · the 2-col playground (text + window) already
+   collapses to 1-col at 900px (existing rule above hides .pg-win-wrap),
+   but the mobile fallback was leaving a blank section. Show a static
+   product preview chip instead so users still get a visual anchor. */
+@media (max-width:900px){
+  .pg-overlay{ padding:48px 20px; }
+  .pg-text h2{ font-size:clamp(28px, 6vw, 40px); line-height:1.1; }
+  .pg-text p{ font-size:15px; }
+}
+
+/* 6 · INTEGRATIONS PCB · the .pcb-svg is a fixed-aspect SVG that needs
+   to scale down · also the surrounding 4-col integrations grid has to
+   stack. PCB diagram horizontally scrolls on the smallest screens
+   rather than shrinking to illegibility. */
+@media (max-width:900px){
+  .integrations{ grid-template-columns:repeat(2, 1fr); }
+}
+@media (max-width:560px){
+  .integrations{ grid-template-columns:1fr; }
+  .integrations > *{ border-right:0 !important; border-bottom:1px solid var(--line); }
+  .integrations > *:last-child{ border-bottom:0; }
+}
+@media (max-width:760px){
+  .pcb-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; padding:24px 16px; }
+  .pcb-svg{ min-width:680px; }     /* preserve readability via scroll */
+}
+
+/* 7 · REGIONS DIAGRAM · the .regions-v2 map and its overlay stats are
+   tuned for 16:9. On phones the map labels overlap and the
+   provider-strip wraps awkwardly. Switch to a 4:3 map and stack stats. */
+@media (max-width:760px){
+  .regions{ grid-template-columns:1fr; }
+  .regions-copy{ border-right:0; border-bottom:1px solid var(--line); padding:32px 22px; }
+  .regions-v2{ aspect-ratio:4/3; }
+  .regions-stats{
+    position:relative; flex-direction:column; gap:6px;
+    top:0; left:0; right:0; padding:10px 12px; margin:0;
+    background:var(--bg-1); border-bottom:1px solid var(--line);
+  }
+  .regions-providers{ grid-template-columns:1fr; padding:18px; gap:8px; }
+}
+
+/* HERO · headline scaling so it doesn't break out on phones */
+@media (max-width:760px){
+  .hero{ padding-top:48px; padding-bottom:48px; }
+  .hero h1{ font-size:clamp(36px, 9vw, 56px); line-height:1.05; }
+  .hero .lead{ font-size:16px; }
+  .hero-cta{ flex-direction:column; align-items:stretch; gap:12px; }
+  .hero-cta .btn{ width:100%; justify-content:center; }
+}
+
+/* SECTION padding tightened on mobile so the page doesn't feel airless */
+@media (max-width:760px){
+  .section, .section.tight{ padding-top:48px; padding-bottom:48px; }
+  .container{ padding-left:20px; padding-right:20px; }
+  .sec-head{ flex-direction:column; align-items:flex-start; gap:14px; }
+  .sec-head h2{ font-size:clamp(24px, 5vw, 36px); }
+}
+
+/* TRUST MARQUEE · keep logos visible but tighter on phones */
+@media (max-width:560px){
+  .trust-marquee{ padding:32px 0; }
+  .tm-track{ gap:36px; }
+  .tm-lg{ font-size:14px; }
+}
+
+/* PRICING · homepage's #pricing also needs the same mobile treatment as
+   the standalone pricing page · stack tier cards and switcher buttons. */
+@media (max-width:760px){
+  #pricing .tiers-grid{ grid-template-columns:1fr; }
+  #pricing .tier{ border-right:0; border-bottom:1px solid var(--line); }
+  #pricing .tier:last-child{ border-bottom:0; }
+}
+
+/* CASE-STUDIES · stack any 2/3-col case grids */
+@media (max-width:760px){
+  #cases .case-row, #cases .case-grid{ grid-template-columns:1fr; }
+}
+
+/* =================================================================
+   HOMEPAGE NAV · mobile (≤960px). The homepage doesn't import
+   homepage-chrome.css, so the same rules that live there for subpages
+   are duplicated here. Hides .nav-links + the right-cluster items
+   except the Book-a-demo accent button, which sits next to the
+   hamburger so the primary CTA stays one click away on phones.
+   ================================================================= */
+@media (max-width:960px){
+  .nav .nav-links{ display:none !important; }
+  .nav .nav-overlay{ display:none !important; }
+  .nav-cta .nav-status,
+  .nav-cta .theme-toggle,
+  .nav-cta .chip-playground,
+  .nav-cta .sign,
+  .nav-cta .nav-variants{ display:none !important; }
+  .nav-inner{ padding-left:16px; padding-right:16px; gap:10px; }
+  /* Push the right-side cluster (Book a demo + hamburger toggle) to the
+     far right · gives logo|space|demo+toggle layout instead of evenly
+     spaced. The hamburger is appended after .nav-cta by the mobile-nav
+     JS so it naturally sits next to the demo button. */
+  .nav-cta{ gap:8px; margin-left:auto; }
+  .nav-cta .btn-accent{ padding:8px 12px; font-size:12px; height:36px; }
+  .nav-cta .btn-accent .arrow{ display:none; }
+  .mob-nav-toggle{ margin-left:0; }
+  /* The live-strip ticker and announcement bar overflow horizontally
+     on phones · cap them to viewport width and let the marquee scroll
+     internally. */
+  .ann-bar, .ann-bar .ann-inner{ max-width:100%; overflow:hidden; }
+  .ann-bar .ann-link{ display:none; }
+  .live-strip{ max-width:100vw; overflow:hidden; }
+  .live-strip .ls-anchor{ padding:6px 10px; gap:8px; }
+  .live-strip .ls-anchor .ls-kpi:not(:first-child){ display:none; }
+}
 </style>
 <script src="chrome-mobilenav.js" defer></script>
 </head>
@@ -5531,11 +5822,11 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
       <div class="nav-item" data-menu="resources">
         <a>Resources <span class="nav-caret" aria-hidden="true"></span></a>
       </div>
-      <a href="/pricing.html">Pricing</a>
+      <a href="pricing.html">Pricing</a>
       <div class="nav-item" data-menu="company">
         <a>Company <span class="nav-caret" aria-hidden="true"></span></a>
       </div>
-      <a href="/community.html">Community</a>
+      <a href="community.html">Community</a>
     </div>
 
     <!-- Shared dropdown overlay. Content crossfades, panel slides left/right -->
@@ -5550,7 +5841,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
                no empty grid slots and no card stretches taller than its
                siblings. -->
           <div class="np-bento" style="grid-template-columns:1fr 1fr 1fr;">
-            <a class="np-cell" href="/product/zopnight.html">
+            <a class="np-cell" href="zopnight.html">
               <span class="np-badge live">live</span>
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="0" y="0" width="32" height="32" fill="#2A4494"/><circle cx="16" cy="16" r="8" fill="#FFFFFF"/></svg>
@@ -5558,7 +5849,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
               <h3 class="np-cell-title">ZopNight</h3>
               <p class="np-cell-desc">Cloud cost optimization on autopilot. AWS, Azure, GCP.</p>
             </a>
-            <a class="np-cell" href="/product/zopday.html">
+            <a class="np-cell" href="zopday.html">
               <span class="np-badge soon">soon</span>
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="0" y="0" width="32" height="32" fill="#F58549"/><circle cx="16" cy="16" r="8" fill="#FFFFFF"/></svg>
@@ -5566,7 +5857,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
               <h3 class="np-cell-title">ZopDay</h3>
               <p class="np-cell-desc">Deployment orchestration and release management.</p>
             </a>
-            <a class="np-cell" href="/product/zopcloud.html">
+            <a class="np-cell" href="zopcloud.html">
               <span class="np-badge soon">soon</span>
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="0" y="0" width="32" height="32" fill="#2A4494"/><rect x="12" y="8" width="8" height="6" fill="#FFFFFF"/><rect x="6" y="14" width="20" height="10" fill="#FFFFFF"/></svg>
@@ -5577,70 +5868,70 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
           </div>
           <div class="np-promo-row">
             <span><strong>Live in Claude &amp; Codex</strong> · run ZopNight from your MCP client</span>
-            <a href="/developers.html">Try MCP →</a>
+            <a href="developers.html">Try MCP →</a>
           </div>
         </div>
 
         <!-- ═══════ RESOURCES · 9 cells in a 3×3 grid ═══════ -->
         <div class="nav-pane" data-pane="resources">
           <div class="np-bento np-bento--grid">
-            <a class="np-cell" href="/blog.html">
+            <a class="np-cell" href="blog.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 4h12v12H4z" stroke="currentColor" stroke-width="1.5"/><path d="M7 8h6M7 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </div>
               <h3 class="np-cell-title">Blog</h3>
               <p class="np-cell-desc">Engineering + cost optimization notes</p>
             </a>
-            <a class="np-cell" href="/free-ebooks.html">
+            <a class="np-cell" href="free-ebooks.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 4h7v13H3zM10 4h7v13h-7z" stroke="currentColor" stroke-width="1.5"/><path d="M10 4v13" stroke="currentColor" stroke-width="1.5"/></svg>
               </div>
               <h3 class="np-cell-title">Ebooks</h3>
               <p class="np-cell-desc">Free playbooks · FinOps, K8s, CDCR</p>
             </a>
-            <a class="np-cell" href="/customers.html">
+            <a class="np-cell" href="customers.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 16c0-3 3-5 7-5s7 2 7 5" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
               </div>
               <h3 class="np-cell-title">Case studies</h3>
               <p class="np-cell-desc">42-67% cuts, real teams</p>
             </a>
-            <a class="np-cell" href="/solutions.html">
+            <a class="np-cell" href="solutions.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="3" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="11" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="6" height="6" stroke="currentColor" stroke-width="1.5"/></svg>
               </div>
               <h3 class="np-cell-title">Use cases by industry</h3>
               <p class="np-cell-desc">SaaS · fintech · retail · health</p>
             </a>
-            <a class="np-cell" href="/walkthrough.html">
+            <a class="np-cell" href="walkthrough.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 4h12v12H4z" stroke="currentColor" stroke-width="1.5"/><path d="M8 7l4 3-4 3z" fill="currentColor"/></svg>
               </div>
               <h3 class="np-cell-title">Product guide</h3>
               <p class="np-cell-desc">Walkthroughs · video tours</p>
             </a>
-            <a class="np-cell" href="/devops-hub.html">
+            <a class="np-cell" href="devops-hub.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="6" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 10h3" stroke="currentColor" stroke-width="1.5"/></svg>
               </div>
               <h3 class="np-cell-title">DevOps hub</h3>
               <p class="np-cell-desc">Pipelines, IaC, observability</p>
             </a>
-            <a class="np-cell" href="/kubernetes-guide.html">
+            <a class="np-cell" href="kubernetes-guide.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2l7 4v8l-7 4-7-4V6z" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
               </div>
               <h3 class="np-cell-title">Kubernetes guide</h3>
               <p class="np-cell-desc">From cluster basics to right-sizing</p>
             </a>
-            <a class="np-cell" href="/ci-cd-best-practices.html">
+            <a class="np-cell" href="ci-cd-best-practices.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 6h6l2 4-2 4H3zM11 6h6l-2 4 2 4h-6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
               </div>
               <h3 class="np-cell-title">CI/CD best practices</h3>
               <p class="np-cell-desc">Ship faster without burning the budget</p>
             </a>
-            <a class="np-cell" href="/changelog.html">
+            <a class="np-cell" href="changelog.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </div>
@@ -5650,7 +5941,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
           </div>
           <div class="np-promo-row">
             <span><strong>Weekly digest</strong> · waste signals, wins, war stories</span>
-            <a href="/blog.html">Subscribe →</a>
+            <a href="blog.html">Subscribe →</a>
           </div>
         </div>
 
@@ -5660,14 +5951,14 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
                distinction so neither side stretches taller than the
                other and the dropdown fills cleanly with no dead zone. -->
           <div class="np-bento" style="grid-template-columns:1fr 1fr;">
-            <a class="np-cell" href="/about.html">
+            <a class="np-cell" href="about.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="0" y="0" width="32" height="32" fill="#0A0A0A"/><rect x="6" y="6" width="8" height="20" fill="#F0EBDB"/><rect x="18" y="12" width="8" height="14" fill="#F58549"/></svg>
               </div>
               <h3 class="np-cell-title">About</h3>
               <p class="np-cell-desc">Founded 2024. The autopilot for multi-cloud cost.</p>
             </a>
-            <a class="np-cell" href="/company/careers.html">
+            <a class="np-cell" href="careers.html">
               <span class="np-badge">hiring</span>
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="6" width="14" height="11" stroke="currentColor" stroke-width="1.5"/><path d="M7 6V4h6v2" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -5678,7 +5969,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
           </div>
           <div class="np-promo-row">
             <span><strong>We're hiring</strong> · remote-first · 12 open roles</span>
-            <a href="/company/careers.html">See roles →</a>
+            <a href="careers.html">See roles →</a>
           </div>
         </div>
 
@@ -5688,7 +5979,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
       <!-- Status pill · live dot · links to /status.html. Mirrors the
            project's "always-on" identity (the live-ops strip above the
            nav). Pulses green when all systems are operational. -->
-      <a class="nav-status" href="/status.html" aria-label="System status">
+      <a class="nav-status" href="status.html" aria-label="System status">
         <span class="nav-status-dot" aria-hidden="true"></span>
         <span class="nav-status-text">Status</span>
       </a>
@@ -5705,9 +5996,9 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
           </svg>
         </span>
       </button>
-      <a class="chip-playground" href="/playground.html"><span>Playground</span></a>
-      <a class="sign" href="/signin.html">Sign in</a>
-      <a class="btn btn-accent" href="/demo.html"><span>Book a demo</span> <span class="arrow">→</span></a>
+      <a class="chip-playground" href="playground.html"><span>Playground</span></a>
+      <a class="sign" href="signin.html">Sign in</a>
+      <a class="btn btn-accent" href="demo.html"><span>Book a demo</span> <span class="arrow">→</span></a>
     </div>
   </div>
 </nav>
@@ -5719,7 +6010,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
   <div class="container hero-inner">
     <div class="hero-grid-cloud">
       <div>
-        <a class="hero-mcp-pill" href="/developers.html" aria-label="MCP Server. Live in Claude & Codex">
+        <a class="hero-mcp-pill" href="developers.html" aria-label="MCP Server. Live in Claude & Codex">
           <span class="hmp-status" aria-hidden="true">
             <span class="hmp-ring"></span>
             <span class="hmp-dot"></span>
@@ -6517,8 +6808,8 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
       </h2>
       <p class="pg-sub">Poke around a real demo cloud. See every waste signal, fix findings with one click. No credit card, no OAuth, no waiting.</p>
       <div class="pg-ctas">
-        <a class="btn btn-accent" href="/playground.html">Launch playground <span class="arrow">→</span></a>
-        <a class="btn btn-secondary pg-btn-ghost" href="/demo.html">Book a demo</a>
+        <a class="btn btn-accent" href="playground.html">Launch playground <span class="arrow">→</span></a>
+        <a class="btn btn-secondary pg-btn-ghost" href="demo.html">Book a demo</a>
       </div>
     </div>
 
@@ -6571,7 +6862,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
             <div class="pg-clear" id="pg-clear">
               <div class="pg-clear-icon">✓</div>
               <div class="pg-clear-text">All findings resolved<br/><strong id="pg-saved-total">$6,750</strong> /mo reclaimed from demo account</div>
-              <a href="/playground.html" class="pg-clear-link">Open full dashboard →</a>
+              <a href="playground.html" class="pg-clear-link">Open full dashboard →</a>
             </div>
           </div>
         </div>
@@ -6904,7 +7195,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
       <span class="ps-eta">private preview · h2 2026</span>
       <div class="cta-row">
         <a class="btn btn-primary" href="signin.html">Join the waitlist →</a>
-        <a class="btn btn-secondary" href="/product/zopday.html">Learn more</a>
+        <a class="btn btn-secondary" href="zopday.html">Learn more</a>
       </div>
     </div>
 
@@ -6915,7 +7206,7 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
       <span class="ps-eta">private preview · h2 2026</span>
       <div class="cta-row">
         <a class="btn btn-primary" href="signin.html">Join the waitlist →</a>
-        <a class="btn btn-secondary" href="/product/zopcloud.html">Learn more</a>
+        <a class="btn btn-secondary" href="zopcloud.html">Learn more</a>
       </div>
     </div>
     </div>
@@ -7551,43 +7842,43 @@ html.loader-skip .zop-loader{ display:none !important; animation:none !important
   <div class="container">
     <div class="foot-grid foot-grid--equal">
       <div class="foot-col"><h3>product</h3><ul>
-        <li><a href="/product/zopnight.html">ZopNight</a></li>
-        <li><a href="/product/zopday.html">ZopDay</a></li>
-        <li><a href="/product/zopcloud.html">ZopCloud</a></li>
-        <li><a href="/integrations.html">Integrations</a></li>
-        <li><a href="/pricing.html">Pricing</a></li>
-        <li><a href="/status.html">Status</a></li></ul></div>
+        <li><a href="zopnight.html">ZopNight</a></li>
+        <li><a href="zopday.html">ZopDay</a></li>
+        <li><a href="zopcloud.html">ZopCloud</a></li>
+        <li><a href="integrations.html">Integrations</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="status.html">Status</a></li></ul></div>
       <div class="foot-col"><h3>resources</h3><ul>
-        <li><a href="/blog.html">Blog</a></li>
-        <li><a href="/free-ebooks.html">Ebooks</a></li>
-        <li><a href="/customers.html">Case studies</a></li>
-        <li><a href="/solutions.html">Use cases by industry</a></li>
-        <li><a href="/walkthrough.html">Product guide</a></li>
-        <li><a href="/devops-hub.html">DevOps hub</a></li>
-        <li><a href="/kubernetes-guide.html">Kubernetes guide</a></li>
-        <li><a href="/ci-cd-best-practices.html">CI/CD best practices</a></li>
-        <li><a href="/changelog.html">Changelog</a></li>
-        <li><a href="/roadmap.html">Roadmap</a></li></ul></div>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="free-ebooks.html">Ebooks</a></li>
+        <li><a href="customers.html">Case studies</a></li>
+        <li><a href="solutions.html">Use cases by industry</a></li>
+        <li><a href="walkthrough.html">Product guide</a></li>
+        <li><a href="devops-hub.html">DevOps hub</a></li>
+        <li><a href="kubernetes-guide.html">Kubernetes guide</a></li>
+        <li><a href="ci-cd-best-practices.html">CI/CD best practices</a></li>
+        <li><a href="changelog.html">Changelog</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li></ul></div>
       <div class="foot-col"><h3>developers</h3><ul>
-        <li><a href="/developers.html">Documentation</a></li>
-        <li><a href="/developers.html">API reference</a></li>
-        <li><a href="/developers.html">MCP server</a></li>
-        <li><a href="/developers.html">SDK &amp; CLI</a></li>
-        <li><a href="/developers.html">Webhooks</a></li>
+        <li><a href="developers.html">Documentation</a></li>
+        <li><a href="developers.html">API reference</a></li>
+        <li><a href="developers.html">MCP server</a></li>
+        <li><a href="developers.html">SDK &amp; CLI</a></li>
+        <li><a href="developers.html">Webhooks</a></li>
         <li><a href="https://github.com/zopdev">GitHub</a></li></ul></div>
       <div class="foot-col"><h3>company</h3><ul>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/company/careers.html">Careers</a></li>
-        <li><a href="/community.html">Community</a></li>
-        <li><a href="/brand-kit.html">Brand kit</a></li>
-        <li><a href="/brand-kit.html">Press kit</a></li>
-        <li><a href="/contact.html">Contact</a></li>
-        <li><a href="/partners.html">Partners</a></li>
-        <li><a href="/trust.html">Trust center</a></li></ul></div>
+        <li><a href="about.html">About</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li><a href="brand-kit.html">Brand kit</a></li>
+        <li><a href="brand-kit.html">Press kit</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="partners.html">Partners</a></li>
+        <li><a href="trust.html">Trust center</a></li></ul></div>
     </div>
 
     <div class="foot-bottom" style="padding-top:20px; border-top:1px solid var(--line);">
-      <div>© <span data-year>2026</span> ZopDev, Inc. · all rights reserved · <a href="/trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">privacy</a> · <a href="/trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">terms</a></div>
+      <div>© <span data-year>2026</span> ZopDev, Inc. · all rights reserved · <a href="trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">privacy</a> · <a href="trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">terms</a></div>
       <div class="foot-social">
         <a href="https://linkedin.com/company/zopdev">linkedin</a>
         <a href="https://twitter.com/zopdev">twitter</a>
