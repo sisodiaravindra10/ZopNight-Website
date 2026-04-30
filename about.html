@@ -155,6 +155,83 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 .ab-person .links a{ color:var(--ink-4); }
 .ab-person .links a:hover{ color:var(--zop-orange); }
 
+/* ───── FOUNDERS · 4 photo cards ──────────────────────────────── */
+.ab-founders{
+  display:grid; grid-template-columns:repeat(4, 1fr);
+  gap:20px;
+}
+@media (max-width:980px){ .ab-founders{ grid-template-columns:repeat(2, 1fr); } }
+@media (max-width:560px){ .ab-founders{ grid-template-columns:1fr; } }
+
+.ab-founder{
+  background:var(--bg-1); border:1px solid var(--line);
+  padding:40px 24px 36px;
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  position:relative; overflow:hidden;
+  transition:background .14s, box-shadow .18s, transform .18s, border-color .18s;
+}
+.ab-founder:hover{
+  background:var(--bg-2);
+  transform:translateY(-4px);
+  border-color:var(--ink);
+  box-shadow:var(--shadow-hover-orange);
+}
+
+/* Card index number */
+.ab-founder-num{
+  position:absolute; top:16px; right:18px;
+  font-family:var(--mono); font-size:11px;
+  color:var(--zop-orange); letter-spacing:.1em; opacity:.5;
+}
+
+/* Hexagonal photo */
+.ab-founder-hex{
+  width:120px; height:138px; position:relative;
+  margin-bottom:22px; flex-shrink:0;
+}
+.ab-founder-hex::before{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(145deg, var(--zop-blue) 0%, #a78bfa 100%);
+  clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  opacity:.32;
+}
+.ab-founder-img{
+  position:absolute; inset:7px;
+  clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background:var(--bg-3); overflow:hidden;
+}
+.ab-founder-img img{ width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
+
+/* Text */
+.ab-founder-name{ font-size:var(--t-20); font-weight:var(--fw-bold); color:var(--ink); margin:0 0 5px; letter-spacing:var(--ls-heading); }
+.ab-founder-role{ font-family:var(--mono); font-size:10px; color:var(--zop-blue); letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; }
+
+/* Background / edu chips */
+.ab-founder-chips{ display:flex; flex-wrap:wrap; gap:5px; justify-content:center; margin:0 0 16px; }
+.ab-founder-chip{
+  font-family:var(--mono); font-size:10px;
+  color:var(--ink-4); background:var(--bg-3);
+  border:1px solid var(--line); padding:2px 8px;
+  letter-spacing:.03em; white-space:nowrap;
+}
+
+.ab-founder-rule{ width:32px; height:1px; background:var(--line); margin:0 auto 14px; }
+.ab-founder-bio{ font-size:13px; color:var(--ink-3); line-height:1.65; margin:0; }
+
+/* Mobile: horizontal card */
+@media (max-width:560px){
+  .ab-founder{
+    padding:20px 16px;
+    flex-direction:row; align-items:flex-start;
+    text-align:left; gap:16px;
+  }
+  .ab-founder-hex{ width:80px; height:92px; margin-bottom:0; }
+  .ab-founder-body{ display:flex; flex-direction:column; }
+  .ab-founder-chips{ justify-content:flex-start; }
+  .ab-founder-rule{ margin:8px 0; }
+  .ab-founder-num{ top:12px; right:12px; }
+}
+
 /* ───── BELIEFS · 6 principles ──────────────────────────────────── */
 .ab-beliefs{ display:grid; grid-template-columns:repeat(3, 1fr); gap:0; border:1px solid var(--line); background:var(--line); }
 @media (max-width:980px){ .ab-beliefs{ grid-template-columns:repeat(2, 1fr); } }
@@ -627,20 +704,6 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
               <h3 class="np-cell-title">ZopCloud</h3>
               <p class="np-cell-desc">Multi-cloud resource graph and topology view.</p>
             </a>
-            <a class="np-cell" href="features.html">
-              <div class="np-cell-icon">
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="3" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="11" width="6" height="6" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="6" height="6" stroke="currentColor" stroke-width="1.5"/></svg>
-              </div>
-              <h3 class="np-cell-title">Features</h3>
-              <p class="np-cell-desc">27 capabilities across discovery, scheduling, remediation.</p>
-            </a>
-            <a class="np-cell" href="sub-brands.html">
-              <div class="np-cell-icon">
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="5" height="5" stroke="currentColor" stroke-width="1.5"/><rect x="12" y="3" width="5" height="5" stroke="currentColor" stroke-width="1.5"/><rect x="7.5" y="12" width="5" height="5" stroke="currentColor" stroke-width="1.5"/></svg>
-              </div>
-              <h3 class="np-cell-title">Sub-brands</h3>
-              <p class="np-cell-desc">One family · three products · three pillars.</p>
-            </a>
           </div>
           <div class="np-promo-row">
             <span><strong>Live in Claude &amp; Codex</strong> · run ZopNight from your MCP client</span>
@@ -686,26 +749,12 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
               <h3 class="np-cell-title">Product documentation</h3>
               <p class="np-cell-desc">Walkthroughs · video tours</p>
             </a>
-            <a class="np-cell" href="devops-hub.html">
-              <div class="np-cell-icon">
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="6" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 10h3" stroke="currentColor" stroke-width="1.5"/></svg>
-              </div>
-              <h3 class="np-cell-title">DevOps hub</h3>
-              <p class="np-cell-desc">Pipelines, IaC, observability</p>
-            </a>
             <a class="np-cell" href="kubernetes-guide.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2l7 4v8l-7 4-7-4V6z" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
               </div>
               <h3 class="np-cell-title">Kubernetes guide</h3>
               <p class="np-cell-desc">From cluster basics to right-sizing</p>
-            </a>
-            <a class="np-cell" href="ci-cd-best-practices.html">
-              <div class="np-cell-icon">
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 6h6l2 4-2 4H3zM11 6h6l-2 4 2 4h-6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-              </div>
-              <h3 class="np-cell-title">CI/CD best practices</h3>
-              <p class="np-cell-desc">Ship faster without burning the budget</p>
             </a>
             <a class="np-cell" href="changelog.html">
               <div class="np-cell-icon">
@@ -721,20 +770,6 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
               <h3 class="np-cell-title">Developer documentation</h3>
               <p class="np-cell-desc">REST API · SDKs · webhooks · MCP</p>
             </a>
-            <a class="np-cell" href="what-is-devops.html">
-              <div class="np-cell-icon">
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 10a7 7 0 0 1 14 0 7 7 0 0 1-14 0z" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-              </div>
-              <h3 class="np-cell-title">What is DevOps?</h3>
-              <p class="np-cell-desc">Principles, practice, payoff</p>
-            </a>
-            <a class="np-cell" href="platform-engineering-hub.html">
-              <div class="np-cell-icon">
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="4" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="9" width="14" height="4" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="15" width="14" height="2" stroke="currentColor" stroke-width="1.5"/></svg>
-              </div>
-              <h3 class="np-cell-title">Platform engineering</h3>
-              <p class="np-cell-desc">Internal platforms · golden paths · DX</p>
-            </a>
           </div>
           <div class="np-promo-row">
             <span><strong>Weekly digest</strong> · waste signals, wins, war stories</span>
@@ -742,11 +777,9 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
           </div>
         </div>
 
-        <!-- ═══════ COMPANY · 3 items ═══════ -->
+        <!-- ═══════ COMPANY · 2 items ═══════ -->
         <div class="nav-pane" data-pane="company">
-          <!-- 3 equal cells across. Hero distinction dropped so all three
-               sit at the same height and the dropdown fills cleanly. -->
-          <div class="np-bento" style="grid-template-columns:1fr 1fr 1fr;">
+          <div class="np-bento" style="grid-template-columns:1fr 1fr;">
             <a class="np-cell" href="about.html">
               <div class="np-cell-icon">
                 <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="0" y="0" width="32" height="32" fill="#0A0A0A"/><rect x="6" y="6" width="8" height="20" fill="#F0EBDB"/><rect x="18" y="12" width="8" height="14" fill="#F58549"/></svg>
@@ -761,13 +794,6 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
               </div>
               <h3 class="np-cell-title">Careers</h3>
               <p class="np-cell-desc">Open roles · engineering, design, GTM</p>
-            </a>
-            <a class="np-cell" href="services.html">
-              <div class="np-cell-icon">
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 7h14v10H3z" stroke="currentColor" stroke-width="1.5"/><path d="M7 7V4h6v3" stroke="currentColor" stroke-width="1.5"/></svg>
-              </div>
-              <h3 class="np-cell-title">Services</h3>
-              <p class="np-cell-desc">Onboarding · advisory · enterprise support</p>
             </a>
           </div>
           <div class="np-promo-row">
@@ -800,8 +826,8 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
         </span>
       </button>
       <a class="chip-playground" href="playground.html"><span>Playground</span></a>
-      <a class="sign" href="signin.html">Sign in</a>
-      <a class="btn btn-accent" href="demo.html"><span>Book a demo</span> <span class="arrow">→</span></a>
+      <a class="sign" href="signin.html">Sign In</a>
+      <a class="btn btn-accent" href="demo.html"><span>Book a Demo</span> <span class="arrow">→</span></a>
     </div>
   </div>
 </nav>
@@ -1033,6 +1059,90 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
     </div>
   </section>
 
+  <!-- 04b · founders -->
+  <section>
+    <div class="container">
+      <div class="sec-meta">04 · leadership</div>
+      <h2 class="sec-heading">The Founders.</h2>
+      <p style="font-size:var(--t-16); color:var(--ink-3); line-height:1.6; margin:0 0 var(--sp-8); max-width:640px;">The people building the cloud autopilot — operators who've lived the problem firsthand.</p>
+      <div class="ab-founders">
+
+        <div class="ab-founder">
+          <span class="ab-founder-num">01</span>
+          <div class="ab-founder-hex">
+            <div class="ab-founder-img"><img src="mukesh.webp" alt="Mukesh Singh"/></div>
+          </div>
+          <div class="ab-founder-body">
+            <p class="ab-founder-name">Mukesh Singh</p>
+            <p class="ab-founder-role">Founder, ZopSmart</p>
+            <div class="ab-founder-chips">
+              <span class="ab-founder-chip">IIT Kanpur</span>
+              <span class="ab-founder-chip">MIT</span>
+              <span class="ab-founder-chip">ex-Amazon</span>
+            </div>
+            <div class="ab-founder-rule"></div>
+            <p class="ab-founder-bio">Co-founded ZopNow in 2012. 14+ years operating cloud infra at scale.</p>
+          </div>
+        </div>
+
+        <div class="ab-founder">
+          <span class="ab-founder-num">02</span>
+          <div class="ab-founder-hex">
+            <div class="ab-founder-img"><img src="raj%20pandey.jpeg" alt="Raj Pandey"/></div>
+          </div>
+          <div class="ab-founder-body">
+            <p class="ab-founder-name">Raj Pandey</p>
+            <p class="ab-founder-role">CEO, ZopSmart</p>
+            <div class="ab-founder-chips">
+              <span class="ab-founder-chip">IIT Kanpur</span>
+              <span class="ab-founder-chip">Wharton</span>
+              <span class="ab-founder-chip">ex-JP Morgan</span>
+            </div>
+            <div class="ab-founder-rule"></div>
+            <p class="ab-founder-bio">Joined ZopSmart as CEO in 2016 after investment banking at Deloitte &amp; JP Morgan.</p>
+          </div>
+        </div>
+
+        <div class="ab-founder">
+          <span class="ab-founder-num">03</span>
+          <div class="ab-founder-hex">
+            <div class="ab-founder-img"><img src="talvinder%20singh.jpg" alt="Talvinder Singh"/></div>
+          </div>
+          <div class="ab-founder-body">
+            <p class="ab-founder-name">Talvinder Singh</p>
+            <p class="ab-founder-role">CEO &amp; CPO, ZopDev</p>
+            <div class="ab-founder-chips">
+              <span class="ab-founder-chip">IIT Bombay</span>
+              <span class="ab-founder-chip">YC / Harvard</span>
+              <span class="ab-founder-chip">3× founder</span>
+            </div>
+            <div class="ab-founder-rule"></div>
+            <p class="ab-founder-bio">ex-CEO Pragmatic Leaders, ex-Head of Product at OYO. Serial operator.</p>
+          </div>
+        </div>
+
+        <div class="ab-founder">
+          <span class="ab-founder-num">04</span>
+          <div class="ab-founder-hex">
+            <div class="ab-founder-img"><img src="vikash.jpeg" alt="Vikash Kumar"/></div>
+          </div>
+          <div class="ab-founder-body">
+            <p class="ab-founder-name">Vikash Kumar</p>
+            <p class="ab-founder-role">CTO, ZopDev &amp; ZopSmart</p>
+            <div class="ab-founder-chips">
+              <span class="ab-founder-chip">IIT Bombay</span>
+              <span class="ab-founder-chip">GoFr creator</span>
+              <span class="ab-founder-chip">Apache 2.0</span>
+            </div>
+            <div class="ab-founder-rule"></div>
+            <p class="ab-founder-bio">Creator of GoFr, the open-source Go framework used in production at ZopSmart.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- 05 · team -->
   <section>
     <div class="container">
@@ -1042,7 +1152,7 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
           <h2 class="sec-heading">Come build with us.</h2>
           <p style="font-size:var(--t-17); color:var(--ink-3); line-height:1.6; margin:0 0 var(--sp-6);">We're a small team with outsized impact &mdash; the kind of place where what you ship on Tuesday is in front of customers by Friday. We hire engineers who've lived the problem, people who've sat in the same compliance review for the third quarter in a row and thought "this should already be automated."</p>
           <p style="font-size:var(--t-17); color:var(--ink-3); line-height:1.6; margin:0 0 var(--sp-8);">Open seats span backend infrastructure (Go, Kubernetes, multi-cloud control planes), product engineering, and solutions engineering &mdash; distributed across <strong>USA, Singapore, UK, and India</strong>. Competitive comp with equity, and a real say in the roadmap.</p>
-          <a class="btn btn-primary" href="careers.html"><span>View open roles</span> <span class="arrow">→</span></a>
+          <a class="btn btn-primary" href="careers.html"><span>View Open Roles</span> <span class="arrow">→</span></a>
         </div>
         <div class="illust-frame" aria-label="Distributed team across four regions">
           <svg viewBox="0 0 480 360" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1162,8 +1272,8 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
       <h2 class="sec-heading">Build with us. Or build on us.</h2>
       <p style="font-size:var(--t-17); color:var(--ink-3); max-width:640px; line-height:1.55; margin:0 0 var(--sp-8);">We're looking for great engineers to join the team, and for customers who want to automate their cloud cost forever.</p>
       <div style="display:flex; gap:var(--sp-5); flex-wrap:wrap;">
-        <a class="btn btn-accent" href="careers.html"><span>Join the team</span> <span class="arrow">→</span></a>
-        <a class="btn btn-secondary" href="demo.html"><span>Book a demo</span> <span class="arrow">→</span></a>
+        <a class="btn btn-accent" href="careers.html"><span>Join the Team</span> <span class="arrow">→</span></a>
+        <a class="btn btn-secondary" href="demo.html"><span>Book a Demo</span> <span class="arrow">→</span></a>
       </div>
     </div>
   </section>
@@ -1183,8 +1293,8 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
         <p class="final-tag">See. Find. Fix. Automatic.</p>
         <p>Connect your first cloud account in under 5 minutes. See your first remediation in under 7. No credit card required.</p>
         <div class="final-cta">
-          <a class="btn btn-primary" href="signin.html">Start free →</a>
-          <a class="btn btn-secondary" href="demo.html">Book a demo</a>
+          <a class="btn btn-primary" href="signin.html">Start Free →</a>
+          <a class="btn btn-secondary" href="demo.html">Book a Demo</a>
         </div>
       </div>
       <div class="final-stats">

@@ -1077,16 +1077,19 @@ html[data-theme="dark"]{
   --zop-green:#B4E083;
 }
 html[data-theme="dark"] body{background:var(--paper); color:var(--ink)}
-html[data-theme="dark"] body:not(.is-tinted) .nav{background:rgba(15,15,18,.85); border-bottom:1px solid var(--line)}
+html[data-theme="dark"] .nav{background:rgba(15,15,18,.85); border-bottom:1px solid var(--line)}
 html[data-theme="dark"] footer{background:#0F0F12}
 html[data-theme="dark"] .btn-primary{background:var(--ink); color:var(--paper); border-color:var(--ink)}
 html[data-theme="dark"] .btn-primary:hover{background:transparent; color:var(--ink)}
 html[data-theme="dark"] .btn-secondary{border-color:var(--line); color:var(--ink)}
 html[data-theme="dark"] .btn-secondary:hover{border-color:var(--ink); background:#1a1a1e}
-html[data-theme="dark"] body:not(.is-tinted) .live-strip{background:#0a0a0c}
-html[data-theme="dark"] body:not(.is-tinted) .nav-cta a.sign,
-html[data-theme="dark"] body:not(.is-tinted) .nav-links a{color:var(--g-700)}
-html[data-theme="dark"] body:not(.is-tinted) .nav-links a:hover{color:var(--ink)}
+html[data-theme="dark"] .live-strip{background:#0a0a0c}
+html[data-theme="dark"] .nav-cta a.sign,
+html[data-theme="dark"] .nav-links a{color:var(--g-700)}
+html[data-theme="dark"] .nav-links a:hover{color:var(--ink)}
+/* Logo must stay ink-coloured even when body.is-tinted sets color:#0a0a0a
+   via the higher-specificity [data-theme="dark"] a{color:inherit} rule */
+html[data-theme="dark"] .nav .logo-lockup{color:var(--ink)}
 html[data-theme="dark"] .sec-meta::before{background:var(--zop-orange)}
 html[data-theme="dark"] .btn-secondary{border-color:var(--line-strong)}
 /* dark-theme adapt for theme-toggle handled in the .theme-toggle block
