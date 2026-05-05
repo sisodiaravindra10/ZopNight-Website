@@ -10,10 +10,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="tokens.css"/>
 <link rel="stylesheet" href="chrome.css"/>
+<link rel="stylesheet" href="chrome-footer.css">
 
 <style>
 em,i,cite,dfn,var,address,blockquote{font-style:normal}
@@ -108,6 +109,7 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 </style>
 <link rel="stylesheet" href="homepage-chrome.css"/>
 <script src="chrome-mobilenav.js" defer></script>
+<script src="chrome-footer.js" defer></script>
 </head>
 <body>
 
@@ -127,52 +129,16 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
   </defs>
 </svg>
 
-<div class="ann-bar" id="ann-bar"><div class="ann-inner"><a href="developers.html" class="ann-chip"><span class="ann-dot"></span><strong>MCP Server</strong>, live in Claude &amp; Codex<span class="ann-arrow">→</span></a><a href="changelog.html" class="ann-link">Changelog →</a><button class="ann-close" id="ann-close" aria-label="Dismiss announcement">&times;</button></div></div>
-
-<div class="live-strip" aria-live="polite">
-  <!-- Anchored pill: live market-open indicator + uptime & UTC clock. Stays
-       put on the right while the ticker runs under it. -->
-  <div class="ls-anchor">
-    <span class="ls-live"><span class="ls-livedot"></span>LIVE</span>
-    <span class="ls-sep"></span>
-    <span class="ls-kpi"><em>UPT</em><b>99.98%</b></span>
-    <span class="ls-sep"></span>
-    <span class="ls-kpi"><em>UTC</em><b id="live-clock">--:--:--</b></span>
-  </div>
-
-  <!-- Marquee track: two identical rails side-by-side create a seamless loop.
-       Each item reads as a plain-English headline with a change indicator. -->
-  <div class="ls-track" role="presentation" aria-hidden="true">
-    <div class="ls-rail">
-      <span class="lt-row"><b id="live-saved">$48,210</b> saved this month <span class="lt-chg up">▲ $812 today</span></span>
-      <span class="lt-row"><b id="live-resources">10,401</b> cloud resources monitored <span class="lt-chg up">▲ 42 new</span></span>
-      <span class="lt-row"><b id="live-remediations">17</b> issues fixed today <span class="lt-chg up">▲ 3 in last hour</span></span>
-      <span class="lt-row"><b>847</b> idle instances reclaimed <span class="lt-chg up">▲ 31 this week</span></span>
-      <span class="lt-row"><b>99.98%</b> uptime across <b>47</b> regions</span>
-      <span class="lt-row"><b>3</b> anomalies open <span class="lt-chg dn">▼ 1 auto-resolved</span></span>
-      <span class="lt-row"><b>142</b> schedules running <span class="lt-chg up">▲ 12 this week</span></span>
-      <span class="lt-row"><b>$2.8M</b> monthly run-rate <span class="lt-chg dn">▼ 8% vs last month</span></span>
-      <span class="lt-row"><b>67%</b> average utilization <span class="lt-chg up">▲ 2 pts</span></span>
-      <span class="lt-row"><b>4m 12s</b> mean time to remediate <span class="lt-chg dn">▼ 22s faster</span></span>
-      <span class="lt-row"><b>0</b> incidents · <b>5-day</b> clean streak</span>
-      <span class="lt-row"><b>23%</b> savings rate <span class="lt-chg up">▲ 5 pts QoQ</span></span>
-    </div>
-    <div class="ls-rail" aria-hidden="true">
-      <span class="lt-row"><b>$48,210</b> saved this month <span class="lt-chg up">▲ $812 today</span></span>
-      <span class="lt-row"><b>10,401</b> cloud resources monitored <span class="lt-chg up">▲ 42 new</span></span>
-      <span class="lt-row"><b>17</b> issues fixed today <span class="lt-chg up">▲ 3 in last hour</span></span>
-      <span class="lt-row"><b>847</b> idle instances reclaimed <span class="lt-chg up">▲ 31 this week</span></span>
-      <span class="lt-row"><b>99.98%</b> uptime across <b>47</b> regions</span>
-      <span class="lt-row"><b>3</b> anomalies open <span class="lt-chg dn">▼ 1 auto-resolved</span></span>
-      <span class="lt-row"><b>142</b> schedules running <span class="lt-chg up">▲ 12 this week</span></span>
-      <span class="lt-row"><b>$2.8M</b> monthly run-rate <span class="lt-chg dn">▼ 8% vs last month</span></span>
-      <span class="lt-row"><b>67%</b> average utilization <span class="lt-chg up">▲ 2 pts</span></span>
-      <span class="lt-row"><b>4m 12s</b> mean time to remediate <span class="lt-chg dn">▼ 22s faster</span></span>
-      <span class="lt-row"><b>0</b> incidents · <b>5-day</b> clean streak</span>
-      <span class="lt-row"><b>23%</b> savings rate <span class="lt-chg up">▲ 5 pts QoQ</span></span>
-    </div>
-  </div>
-</div>
+<!-- ============================================================
+     SAVINGS CALCULATOR STRIP. Single CTA, links to the calculator.
+     ============================================================ -->
+<a class="live-strip live-strip-cta" href="#calculator" aria-label="Open the savings calculator">
+  <span class="ls-cta-anchor">
+    <span class="ls-live"><span class="ls-livedot"></span>Calculator</span>
+  </span>
+  <span class="ls-cta-msg">See how much your cloud is wasting right now.</span>
+  <span class="ls-cta-arrow">Try it <span class="ls-arrow">&rarr;</span></span>
+</a>
 
 <nav class="nav">
   <div class="nav-inner">
@@ -627,18 +593,18 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
         <li><a href="free-ebooks.html">Ebooks</a></li>
         <li><a href="customers.html">Case studies</a></li>
         <li><a href="solutions.html">Use cases by industry</a></li>
-        <li><a href="product-documentation.html">Product documentation</a></li>
+        <li><a href="walkthrough.html">Product guide</a></li>
         <li><a href="devops-hub.html">DevOps hub</a></li>
         <li><a href="kubernetes-guide.html">Kubernetes guide</a></li>
         <li><a href="ci-cd-best-practices.html">CI/CD best practices</a></li>
         <li><a href="changelog.html">Changelog</a></li>
         <li><a href="roadmap.html">Roadmap</a></li></ul></div>
       <div class="foot-col"><h3>developers</h3><ul>
-        <li><a href="developer-documentation.html">Documentation</a></li>
-        <li><a href="developer-documentation.html#endpoints">API reference</a></li>
-        <li><a href="developer-documentation.html#mcp-server">MCP server</a></li>
-        <li><a href="developer-documentation.html#sdks">SDK &amp; CLI</a></li>
-        <li><a href="developer-documentation.html#webhooks">Webhooks</a></li>
+        <li><a href="developers.html">Documentation</a></li>
+        <li><a href="developers.html">API reference</a></li>
+        <li><a href="developers.html">MCP server</a></li>
+        <li><a href="developers.html">SDK &amp; CLI</a></li>
+        <li><a href="developers.html">Webhooks</a></li>
         <li><a href="https://github.com/zopdev">GitHub</a></li></ul></div>
       <div class="foot-col"><h3>company</h3><ul>
         <li><a href="about.html">About</a></li>
@@ -651,8 +617,23 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
         <li><a href="trust.html">Trust center</a></li></ul></div>
     </div>
 
-    <div class="foot-bottom" style="padding-top:20px; border-top:1px solid var(--line);">
-      <div>© <span data-year>2026</span> ZopDev, Inc. · all rights reserved · <a href="trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">privacy</a> · <a href="trust.html" style="color:inherit; border-bottom:1px solid var(--line); padding-bottom:1px;">terms</a></div>
+    <div class="foot-globe">
+      <div class="foot-globe-left">
+        <a href="/" class="foot-globe-mark" aria-label="ZopDev">
+          <svg class="foot-globe-logo" viewBox="0 0 715 276" aria-hidden="true">
+            <use href="#logo-zopdev"/>
+          </svg>
+        </a>
+      </div>
+      <div class="foot-globe-right">
+        <div class="foot-regions-v2" id="foot-regions-v2">
+          <canvas id="foot-regions-map"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom foot-bottom-3">
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="trust.html">privacy</a> · <a href="trust.html">terms</a></div>
+      <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
       <div class="foot-social">
         <a href="https://linkedin.com/company/zopdev">linkedin</a>
         <a href="https://twitter.com/zopdev">twitter</a>
@@ -661,18 +642,6 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
     </div>
   </div>
 </footer>
-<!-- ============================================================
-     ECLIPSE-STRIPE WORDMARK · the massive ZopDev brand anchor.
-     Sits beneath the footer on every page — theme-locked dark
-     slab, blends with the footer's #0A0A0A canvas.
-     ============================================================ -->
-<section class="eclipse-stripe" aria-label="ZopDev brand mark">
-  <div class="eclipse-mark">
-    <span class="eclipse-word">ZopDev</span><svg class="eclipse-glyph" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopdev"/></svg>
-  </div>
-</section>
-
-
 <script>
 (function(){
   document.querySelectorAll('[data-year]').forEach(function(el){ el.textContent = new Date().getFullYear(); });

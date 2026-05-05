@@ -8,9 +8,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="homepage-chrome.css">
+<link rel="stylesheet" href="chrome-footer.css">
 <script src="chrome-darkfold.js" defer></script>
 
 <style>
@@ -25,13 +26,13 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 /* PAGE HEAD */
 .page-head{padding:64px 0 72px;border-bottom:1px solid var(--line)}
 .page-head .container{display:flex;flex-direction:column;gap:22px}
-.page-head .meta{font-family:var(--mono);font-size:11px;color:var(--zop-orange);
+.page-head .meta{font-family:var(--mono);font-size:var(--t-11);color:var(--zop-orange);
   letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px}
 .page-head .meta::before{content:'';width:10px;height:10px;background:var(--zop-orange);flex-shrink:0}
 .page-head h1{font-size:clamp(44px,6.2vw,84px);font-weight:700;line-height:.98;
   letter-spacing:-0.05em;margin:0;max-width:1100px}
 .page-head h1 em{font-style:normal;color:var(--zop-orange)}
-.page-head .lede{font-size:19px;color:var(--g-600);max-width:760px;line-height:1.5;margin:0}
+.page-head .lede{font-size:var(--t-20);color:var(--g-600);max-width:760px;line-height:1.5;margin:0}
 
 /* STATUS STRIP */
 .status-strip{padding:0;background:var(--ink);color:var(--zop-cream);border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
@@ -39,9 +40,9 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 @media(max-width:760px){.status-strip .container{grid-template-columns:1fr 1fr}}
 .ss-cell{padding:32px 28px;border-right:1px solid #2a2a2a}
 .ss-cell:last-child{border-right:0}
-.ss-key{font-family:var(--mono);font-size:11px;color:#8a8378;letter-spacing:.14em;
+.ss-key{font-family:var(--mono);font-size:var(--t-11);color:#8a8378;letter-spacing:.14em;
   text-transform:uppercase;margin:0 0 10px}
-.ss-val{font-size:36px;line-height:1;font-weight:700;letter-spacing:-0.025em;color:var(--zop-cream);
+.ss-val{font-size:var(--t-36);line-height:1;font-weight:700;letter-spacing:-0.025em;color:var(--zop-cream);
   font-variant-numeric:tabular-nums}
 .ss-val em{font-style:normal;color:var(--zop-orange)}
 
@@ -56,9 +57,9 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 .fact:nth-child(3n){border-right:0}
 .fact:nth-last-child(-n+3){border-bottom:0}
 @media(max-width:880px){.fact{border-right:0}.fact:nth-last-child(-n+3){border-bottom:1px solid var(--line)}.fact:last-child{border-bottom:0}}
-.fact-key{font-family:var(--mono);font-size:10px;color:var(--g-500);
+.fact-key{font-family:var(--mono);font-size:var(--t-10);color:var(--g-500);
   letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px}
-.fact-val{font-size:15px;font-weight:600;color:var(--ink);line-height:1.4}
+.fact-val{font-size:var(--t-15);font-weight:600;color:var(--ink);line-height:1.4}
 .fact-val .accent{color:var(--zop-orange)}
 
 /* TIMELINE */
@@ -70,12 +71,12 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 .tl-row.now .tl-time,.tl-row.now .tl-who{color:var(--paper)}
 .tl-row.now .tl-what{color:var(--paper);font-weight:600}
 .tl-row.now .tl-what strong{color:var(--paper)}
-.tl-time{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--zop-orange);
+.tl-time{font-family:var(--mono);font-size:var(--t-14);font-weight:600;color:var(--zop-orange);
   letter-spacing:.04em;font-variant-numeric:tabular-nums}
 .tl-row.past .tl-time{color:var(--g-500)}
-.tl-what{font-size:15px;color:var(--g-700);line-height:1.4}
+.tl-what{font-size:var(--t-15);color:var(--g-700);line-height:1.4}
 .tl-what strong{color:var(--ink)}
-.tl-who{font-family:var(--mono);font-size:11px;color:var(--g-500);
+.tl-who{font-family:var(--mono);font-size:var(--t-11);color:var(--g-500);
   letter-spacing:.14em;text-transform:uppercase;text-align:right}
 @media(max-width:760px){
   .tl-row{grid-template-columns:90px 1fr;gap:14px;padding:14px 18px}
@@ -85,7 +86,7 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 /* SECTION CARDS */
 .sections h2{font-size:clamp(28px,3.4vw,44px);letter-spacing:-0.04em;font-weight:700;margin:0 0 8px}
 .sections h2 em{font-style:normal;color:var(--zop-orange)}
-.sections .sub{font-size:16px;color:var(--g-600);max-width:680px;margin:0 0 40px}
+.sections .sub{font-size:var(--t-16);color:var(--g-600);max-width:680px;margin:0 0 40px}
 
 .sec-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--line)}
 .sec-card{background:var(--paper);border-bottom:1px solid var(--line);
@@ -96,14 +97,14 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 .sec-tab{padding:24px 24px 24px 24px;border-right:1px solid var(--line);
   background:var(--g-100);min-width:200px;display:flex;flex-direction:column;gap:8px;justify-content:space-between}
 @media(max-width:760px){.sec-tab{border-right:0;border-bottom:1px solid var(--line);min-width:0}}
-.sec-num{font-family:var(--mono);font-size:11px;color:var(--zop-orange);
+.sec-num{font-family:var(--mono);font-size:var(--t-11);color:var(--zop-orange);
   letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
 .sec-num::before{content:'';width:10px;height:10px;background:var(--zop-orange);flex-shrink:0}
-.sec-title{font-size:22px;font-weight:700;letter-spacing:-0.025em;line-height:1.15;color:var(--ink);margin:8px 0 0}
-.sec-owner{font-family:var(--mono);font-size:10px;color:var(--g-500);letter-spacing:.14em;text-transform:uppercase;margin-top:auto;padding-top:14px}
+.sec-title{font-size:var(--t-22);font-weight:700;letter-spacing:-0.025em;line-height:1.15;color:var(--ink);margin:8px 0 0}
+.sec-owner{font-family:var(--mono);font-size:var(--t-10);color:var(--g-500);letter-spacing:.14em;text-transform:uppercase;margin-top:auto;padding-top:14px}
 
 .sec-files{padding:0}
-.sec-desc{padding:22px 28px;font-size:14px;color:var(--g-600);line-height:1.55;border-bottom:1px solid var(--line);background:var(--g-50)}
+.sec-desc{padding:22px 28px;font-size:var(--t-14);color:var(--g-600);line-height:1.55;border-bottom:1px solid var(--line);background:var(--g-50)}
 
 .file-row{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;
   padding:14px 28px;border-bottom:1px solid var(--line);
@@ -111,22 +112,22 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 .file-row:last-child{border-bottom:0}
 .file-row:hover{background:var(--g-100)}
 .file-row:hover .file-name a{color:var(--zop-orange)}
-.file-tag{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--g-500);
+.file-tag{font-family:var(--mono);font-size:var(--t-10);font-weight:700;color:var(--g-500);
   letter-spacing:.14em;text-transform:uppercase;background:var(--g-100);
   border:1px solid var(--g-300);padding:5px 8px;min-width:48px;text-align:center}
 .file-tag.html{color:var(--paper);background:var(--zop-orange);border-color:var(--zop-orange)}
 .file-info{min-width:0}
-.file-name{font-size:15px;font-weight:600;color:var(--ink);margin:0 0 2px;line-height:1.3}
+.file-name{font-size:var(--t-15);font-weight:600;color:var(--ink);margin:0 0 2px;line-height:1.3}
 .file-name a{color:inherit;border-bottom:1px solid transparent;transition:color var(--dur-fast),border-color var(--dur-fast)}
 .file-row:hover .file-name a{border-color:var(--zop-orange)}
-.file-desc{font-size:13px;color:var(--g-500);line-height:1.45;margin:0}
-.file-path{font-family:var(--mono);font-size:11px;color:var(--g-500);letter-spacing:.04em;text-align:right;flex-shrink:0}
+.file-desc{font-size:var(--t-13);color:var(--g-500);line-height:1.45;margin:0}
+.file-path{font-family:var(--mono);font-size:var(--t-11);color:var(--g-500);letter-spacing:.04em;text-align:right;flex-shrink:0}
 @media(max-width:760px){.file-path{display:none}}
 
 /* PENDING */
 .pending h2{font-size:clamp(28px,3.4vw,44px);letter-spacing:-0.04em;font-weight:700;margin:0 0 8px}
 .pending h2 em{font-style:normal;color:var(--zop-orange)}
-.pending .sub{font-size:16px;color:var(--g-600);max-width:760px;margin:0 0 40px}
+.pending .sub{font-size:var(--t-16);color:var(--g-600);max-width:760px;margin:0 0 40px}
 .pending-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
 @media(max-width:980px){.pending-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:680px){.pending-grid{grid-template-columns:1fr}}
@@ -135,12 +136,12 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 .pending-block:nth-last-child(-n+3){border-bottom:0}
 @media(max-width:980px){.pending-block{border-right:0}.pending-block:nth-last-child(-n+3){border-bottom:1px solid var(--line)}}
 .pending-block:last-child{border-bottom:0}
-.pb-num{font-family:var(--mono);font-size:11px;color:var(--zop-orange);letter-spacing:.14em;
+.pb-num{font-family:var(--mono);font-size:var(--t-11);color:var(--zop-orange);letter-spacing:.14em;
   text-transform:uppercase;display:flex;align-items:center;gap:10px;margin:0 0 14px}
 .pb-num::before{content:'';width:10px;height:10px;background:var(--zop-orange);flex-shrink:0}
-.pb-title{font-size:16px;font-weight:700;letter-spacing:-0.015em;color:var(--ink);margin:0 0 12px}
+.pb-title{font-size:var(--t-16);font-weight:700;letter-spacing:-0.015em;color:var(--ink);margin:0 0 12px}
 .pb-list{margin:0;padding-left:0;list-style:none}
-.pb-list li{font-size:13px;line-height:1.55;padding:5px 0 5px 18px;color:var(--g-700);position:relative}
+.pb-list li{font-size:var(--t-13);line-height:1.55;padding:5px 0 5px 18px;color:var(--g-700);position:relative}
 .pb-list li::before{content:'';position:absolute;left:0;top:11px;width:8px;height:1.5px;background:var(--zop-orange)}
 .pb-list li.done{color:var(--g-500);text-decoration:line-through;text-decoration-color:var(--g-400)}
 .pb-list li.done::before{background:var(--zop-green)}
@@ -150,9 +151,9 @@ em,i,cite,dfn,var,address,blockquote{font-style:normal}
 .cta .container{max-width:880px;text-align:center}
 .cta h2{font-size:clamp(36px,4.5vw,60px);letter-spacing:-0.04em;font-weight:700;margin:0 0 18px;line-height:1.05}
 .cta h2 em{font-style:normal;color:var(--zop-orange)}
-.cta p{font-size:17px;color:#a8a195;max-width:540px;margin:0 auto 32px;line-height:1.55}
+.cta p{font-size:var(--t-17);color:#a8a195;max-width:540px;margin:0 auto 32px;line-height:1.55}
 .cta .btn-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.cta .btn{display:inline-block;padding:14px 24px;font-family:var(--font);font-size:14px;font-weight:600;
+.cta .btn{display:inline-block;padding:14px 24px;font-family:var(--font);font-size:var(--t-14);font-weight:600;
   letter-spacing:.04em;text-transform:uppercase;transition:transform var(--dur-fast),box-shadow var(--dur-fast)}
 .cta .btn-primary{background:var(--zop-orange);color:var(--ink);border:1px solid var(--zop-orange)}
 .cta .btn-primary:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 0 var(--zop-cream)}
@@ -171,9 +172,9 @@ a:focus-visible,button:focus-visible{outline-offset:3px}
 /* TOP NAV (simple version, doesn't depend on the full chrome.js) */
 .minav{padding:18px 0;border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:50}
 .minav .container{display:flex;align-items:center;justify-content:space-between;gap:18px}
-.minav .wm{font-size:22px;font-weight:700;letter-spacing:-0.025em;color:var(--ink)}
+.minav .wm{font-size:var(--t-22);font-weight:700;letter-spacing:-0.025em;color:var(--ink)}
 .minav .wm span{color:var(--zop-orange)}
-.minav .right{font-family:var(--mono);font-size:11px;color:var(--g-500);letter-spacing:.14em;text-transform:uppercase}
+.minav .right{font-family:var(--mono);font-size:var(--t-11);color:var(--g-500);letter-spacing:.14em;text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -210,7 +211,7 @@ a:focus-visible,button:focus-visible{outline-offset:3px}
 <!-- ============ FACTS ============ -->
 <section class="facts">
   <div class="container">
-    <div class="meta" style="font-family:var(--mono);font-size:11px;color:var(--zop-orange);letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;margin:0 0 18px"><span style="width:10px;height:10px;background:var(--zop-orange)"></span>// canonical context</div>
+    <div class="meta" style="font-family:var(--mono);font-size:var(--t-11);color:var(--zop-orange);letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;margin:0 0 18px"><span style="width:10px;height:10px;background:var(--zop-orange)"></span>// canonical context</div>
     <h2>Use these <em>everywhere</em>.</h2>
     <div class="facts-grid">
       <div class="fact"><div class="fact-key">Brand name</div><div class="fact-val">ZopDev <span style="color:var(--g-500);font-weight:400">– capital Z, capital D</span></div></div>
@@ -229,7 +230,7 @@ a:focus-visible,button:focus-visible{outline-offset:3px}
 <!-- ============ TIMELINE ============ -->
 <section>
   <div class="container">
-    <div class="meta" style="font-family:var(--mono);font-size:11px;color:var(--zop-orange);letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;margin:0 0 18px"><span style="width:10px;height:10px;background:var(--zop-orange)"></span>// launch-day timeline</div>
+    <div class="meta" style="font-family:var(--mono);font-size:var(--t-11);color:var(--zop-orange);letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;margin:0 0 18px"><span style="width:10px;height:10px;background:var(--zop-orange)"></span>// launch-day timeline</div>
     <h2 style="font-size:clamp(28px,3.4vw,44px);letter-spacing:-0.04em;font-weight:700;margin:0 0 32px">From T-30 to <em style="font-style:normal;color:var(--zop-orange)">T+7</em>.</h2>
 
     <div class="timeline-rows">
@@ -251,7 +252,7 @@ a:focus-visible,button:focus-visible{outline-offset:3px}
 <!-- ============ SECTIONS ============ -->
 <section class="sections">
   <div class="container">
-    <div class="meta" style="font-family:var(--mono);font-size:11px;color:var(--zop-orange);letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;margin:0 0 18px"><span style="width:10px;height:10px;background:var(--zop-orange)"></span>// the 38 artifacts</div>
+    <div class="meta" style="font-family:var(--mono);font-size:var(--t-11);color:var(--zop-orange);letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;margin:0 0 18px"><span style="width:10px;height:10px;background:var(--zop-orange)"></span>// the 38 artifacts</div>
     <h2>Every artifact, <em>open as HTML</em>.</h2>
     <p class="sub">Each section is owned by one role. Each file is rendered to HTML on the same design system as the rest of the ZopDev site, open and read directly in the browser.</p>
 
@@ -456,7 +457,7 @@ a:focus-visible,button:focus-visible{outline-offset:3px}
 <!-- ============ PENDING ============ -->
 <section class="pending">
   <div class="container">
-    <div class="meta" style="font-family:var(--mono);font-size:11px;color:var(--zop-orange);letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;margin:0 0 18px"><span style="width:10px;height:10px;background:var(--zop-orange)"></span>// what's pending · real-world execution</div>
+    <div class="meta" style="font-family:var(--mono);font-size:var(--t-11);color:var(--zop-orange);letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;margin:0 0 18px"><span style="width:10px;height:10px;background:var(--zop-orange)"></span>// what's pending · real-world execution</div>
     <h2>The playbook is <em>done</em>. The doing isn't.</h2>
     <p class="sub">The 38 artifacts above are the playbook, written, brand-correct, ready. These are the real-world tasks that still need to happen between now and T+0. Group by who owns it.</p>
 
@@ -616,5 +617,81 @@ a:focus-visible,button:focus-visible{outline-offset:3px}
 
 </div><!-- /.page -->
 
+<script src="chrome-footer.js" defer></script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="logo-zopdev" viewBox="0 0 715 276">
+      <path d="M7.452 229V201.784L63.504 137.308V134.716H9.072V115.6H85.86V142.816L29.808 207.292V209.884H86.184V229H7.452ZM136.786 231.268C128.794 231.268 121.612 229.648 115.24 226.408C108.868 223.168 103.846 218.47 100.174 212.314C96.5022 206.158 94.6662 198.76 94.6662 190.12V187.528C94.6662 178.888 96.5022 171.49 100.174 165.334C103.846 159.178 108.868 154.48 115.24 151.24C121.612 148 128.794 146.38 136.786 146.38C144.778 146.38 151.96 148 158.332 151.24C164.704 154.48 169.726 159.178 173.398 165.334C177.07 171.49 178.906 178.888 178.906 187.528V190.12C178.906 198.76 177.07 206.158 173.398 212.314C169.726 218.47 164.704 223.168 158.332 226.408C151.96 229.648 144.778 231.268 136.786 231.268ZM136.786 213.124C143.05 213.124 148.234 211.126 152.338 207.13C156.442 203.026 158.494 197.194 158.494 189.634V188.014C158.494 180.454 156.442 174.676 152.338 170.68C148.342 166.576 143.158 164.524 136.786 164.524C130.522 164.524 125.338 166.576 121.234 170.68C117.13 174.676 115.078 180.454 115.078 188.014V189.634C115.078 197.194 117.13 203.026 121.234 207.13C125.338 211.126 130.522 213.124 136.786 213.124ZM192.888 261.4V148.648H212.976V158.368H215.892C217.728 155.236 220.59 152.482 224.478 150.106C228.366 147.622 233.928 146.38 241.164 146.38C247.644 146.38 253.638 148 259.146 151.24C264.654 154.372 269.082 159.016 272.43 165.172C275.778 171.328 277.452 178.78 277.452 187.528V190.12C277.452 198.868 275.778 206.32 272.43 212.476C269.082 218.632 264.654 223.33 259.146 226.57C253.638 229.702 247.644 231.268 241.164 231.268C236.304 231.268 232.2 230.674 228.852 229.486C225.612 228.406 222.966 227.002 220.914 225.274C218.97 223.438 217.404 221.602 216.216 219.766H213.3V261.4H192.888ZM235.008 213.448C241.38 213.448 246.618 211.45 250.722 207.454C254.934 203.35 257.04 197.41 257.04 189.634V188.014C257.04 180.238 254.934 174.352 250.722 170.356C246.51 166.252 241.272 164.2 235.008 164.2C228.744 164.2 223.506 166.252 219.294 170.356C215.082 174.352 212.976 180.238 212.976 188.014V189.634C212.976 197.41 215.082 203.35 219.294 207.454C223.506 211.45 228.744 213.448 235.008 213.448ZM287.446 229V210.208H302.35V134.392H287.446V115.6H334.102C349.33 115.6 360.886 119.488 368.77 127.264C376.762 134.932 380.758 146.38 380.758 161.608V182.992C380.758 198.22 376.762 209.722 368.77 217.498C360.886 225.166 349.33 229 334.102 229H287.446ZM323.734 209.56H334.426C343.066 209.56 349.384 207.292 353.38 202.756C357.376 198.22 359.374 191.848 359.374 183.64V160.96C359.374 152.644 357.376 146.272 353.38 141.844C349.384 137.308 343.066 135.04 334.426 135.04H323.734V209.56ZM430.981 231.268C422.989 231.268 415.915 229.594 409.759 226.246C403.711 222.79 398.959 217.984 395.503 211.828C392.155 205.564 390.481 198.22 390.481 189.796V187.852C390.481 179.428 392.155 172.138 395.503 165.982C398.851 159.718 403.549 154.912 409.597 151.564C415.645 148.108 422.665 146.38 430.657 146.38C438.541 146.38 445.399 148.162 451.231 151.726C457.063 155.182 461.599 160.042 464.839 166.306C468.079 172.462 469.699 179.644 469.699 187.852V194.818H411.217C411.433 200.326 413.485 204.808 417.373 208.264C421.261 211.72 426.013 213.448 431.629 213.448C437.353 213.448 441.565 212.206 444.265 209.722C446.965 207.238 449.017 204.484 450.421 201.46L467.107 210.208C465.595 213.016 463.381 216.094 460.465 219.442C457.657 222.682 453.877 225.49 449.125 227.866C444.373 230.134 438.325 231.268 430.981 231.268ZM411.379 179.59H448.963C448.531 174.946 446.641 171.22 443.293 168.412C440.053 165.604 435.787 164.2 430.495 164.2C424.987 164.2 420.613 165.604 417.373 168.412C414.133 171.22 412.135 174.946 411.379 179.59ZM497.482 229L471.886 148.648H493.594L512.224 214.096H515.14L533.77 148.648H555.478L529.882 229H497.482Z" fill="currentColor"/>
+      <rect x="537" width="89" height="89" fill="#2A4494"/>
+      <rect x="626" width="89" height="89" fill="#F58549"/>
+      <rect x="626" y="89" width="89" height="89" fill="#7FB236"/>
+    </symbol>
+  </defs>
+</svg>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="zopnight.html">ZopNight</a></li>
+        <li><a href="zopday.html">ZopDay</a></li>
+        <li><a href="zopcloud.html">ZopCloud</a></li>
+        <li><a href="integrations.html">Integrations</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="status.html">Status</a></li></ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="free-ebooks.html">Ebooks</a></li>
+        <li><a href="customers.html">Case studies</a></li>
+        <li><a href="solutions.html">Use cases by industry</a></li>
+        <li><a href="walkthrough.html">Product guide</a></li>
+        <li><a href="devops-hub.html">DevOps hub</a></li>
+        <li><a href="kubernetes-guide.html">Kubernetes guide</a></li>
+        <li><a href="ci-cd-best-practices.html">CI/CD best practices</a></li>
+        <li><a href="changelog.html">Changelog</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li></ul></div>
+      <div class="foot-col"><h3>developers</h3><ul>
+        <li><a href="developers.html">Documentation</a></li>
+        <li><a href="developers.html">API reference</a></li>
+        <li><a href="developers.html">MCP server</a></li>
+        <li><a href="developers.html">SDK &amp; CLI</a></li>
+        <li><a href="developers.html">Webhooks</a></li>
+        <li><a href="https://github.com/zopdev">GitHub</a></li></ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li><a href="brand-kit.html">Brand kit</a></li>
+        <li><a href="brand-kit.html">Press kit</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="partners.html">Partners</a></li>
+        <li><a href="trust.html">Trust center</a></li></ul></div>
+    </div>
+
+    <div class="foot-globe">
+      <div class="foot-globe-left">
+        <a href="/" class="foot-globe-mark" aria-label="ZopDev">
+          <svg class="foot-globe-logo" viewBox="0 0 715 276" aria-hidden="true">
+            <use href="#logo-zopdev"/>
+          </svg>
+        </a>
+      </div>
+      <div class="foot-globe-right">
+        <div class="foot-regions-v2" id="foot-regions-v2">
+          <canvas id="foot-regions-map"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom foot-bottom-3">
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="trust.html">privacy</a> · <a href="trust.html">terms</a></div>
+      <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
+    </div>
+  </div>
+</footer>
 </body>
 </html>
