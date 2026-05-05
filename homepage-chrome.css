@@ -22,6 +22,7 @@
   /* --g-400 bumped from #A3A3A3 (~2.4:1 on cream) to #6F6F6F (~4.9:1) for AA body */
   --g-400:#6F6F6F; --g-300:#C9C4B5; --g-200:#E2DDCD; --g-100:#ECE7D7; --g-50:#F0EBDB;
   --font:'Space Grotesk',system-ui,-apple-system,sans-serif;
+  --font-body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
   --line:#D9D3BF;
   --max:1200px;
@@ -50,18 +51,34 @@
 *,*::before,*::after{box-sizing:border-box; border-radius:0}
 html{scroll-behavior:smooth}
 body{
-  margin:0; font-family:var(--font); color:var(--ink);
-  background:var(--paper); letter-spacing:-0.02em;
+  margin:0; font-family:var(--font-body); color:var(--ink);
+  background:var(--paper); letter-spacing:-0.005em;
   -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-  font-size:15px; line-height:1.55;
+  font-size:17px; line-height:1.6;
   transition: background-color 800ms cubic-bezier(.4,0,.2,1), color 800ms cubic-bezier(.4,0,.2,1);
 }
 
-/* Site-wide rule · no italic anywhere. Semantic emphasis tags keep their
-   markup (for screen readers / SEO) but render upright. Override every
-   user-agent default plus any inline style="font-style:italic" via the
-   global selector. */
-em, i, cite, dfn, var, address, blockquote{ font-style: normal; }
+/* Display headings stay on Space Grotesk regardless of body font.
+   This locks the display/body pairing so headings never accidentally
+   inherit Inter from <body>. */
+h1, h2, h3, h4, h5, h6,
+.hero h1, .hr-word, .hr-rest, .hr-conn,
+.np-cell-title, .pui-detail-title,
+.eclipse-word, .end-arc-headline,
+.bridge-headline, .hero-headline,
+.zd-stat-num, .pym-step-title{
+  font-family: var(--font);
+  letter-spacing: -0.02em;
+}
+
+/* Site-wide rule · NO italic anywhere. Semantic emphasis tags keep their
+   markup (for screen readers / SEO) but render upright. !important is
+   used so this beats any inline style="font-style:normal" attribute
+   without forcing every author to remove them. The wildcard ensures
+   no class, descendant rule, or third-party stylesheet can re-introduce
+   italics. */
+*, *::before, *::after{ font-style: normal !important; }
+em, i, cite, dfn, var, address, blockquote{ font-style: normal !important; }
 
 /* Cross-page transitions — native View Transitions API + fallback fade-in */
 @view-transition { navigation: auto; }
@@ -215,7 +232,7 @@ code, .mono{font-family:var(--mono); letter-spacing:0}
 .nav-cta .btn:hover .arrow{ transform:translateX(2px) }
 /* Playground chip */
 .nav-cta .chip-playground{
-  font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  font-family:var(--mono); font-size:11px; letter-spacing:.04em;
   color:var(--ink); padding:0 12px; border:1px solid var(--line); border-radius:0;
   display:inline-flex; align-items:center; gap:7px; height:36px; line-height:1;
   transition:border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
@@ -223,8 +240,11 @@ code, .mono{font-family:var(--mono); letter-spacing:0}
 .nav-cta .chip-playground::before{
   content:''; width:7px; height:7px; background:var(--zop-green); box-shadow:0 0 6px rgba(127,178,54,.5);
 }
-.nav-cta .chip-playground:hover{ border-color:var(--ink); background:rgba(0,0,0,.03); }
-html[data-theme="dark"] .nav-cta .chip-playground:hover{ background:rgba(255,255,255,.06); }
+.nav-cta .chip-playground:hover{
+  transform:translateY(-4px); border-color:var(--ink);
+  box-shadow:0 8px 0 -4px var(--zop-orange);
+}
+html[data-theme="dark"] .nav-cta .chip-playground:hover{ background:transparent; }
 /* Variants dropdown · 36px pill, square corners */
 .nav-cta .nav-variants > summary{ height:36px; padding:0 12px; border-radius:0; box-sizing:border-box; }
 .nav-cta .nav-variants-menu{ border-radius:0; }
@@ -398,10 +418,10 @@ html[data-theme="dark"] .np-promo-row a:hover{ background:var(--paper); color:va
 .np-bento.np-bento--stack2 .np-cell{ grid-column:2; min-height:0; }
 
 .np-bento.np-bento--grid{
-  grid-template-columns:1fr 1fr 1fr;
-  grid-auto-rows:116px;
+  grid-template-columns:repeat(4, 1fr);
+  grid-auto-rows:auto;
 }
-.np-bento.np-bento--grid .np-cell{ min-height:0; }
+.np-bento.np-bento--grid .np-cell{ min-height:96px; }
 
 .np-bento.np-bento--narrow{
   grid-template-columns:1.3fr 1fr;
@@ -409,6 +429,11 @@ html[data-theme="dark"] .np-promo-row a:hover{ background:var(--paper); color:va
 }
 .np-bento.np-bento--narrow .np-hero{ grid-column:1; grid-row:1; min-height:160px; }
 .np-bento.np-bento--narrow .np-cell{ grid-column:2; grid-row:1; min-height:0; }
+
+/* Company pane — 2 square cells. Narrows the overlay so 1fr 1fr
+   gives ~180px cells (square) rather than stretching across 720px. */
+.nav-overlay:has([data-pane="company"].active){ width:360px; }
+.nav-pane[data-pane="company"] .np-cell{ min-height:174px; }
 
 @media (max-width:720px){
   .nav-overlay{ width:92vw; }
@@ -432,20 +457,23 @@ html[data-theme="dark"] .np-promo-row a:hover{ background:var(--paper); color:va
   display:inline-flex; align-items:center; gap:7px;
   height:36px; padding:0 12px;
   box-sizing:border-box;
-  font-family:var(--mono); font-size:10.5px; font-weight:600;
-  letter-spacing:.12em; text-transform:uppercase;
+  font-family:var(--mono); font-size:11px; font-weight:600;
+  letter-spacing:.04em;
   color:var(--ink);
   background:transparent;
   border:1px solid var(--line);
   text-decoration:none;
   transition:background .14s var(--ease-out), border-color .14s var(--ease-out);
 }
-.nav-status:hover{ background:var(--g-50); border-color:var(--ink); }
+.nav-status:hover{
+  transform:translateY(-4px); border-color:var(--ink);
+  box-shadow:0 8px 0 -4px var(--zop-orange);
+}
 /* Dark mode · cream text on the dark canvas (was var(--paper) which is
    #0F0F12 in dark mode — invisible). Border picks up a slightly elevated
    line so the pill still reads as a tappable shape. */
 html[data-theme="dark"] .nav-status{ color:var(--ink); border-color:#3A3A46; }
-html[data-theme="dark"] .nav-status:hover{ background:#1a1a1e; border-color:var(--ink); color:var(--ink); }
+html[data-theme="dark"] .nav-status:hover{ background:transparent; border-color:var(--ink); color:var(--ink); }
 .nav-status-dot{
   width:7px; height:7px; border-radius:var(--r-pill);
   background:var(--ok, #34d399);
@@ -745,27 +773,7 @@ body.is-tinted .zc-form button{
    system, read as decorative noise. Page-head still gets a clean
    1px var(--line) bottom border from its own rule. */
 
-/* ── 2 · Section divider · subtle dotted line that drifts between
-   adjacent .section blocks. Adds rhythm to long-form pages without
-   competing with content. ── */
-.section + .section{
-  position:relative;
-}
-.section + .section::before{
-  content:'';
-  position:absolute; top:-1px; left:0; right:0;
-  height:1px;
-  background:repeating-linear-gradient(90deg,
-    var(--zop-orange) 0 3px,
-    transparent 3px 14px);
-  background-size:34px 100%;
-  opacity:.45;
-  animation:mg-section-drift 9s linear infinite;
-}
-@keyframes mg-section-drift{
-  0%   { background-position:0 0; }
-  100% { background-position:68px 0; }
-}
+/* ── 2 · Section divider (removed — orange drift line was decorative noise) ── */
 
 /* ── 3 · Opt-in: dotted grid background pulsing softly. Add to any
    element via `class="mg-bg-grid"`. Layer behind text content for a
@@ -1163,9 +1171,9 @@ html[data-theme="dark"] .nav-variants-menu{
              box-shadow .14s var(--ease-out);
 }
 .theme-toggle:hover{
-  border-color:var(--zop-orange); color:var(--zop-orange);
-  transform:translate(-1px, -1px);
-  box-shadow:3px 3px 0 -1px var(--zop-orange);
+  border-color:var(--ink); color:var(--zop-orange);
+  transform:translateY(-4px);
+  box-shadow:0 8px 0 -4px var(--zop-orange);
 }
 .theme-toggle:focus-visible{ outline:2px solid var(--zop-orange); outline-offset:2px; }
 .theme-toggle:active{ transform:translate(0,0); box-shadow:1px 1px 0 -1px var(--zop-orange); }
@@ -1662,4 +1670,16 @@ html[data-theme="dark"] .mob-nav-toggle{ color:var(--ink); }
 @media (max-width:760px){
   .eclipse-stripe{ height:160px; padding:0 16px; }
   .eclipse-mark{ font-size:clamp(72px, 18vw, 120px); }
+}
+
+/* ============================================================================
+   CEO request · eyebrow labels removed site-wide. Hide rather than delete
+   so they can be restored quickly if needed. Mirrors the rule in chrome.css
+   so this works for pages that only load homepage-chrome.css (e.g. features).
+   ============================================================================ */
+.sec-meta,
+.fp-head .meta,
+.fp-track-head .meta,
+.wt-sec-meta{
+  display: none !important;
 }
